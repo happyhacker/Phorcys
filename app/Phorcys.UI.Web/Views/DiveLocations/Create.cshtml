@@ -1,0 +1,10 @@
+<%@ Page Title="Create DiveLocation" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
+	Inherits="System.Web.Mvc.ViewPage<Phorcys.Web.Controllers.DiveLocationsController.DiveLocationFormViewModel>" %>
+
+<asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
+
+	<h1>Create Dive Location</h1>
+
+	<% Html.RenderPartial("DiveLocationForm", ViewData); %>
+
+</asp:Content>

@@ -1,0 +1,46 @@
+@using Microsoft.Web.Mvc
+@using NHibernate.Mapping
+@using Phorcys.Core
+@using Phorcys.UI.Web.Controllers
+@using Telerik.Web.Mvc.UI
+@model IEnumerable<Phorcys.Core.DiveSite>
+@{
+  ViewBag.Title = "Dive Sites";
+  Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+<h1>
+    Dive Sites</h1>
+@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null)
+       {
+       } <p id="pageMessage">
+           @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+       </p>
+}
+<p>
+    <b>
+        @( Html.ActionLink<DiveSitesController>(c => c.Create(), "Create New Dive Site") )
+    </b>
+</p>
+<div id="grid">
+@{ Html.Telerik().Grid<DiveSite>()
+  .Name("DiveSiteGrid")
+  .Pageable(pager => pager.PageSize(20))
+  .BindTo(Model)
+  .Columns(columns =>
+             {
+               //columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.Show(o.Id), o.Title)).HtmlAttributes(new {@class="grid"}).Title("Site");
+               columns.Bound(o => o.Title).Sortable(true);
+               columns.Bound(o => o.WaterType).Title("Water").Sortable(true);
+               columns.Template(o => o.Url4Map()).Title("Map").HtmlAttributes(new {@class = "grid"});
+               columns.Bound(o => o.Notes).Sortable(false);
+               columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
+               columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<DiveSitesController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
+               columns.Template(o => (o.User.Id == 6 & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink("Delete", "Delete", "DiveSites", new {id = o.User.Id}, new {onclick = "return confirm('Are you sure?');"}).ToString())).HtmlAttributes(new {@Class = "grid"});                 
+             })
+  .Pageable()
+  .Sortable()
+  .Groupable()
+  .Filterable()
+  .Render();
+ }
+</div>

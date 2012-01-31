@@ -1,0 +1,44 @@
+@using Microsoft.Web.Mvc
+@using Phorcys.Core
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.Web.Controllers
+@using Telerik.Web.Mvc.UI
+@model IEnumerable<Phorcys.Core.DiveLocation>
+@{
+  ViewBag.Title = "Dive Locations";
+  Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+
+  <h1>
+    Dive Locations</h1>
+    @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null)
+       {
+       } <p id="pageMessage">
+           @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+       </p>
+}
+
+ <p>
+    @(Html.ActionLink<DiveLocationsController>(c => c.Create(), "Create New Dive Location"))
+ </p> 
+
+<div id="grid">
+  @{ Html.Telerik().Grid<DiveLocation>()
+  .Name("DiveLocationGrid")
+  .Pageable(pager => pager.PageSize(20))
+  .BindTo(Model)
+  .Columns(columns =>
+             {
+               columns.Bound(o => o.Title).Title("Location").Sortable(true).Width(10).HtmlAttributes(new {@class = "grid"});
+               columns.Bound(o => o.Notes).Sortable(false).Width(300);
+               columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.Index(), "Display")).Width(5).HtmlAttributes(new {@class = "grid"});
+               columns.Template(o => Html.ActionLink<DiveLocationsController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
+               columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.Create(), "Create Site at This Location")).Width(150).HtmlAttributes(new { @class = "grid" });
+               //columns.Template(o => )
+             })
+  .Pageable()
+  .Sortable()
+  .Render();
+  }
+  </div>
+

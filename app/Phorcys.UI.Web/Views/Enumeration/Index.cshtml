@@ -1,0 +1,24 @@
+﻿@using Telerik.Web.Mvc.UI
+@model System.Collections.Generic.IList<Phorcys.Services.Contracts.Dtos.EnumerationDto>
+
+@{
+    ViewBag.Title = "View All Enumerations";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+<h2>View All Enumerations</h2>
+
+@(Html.Telerik().Grid(Model)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.Id).Title("Id");
+        columns.Bound(o => o.Name).Title("Name");
+        columns.Template(@<text>
+            <a href="/Enumeration/Detail/@item.Id">Details</a>
+            <a href="/Enumeration/ChangeName/@item.Id">Change Name</a>
+        </text>);
+        
+    })
+    .Resizable(resizing => resizing.Columns(true))
+    .Footer(false))

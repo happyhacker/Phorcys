@@ -1,0 +1,16 @@
+﻿
+@if (Request.IsAuthenticated)
+{
+  string name = string.Empty;
+  if(! string.IsNullOrEmpty(User.Identity.Name))
+  {
+    name = User.Identity.Name;
+  }
+    
+  <text>Welcome @(Html.Encode(name)) !</text>
+  @(Html.ActionLink("Log Off", "LogOff", "Account"))
+}
+else
+{
+   @(Html.ActionLink("Log On", "LogOn", "Account")) 
+}

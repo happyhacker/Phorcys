@@ -1,0 +1,66 @@
+@using Microsoft.Web.Mvc
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.UI.Web.Models
+@using Phorcys.Core
+@using SharpArch.Web.Areas
+@model DiveSitesController.DiveSiteFormViewModel
+@{
+    ViewBag.Title = "Create a New Divesite";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+<h2>
+    Create New Dive Site</h2>
+@if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+    <p id="pageMessage">
+        @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
+}
+@Html.ValidationSummary()
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    //@Html.Hidden("DiveSite.Id", (ViewData.Model.DiveSite != null) ? ViewData.Model.DiveSite.Id : 0)
+    <label for="DiveLocation">
+        Dive Location:</label>
+    <div>
+        <!--<Html.DropDownListFor(m => m.DiveSite.DiveLocation.Title m.DiveLocation, Model.DiveLocations as SelectList) -->
+    </div>
+    <label for="DiveSite_Title">
+        Title:</label>
+    <div>
+        @Html.TextBox("DiveSite.Title")
+    </div>
+    @Html.ValidationMessage("DiveSite.Title")
+    <br />
+    <label for="DiveSite_IsFreshWater">
+        Fresh/Salt Water:</label>
+    <div>
+    </div>
+    @Html.ValidationMessage("DiveSite.IsFreshWater")
+    <div>
+        <input type="radio" id="DiveSite_IsFreshWater_true" name="DiveSite.IsFreshWater" value="true" />
+        Fresh
+        <input type="radio" id="DiveSite_IsFreshWater_false" name="DiveSite.IsFreshWater" value="false" />
+        Salt
+    </div>
+    <br />
+    <label for="DiveSite_GeoCode">
+        GeoCode:</label>
+    <div>
+        @Html.TextBox("DiveSite.GeoCode")
+    </div>
+    <br />
+    @Html.ValidationMessage("DiveSite.GeoCode")
+    <label for="DiveSite_Notes">
+        Notes:</label>
+    <div>
+        <br />
+        <textarea id="DiveSite_Notes" name="DiveSite.Notes" rows="6" cols="50"> </textarea>
+    </div>
+    <br />
+    @Html.ValidationMessage("DiveSite.Notes")
+    <br />
+
+    @Html.SubmitButton("btnSave", "Save DiveSite")
+    @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,
+            "window.location.href = '~'")
+}

@@ -1,0 +1,32 @@
+﻿@model Phorcys.UI.Web.Models.EnumerationCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+@Html.ValidationSummary("Create was unsuccessful. Please correct the errors and try again.")
+
+@using (Html.BeginForm("Create", "Enumeration", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td class="label-area">
+                @Html.LabelFor(x => x.Name)
+            </td>
+            <td class="field-area">
+                @Html.TextBoxFor(x => x.Name, new { title = "Enter Name" })
+                @Html.ValidationMessage("Name", "*")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Create" />
+                @Html.ActionLink("Return to Enumeration List.", "Index")
+            </td>
+        </tr>
+    </table>
+    
+}

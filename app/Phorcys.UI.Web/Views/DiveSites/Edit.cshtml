@@ -1,0 +1,81 @@
+@using Microsoft.Web.Mvc
+@using NHibernate.Mapping
+@using Phorcys.Core
+@using Phorcys.UI.Web.Controllers
+@using SharpArch.Web.Areas
+@using Telerik.Web.Mvc.UI
+@model DiveSitesController.DiveSiteFormViewModel
+@{
+    ViewBag.Title = "Edit Dive Site";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+<h1>
+    Edit Dive Site</h1>
+@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+   } <p id="pageMessage">
+       @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+   </p>
+}
+@Html.ValidationSummary()
+@using (Html.BeginForm()) {
+    Html.AntiForgeryToken();
+
+    <fieldset>
+        @Html.Hidden("DiveSite.Id", (Model != null) ? Model.DiveSite.Id : 0)
+        <label for="DiveLocation">
+            Dive Location:</label>
+        <div>
+            @Html.DropDownList("DiveSite.DiveLocationId", Model.DiveLocationsListItems)
+        </div>
+        <label for="DiveSite_Title">
+            Title:</label>
+        <div>
+            @Html.TextBox("DiveSite.Title", (Model != null) ? Model.DiveSite.Title.ToString() : "")
+        </div>
+        @Html.ValidationMessage("DiveSite.Title")
+        <br />
+        <label for="DiveSite_IsFreshWater">
+            Fresh/Salt Water:</label>
+        <div>
+        </div>
+        @Html.ValidationMessage("DiveSite.IsFreshWater")
+        <div>
+            <input type="radio" id="DiveSite_IsFreshWater" name="DiveSite.IsFreshWater" value="true"  
+            @if(Model.DiveSite.IsFreshWater) {
+                   <text>checked="checked"</text>
+             }  
+             />
+            Fresh
+            <input type="radio" id="DiveSite_IsFreshWater" name="DiveSite.IsFreshWater" value="false"
+            @{ if (!Model.DiveSite.IsFreshWater) {
+                   <text>checked="checked"</text>
+               } 
+               } />
+            Salt
+        </div>
+        <br />
+        <label for="DiveSite_GeoCode">
+            GeoCode:</label>
+        <div>
+            @Html.TextBox("DiveSite.GeoCode", (Model != null) ? Model.DiveSite.GeoCode : "")
+        </div>
+        <br />
+        @Html.ValidationMessage("DiveSite.GeoCode")
+        <label for="DiveSite_Notes">
+            Notes:</label>
+        <div>
+            <br />
+            <textarea id="DiveSite_Notes" name="DiveSite.Notes" rows="6" cols="50" >@{ if (Model != null) {
+                                                                                        @(Model.DiveSite.Notes)
+                                                                                      } } 
+            </textarea>
+        </div>
+        <br />
+        @Html.ValidationMessage("DiveSite.Notes")
+        <br />
+        @Html.SubmitButton("btnSave", "Save Dive Site")
+        <!--Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,"window.location.href = '" + Html.BuildUrlFromExpressionForAreas<DiveSitesController>(c => c.Index()) + "';")-->
+        @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,"window.location.href = '../'")
+    </fieldset>
+        
+}

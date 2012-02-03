@@ -49,12 +49,14 @@ namespace Phorcys.UI.Web.Controllers {
       return View(diveSites);
     }
 
+    [Authorize]
     [Transaction]
     public ActionResult Show(int id) {
       DiveSite diveSite = diveSiteRepository.Get(id);
       return View(diveSite);
     }
 
+    [Authorize]
     public ActionResult Create() {
       DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
       return View(viewModel);
@@ -82,6 +84,7 @@ namespace Phorcys.UI.Web.Controllers {
       return View(viewModel);
     }
 
+    [Authorize]
     [Transaction]
     public ActionResult Edit(int id) {
       DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();

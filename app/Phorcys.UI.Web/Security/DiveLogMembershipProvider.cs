@@ -66,7 +66,30 @@ namespace Phorcys.UI.Web.Security {
     }
 
     public override bool ChangePassword(string username, string oldPassword, string newPassword) {
-      throw new NotImplementedException();
+        bool retVal = false;
+        User user;
+        Dictionary<string, object> dictionary = new Dictionary<string, object>();
+        dictionary.Add("LoginId", username);
+        dictionary.Add("Password", oldPassword);
+
+        try
+        {
+            user = userRepository.FindOne(dictionary);
+            if (user != null)
+            {
+                user.LastModified = DateTime.Now;
+                user.Password = newPassword;
+                userRepository.SaveOrUpdate(user);
+                userRepository.DbContext.CommitChanges();
+                retVal = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            log.Warn("error accessing User table: ", ex);
+        }
+
+        return retVal;
     }
 
     public override string ResetPassword(string username, string answer) {

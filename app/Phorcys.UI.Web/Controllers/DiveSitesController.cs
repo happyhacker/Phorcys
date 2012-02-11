@@ -37,17 +37,39 @@ namespace Phorcys.UI.Web.Controllers {
 
     [Authorize]
     [Transaction]
+    [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Index() {
       UserServices userServices = new UserServices(userRepository);
       User user = userServices.FindUser(this.User.Identity.Name);
       User system = userServices.FindUser("system");
       DetachedCriteria query = DetachedCriteria.For(typeof(DiveSite));
+      int locationId = Int32.Parse(Request.Params.Get("locationId") ?? "0");
       
       query.Add(Expression.Or(Expression.Eq("User.Id", user.Id), Expression.Eq("User.Id", system.Id)));
+      if (locationId > 0)
+      {
+          query.Add(Expression.Eq("LocationId", locationId));
+      }
 
       IList<DiveSite> diveSites = this.diveSiteRepository.GetSystemAndUserRecords(query); //.GetAll();
       return View(diveSites);
     }
+
+   [Authorize]
+   [Transaction]
+   [AcceptVerbs(HttpVerbs.Get)]
+   public ActionResult IndexForLocation(int locationId)
+   {
+       UserServices userServices = new UserServices(userRepository);
+       User user = userServices.FindUser(this.User.Identity.Name);
+       User system = userServices.FindUser("system");
+       DetachedCriteria query = DetachedCriteria.For(typeof(DiveSite));
+
+       query.Add(Expression.Or(Expression.Eq("User.Id", user.Id), Expression.Eq("User.Id", system.Id)));
+       query.Add(Expression.Eq("DiveLocation.Id", locationId));
+       IList<DiveSite> diveSites = this.diveSiteRepository.GetSystemAndUserRecords(query); //.GetAll();
+       return View("Index",diveSites);
+   }
 
     [Authorize]
     [Transaction]
@@ -144,7 +166,6 @@ namespace Phorcys.UI.Web.Controllers {
       diveSiteToUpdate.User = diveSiteFromForm.User;
     }
 
-    [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Delete(int id) {

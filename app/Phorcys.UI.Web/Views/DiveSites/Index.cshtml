@@ -35,7 +35,7 @@
                columns.Bound(o => o.Notes).Sortable(false);
                columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
                columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<DiveSitesController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
-               columns.Template(o => (o.User.Id == 6 & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink("Delete", "Delete", "DiveSites", new {id = o.User.Id}, new {onclick = "return confirm('Are you sure?');"}).ToString())).HtmlAttributes(new {@Class = "grid"});                 
+               columns.Template(o => (o.User.Id == 6 & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink("Delete", "Delete", "DiveSites", new {id = o.Id}, new {onclick = "return confirm('Are you sure?');"}).ToString())).HtmlAttributes(new {@Class = "grid"});                 
              })
   .Pageable()
   .Sortable()

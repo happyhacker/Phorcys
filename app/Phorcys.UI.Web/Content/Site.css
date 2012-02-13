@@ -19,6 +19,12 @@ textarea
     font-size: 1.0em;
 }
 
+select
+{
+    font-family: Verdana, Helvetica, Sans-Serif;
+    font-size: 1.0em;
+}
+
 input
 {
     font-family: Verdana, Helvetica, Sans-Serif;

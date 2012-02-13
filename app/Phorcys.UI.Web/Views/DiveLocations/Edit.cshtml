@@ -29,7 +29,9 @@
       <p>
       <label for = "DiveLocation_Title">Title:</label>
       <br />
-	  @Html.TextBoxFor(m => m.DiveLocation.Title)
+      <input id="DiveLocation_Title" name="DiveLocation.Title" type="text" value="@Model.DiveLocation.Title" size="50" maxlength="40" />
+      <span class="field-validation-valid" data-valmsg-for="DiveLocation.Title" data-valmsg-replace="true"></span>
+
       @Html.ValidationMessageFor(m => m.DiveLocation.Title)
       </p>
     </div>    

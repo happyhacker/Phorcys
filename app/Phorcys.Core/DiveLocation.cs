@@ -26,9 +26,9 @@ namespace Phorcys.Core {
     //[DomainSignature]
     //public virtual ISet<DiveSite> DiveSites { get; set; }
 
-    //[DomainSignature]
-    //[NotNull]
-    //public virtual User User { get; set; }
+    [DomainSignature]
+    [NotNull]
+    public virtual User User { get; set; }
 
     //[DomainSignature]
     public virtual DateTime Created { get; set; }

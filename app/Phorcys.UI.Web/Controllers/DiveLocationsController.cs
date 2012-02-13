@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using Phorcys.Core;
+using Phorcys.Services.Services;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
@@ -15,10 +16,15 @@ namespace Phorcys.UI.Web.Controllers
     [HandleError]
     public class DiveLocationsController : Controller
     {
-        public DiveLocationsController(IRepository<DiveLocation> diveLocationRepository) {
+        private readonly IRepository<User> userRepository;
+        public DiveLocationsController(IRepository<DiveLocation> diveLocationRepository, IRepository<User> userRepository)
+        {
             Check.Require(diveLocationRepository != null, "diveLocationRepository may not be null");
+            Check.Require(userRepository != null, "userRepository may not be null");
 
             this.diveLocationRepository = diveLocationRepository;
+            this.userRepository = userRepository;
+            
         }
 
         [Authorize]
@@ -39,11 +45,19 @@ namespace Phorcys.UI.Web.Controllers
             return View(viewModel);
         }
 
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(DiveLocation diveLocation) {
-            if (ViewData.ModelState.IsValid && diveLocation.IsValid()) {
+            User user;
+            if (ViewData.ModelState.IsValid) {
+                diveLocation.Created = System.DateTime.Now;
+                diveLocation.LastModified = System.DateTime.Now;
+                UserServices userServices = new UserServices(this.userRepository);
+                user = userServices.FindUser(this.User.Identity.Name);
+                diveLocation.User = user;
+                diveLocation.UserId = user.Id;
+
                 diveLocationRepository.SaveOrUpdate(diveLocation);
 
                 TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = 

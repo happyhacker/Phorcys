@@ -4,7 +4,7 @@
 @using Phorcys.UI.Web.Controllers
 @using SharpArch.Web.Areas
 @using Telerik.Web.Mvc.UI
-@model DiveSitesController.DiveSiteFormViewModel
+@model Phorcys.UI.Web.Models.DiveSitesModel
 @{
     ViewBag.Title = "Edit Dive Site";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
@@ -37,7 +37,7 @@
         <label for="DiveSite_Title">
             Title:</label>
         <div>
-            <input id="DiveSite_Title" name="DiveSite.Title" type="text" value="@Model.DiveSite.Title" size="50" maxlength="40" />
+            <input id="DiveSite_Title" name="DiveSite.Title" type="text" value="@Model.Title" size="50" maxlength="40" />
         </div>
         @Html.ValidationMessage("DiveSite.Title")
         <br />

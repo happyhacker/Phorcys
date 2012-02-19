@@ -17,6 +17,7 @@ namespace Phorcys.Core {
 
     [DomainSignature]
     [NotNull, NotEmpty]
+
     public virtual string Title { get; set; }
 
     public virtual bool IsFreshWater { get; set; }

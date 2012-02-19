@@ -15,6 +15,7 @@ using Phorcys.Web.Controllers;
 using Phorcys.Services.Services;
 using Phorcys.Data;
 using NHibernate.Criterion;
+using Phorcys.UI.Web.Models;
 
 namespace Phorcys.UI.Web.Controllers {
   [HandleError]
@@ -79,37 +80,41 @@ namespace Phorcys.UI.Web.Controllers {
     }
 
     [Authorize]
-    public ActionResult Create() {
-      DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
+    [AcceptVerbs(HttpVerbs.Get)]
+    public ActionResult Create()
+    {
+      //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
+        DiveSitesModel viewModel = new DiveSitesModel();
+        viewModel.DiveSite = new DiveSite();
+        viewModel.DiveLocationsListItems = BuildLocationList();
       return View(viewModel);
     }
 
     [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Create(DiveSite diveSite)
+    public ActionResult Create(DiveSitesModel model)
     {
       Core.User user;
-      if (ViewData.ModelState.IsValid) { //&& diveSite.IsValid()
+      if (ModelState.IsValid) {
         UserServices userServices = new UserServices(this.userRepository);
         user = userServices.FindUser(this.User.Identity.Name);
-        diveSite.User = user;
-        diveSiteRepository.SaveOrUpdate(diveSite);
+        model.DiveSite.User = user;
+        model.DiveSite.Created = DateTime.Now;
+        model.DiveSite.LastModified = DateTime.Now;
+        diveSiteRepository.SaveOrUpdate(model.DiveSite);
 
-        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
-  "The diveSite was successfully created.";
+        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "The diveSite was successfully created.";
         return RedirectToAction("Index");
       }
-
-      DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
-      viewModel.DiveSite = diveSite;
-      return View(viewModel);
+      return View(model);
     }
 
     [Authorize]
     [Transaction]
     public ActionResult Edit(int id) {
-      DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
+      //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
+        DiveSitesModel viewModel = new DiveSitesModel();
       IList<DiveLocation> DiveLocations = getDiveLocations();
       SelectListItem locationItem;
       IList<SelectListItem> DiveLocationsList = new List<SelectListItem>();
@@ -133,6 +138,23 @@ namespace Phorcys.UI.Web.Controllers {
       return View(viewModel);
     }
 
+    private IList<SelectListItem> BuildLocationList()
+    {
+        IList<SelectListItem> LocationList = new List<SelectListItem>();
+        IList<DiveLocation> DiveLocations = getDiveLocations();
+        SelectListItem LocationItem;
+
+        foreach (var location in DiveLocations)
+        {
+            LocationItem = new SelectListItem();
+            LocationItem.Text = location.Title;
+            LocationItem.Value = location.Id.ToString();
+            LocationList.Add(LocationItem);
+        }
+
+        return LocationList;
+    }
+
     //[ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
@@ -151,7 +173,8 @@ namespace Phorcys.UI.Web.Controllers {
       else {
         diveSiteRepository.DbContext.RollbackTransaction();
 
-        DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
+        //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
+        DiveSitesModel viewModel = new DiveSitesModel();
         viewModel.DiveSite = diveSite;
         return View(viewModel);
       }
@@ -202,7 +225,7 @@ namespace Phorcys.UI.Web.Controllers {
     /// <summary>
     /// Holds data to be passed to the DiveSite form for creates and edits
     /// </summary>
-    public class DiveSiteFormViewModel {
+    /*public class DiveSiteFormViewModel {
       private DiveSiteFormViewModel() { }
 
       /// <summary>
@@ -219,6 +242,6 @@ namespace Phorcys.UI.Web.Controllers {
       public IList<DiveLocation> DiveLocationsList { get; set; }
       public IList<SelectListItem> DiveLocationsListItems { get; set; }
     }
-
+      */
   }
 }

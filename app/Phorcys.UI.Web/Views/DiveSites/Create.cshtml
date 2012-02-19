@@ -3,9 +3,9 @@
 @using Phorcys.UI.Web.Models
 @using Phorcys.Core
 @using SharpArch.Web.Areas
-@model DiveSitesController.DiveSiteFormViewModel
+@model DiveSitesModel
 @{
-    ViewBag.Title = "Create a New Divesite";
+    ViewBag.Title = "Create a New Dive Site";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 <h2>
@@ -14,50 +14,55 @@
     <p id="pageMessage">
         @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
 }
-@Html.ValidationSummary()
-@using (Html.BeginForm()) {
+<!--@Html.ValidationSummary()-->
+@using (Html.BeginForm("Create", "DiveSites")) {
     @Html.AntiForgeryToken()
 
-    //@Html.Hidden("DiveSite.Id", (ViewData.Model.DiveSite != null) ? ViewData.Model.DiveSite.Id : 0)
+    @Html.ValidationSummary(true, "Please correct the errors and try again.")
+
     <label for="DiveLocation">
         Dive Location:</label>
     <div>
         <!--<Html.DropDownListFor(m => m.DiveSite.DiveLocation.Title m.DiveLocation, Model.DiveLocations as SelectList) -->
     </div>
+    <br />
+
     <label for="DiveSite_Title">
-        Title:</label>
+    Title:</label>
     <div>
-        @Html.TextBox("DiveSite.Title")
+        @Html.TextBoxFor(m => m.Title)
+        @Html.ValidationMessageFor(m => m.Title)
     </div>
-    @Html.ValidationMessage("DiveSite.Title")
+
+
     <br />
     <label for="DiveSite_IsFreshWater">
         Fresh/Salt Water:</label>
     <div>
     </div>
-    @Html.ValidationMessage("DiveSite.IsFreshWater")
+    @Html.ValidationMessageFor(m => m.IsFreshWater)
     <div>
-        <input type="radio" id="DiveSite_IsFreshWater_true" name="DiveSite.IsFreshWater" value="true" />
+        <input type="radio" id="IsFreshWater_true" name="IsFreshWater" value="true" checked="checked" />
         Fresh
-        <input type="radio" id="DiveSite_IsFreshWater_false" name="DiveSite.IsFreshWater" value="false" />
+        <input type="radio" id="IsFreshWater_false" name="IsFreshWater" value="false" />
         Salt
     </div>
     <br />
-    <label for="DiveSite_GeoCode">
+    <label for="GeoCode">
         GeoCode:</label>
     <div>
-        @Html.TextBox("DiveSite.GeoCode")
+        @Html.TextBoxFor(m => m.GeoCode)
     </div>
     <br />
-    @Html.ValidationMessage("DiveSite.GeoCode")
-    <label for="DiveSite_Notes">
+    @Html.ValidationMessageFor(m => m.GeoCode)
+    <label for="Notes">
         Notes:</label>
     <div>
         <br />
-        <textarea id="DiveSite_Notes" name="DiveSite.Notes" rows="6" cols="50"> </textarea>
+        <textarea id="Notes" name="Notes" rows="6" cols="70"> </textarea>
     </div>
     <br />
-    @Html.ValidationMessage("DiveSite.Notes")
+    @Html.ValidationMessageFor(m => m.Notes)
     <br />
 
     @Html.SubmitButton("btnSave", "Save DiveSite")

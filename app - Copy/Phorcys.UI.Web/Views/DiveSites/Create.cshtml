@@ -1,0 +1,71 @@
+@using Microsoft.Web.Mvc
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.UI.Web.Models
+@using Phorcys.Core
+@using SharpArch.Web.Areas
+@model DiveSitesModel
+@{
+    ViewBag.Title = "Create a New Dive Site";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+<h2>
+    Create New Dive Site</h2>
+@if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+    <p id="pageMessage">
+        @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
+}
+<!--@Html.ValidationSummary()-->
+@using (Html.BeginForm("Create", "DiveSites")) {
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "Please correct the errors and try again.")
+
+    <label for="DiveLocation">
+        Dive Location:</label>
+    <div>
+        <!--<Html.DropDownListFor(m => m.DiveSite.DiveLocation.Title m.DiveLocation, Model.DiveLocations as SelectList) -->
+    </div>
+    <br />
+
+    <label for="DiveSite_Title">
+    Title:</label>
+    <div>
+        @Html.TextBoxFor(m => m.Title)
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+
+
+    <br />
+    <label for="DiveSite_IsFreshWater">
+        Fresh/Salt Water:</label>
+    <div>
+    </div>
+    @Html.ValidationMessageFor(m => m.IsFreshWater)
+    <div>
+        <input type="radio" id="IsFreshWater_true" name="IsFreshWater" value="true" checked="checked" />
+        Fresh
+        <input type="radio" id="IsFreshWater_false" name="IsFreshWater" value="false" />
+        Salt
+    </div>
+    <br />
+    <label for="GeoCode">
+        GeoCode:</label>
+    <div>
+        @Html.TextBoxFor(m => m.GeoCode)
+    </div>
+    <br />
+    @Html.ValidationMessageFor(m => m.GeoCode)
+    <label for="Notes">
+        Notes:</label>
+    <div>
+        <br />
+        <textarea id="Notes" name="Notes" rows="6" cols="70"> </textarea>
+    </div>
+    <br />
+    @Html.ValidationMessageFor(m => m.Notes)
+    <br />
+
+    @Html.SubmitButton("btnSave", "Save DiveSite")
+    @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,
+            "window.location.href = '~'")
+}

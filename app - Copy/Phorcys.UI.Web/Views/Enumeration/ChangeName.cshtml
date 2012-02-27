@@ -1,0 +1,33 @@
+﻿@model Phorcys.UI.Web.Models.EnumerationChangeNameViewModel
+
+@{
+    ViewBag.Title = "Change Enumeration Name";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+@Html.ValidationSummary("Update was unsuccessful. Please correct the errors and try again.")
+
+@using (Html.BeginForm("ChangeName", "Enumeration", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td class="label-area">
+                @Html.HiddenFor(x => x.EnumerationId)
+                @Html.LabelFor(x => x.Name)
+            </td>
+            <td class="field-area">
+                @Html.TextBoxFor(x => x.Name, new { title = "Enter Name" })
+                @Html.ValidationMessage("UnitPrice", "*")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Create" />
+                @Html.ActionLink("Cancel", "Index")
+            </td>
+        </tr>
+    </table>
+    
+}

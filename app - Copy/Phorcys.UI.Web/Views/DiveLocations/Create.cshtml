@@ -1,0 +1,52 @@
+@using Microsoft.Web.Mvc
+@using Phorcys.Core
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.Web.Controllers
+@using SharpArch.Web.Areas
+@using Telerik.Web.Mvc.UI
+
+@model Phorcys.UI.Web.Controllers.DiveLocationsController.DiveLocationFormViewModel
+           
+@{
+    ViewBag.Title = "Edit Dive Locations";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+
+	<h1>Create Dive Location</h1>
+@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+   } <p id="pageMessage">
+       @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+   </p>
+}
+@Html.ValidationSummary()
+@using (Html.BeginForm()) {
+    Html.AntiForgeryToken();
+
+    <fieldset>
+   
+    <div>
+      <p>
+      <label for = "DiveLocation_Title">Title:</label>
+      <br />
+	  @Html.TextBoxFor(m => m.DiveLocation.Title)
+      @Html.ValidationMessageFor(m => m.DiveLocation.Title)
+      </p>
+    </div>    
+
+    <div>
+      <p>
+      <label for = "DiveLocation_Notes">Notes:</label>
+      <br />
+      <textarea id="notes" name="DiveLocation.Notes" rows="6" cols="50" > 
+      </textarea>
+      @Html.ValidationMessageFor(m => m.DiveLocation.Notes)
+      </p>
+    </div>
+			
+    <div>
+      @Html.SubmitButton("btnSave", "Save Location")
+	  @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,
+              "window.location.href = '../../DiveLocations';")
+  </div>
+    </fieldset>
+}

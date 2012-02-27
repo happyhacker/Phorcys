@@ -2,8 +2,10 @@ using System.Web.Mvc;
 using Phorcys.Core;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core.DomainModel;
+using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
 using NHibernate.Validator.Engine;
@@ -51,8 +53,9 @@ namespace Phorcys.UI.Web.Controllers {
       {
           query.Add(Expression.Eq("LocationId", locationId));
       }
-
+      //query.AddOrder(Order.Asc("DiveLocation.Title")); //didn't understand this property for some reason
       IList<DiveSite> diveSites = this.diveSiteRepository.GetSystemAndUserRecords(query); //.GetAll();
+      diveSites = diveSites.OrderBy(m => m.Title).ToList();
       return View(diveSites);
     }
 
@@ -86,28 +89,33 @@ namespace Phorcys.UI.Web.Controllers {
       //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
         DiveSitesModel viewModel = new DiveSitesModel();
         viewModel.DiveSite = new DiveSite();
-        viewModel.DiveLocationsListItems = BuildLocationList();
+        IList<SelectListItem> DiveLocationsListItems = BuildLocationList();
+        viewModel.DiveLocationsListItems = DiveLocationsListItems;
+        //viewModel.DiveLocationsListItems = DiveLocationsListItems.OrderBy(m => m.Text).ToList(); //this works to as opposed to the following 2 lines
+        //var sortedList = from row in DiveLocationsListItems orderby row.Text select row;
+        //viewModel.DiveLocationsListItems = sortedList.ToList();
       return View(viewModel);
     }
 
     [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Create(DiveSitesModel model)
+    public ActionResult Create(DiveSite diveSite)
     {
       Core.User user;
       if (ModelState.IsValid) {
         UserServices userServices = new UserServices(this.userRepository);
         user = userServices.FindUser(this.User.Identity.Name);
-        model.DiveSite.User = user;
-        model.DiveSite.Created = DateTime.Now;
-        model.DiveSite.LastModified = DateTime.Now;
-        diveSiteRepository.SaveOrUpdate(model.DiveSite);
+        diveSite.User = user;
+        diveSite.DiveLocation = locationRepository.Get(diveSite.DiveLocationId);
+        diveSite.Created = DateTime.Now;
+        diveSite.LastModified = DateTime.Now;
+        diveSiteRepository.SaveOrUpdate(diveSite);
 
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "The diveSite was successfully created.";
         return RedirectToAction("Index");
       }
-      return View(model);
+      return View(diveSite);
     }
 
     [Authorize]
@@ -143,7 +151,7 @@ namespace Phorcys.UI.Web.Controllers {
         IList<SelectListItem> LocationList = new List<SelectListItem>();
         IList<DiveLocation> DiveLocations = getDiveLocations();
         SelectListItem LocationItem;
-
+        DiveLocations = DiveLocations.OrderBy(m => m.Title).ToList();
         foreach (var location in DiveLocations)
         {
             LocationItem = new SelectListItem();
@@ -221,27 +229,5 @@ namespace Phorcys.UI.Web.Controllers {
         return locations;
     }
 
-
-    /// <summary>
-    /// Holds data to be passed to the DiveSite form for creates and edits
-    /// </summary>
-    /*public class DiveSiteFormViewModel {
-      private DiveSiteFormViewModel() { }
-
-      /// <summary>
-      /// Creation method for creating the view model. Services may be passed to the creation 
-      /// method to instantiate items such as lists for drop down boxes.
-      /// </summary>
-      public static DiveSiteFormViewModel CreateDiveSiteFormViewModel() {
-        DiveSiteFormViewModel viewModel = new DiveSiteFormViewModel();
-
-        return viewModel;
-      }
-
-      public DiveSite DiveSite { get; internal set; }
-      public IList<DiveLocation> DiveLocationsList { get; set; }
-      public IList<SelectListItem> DiveLocationsListItems { get; set; }
-    }
-      */
   }
 }

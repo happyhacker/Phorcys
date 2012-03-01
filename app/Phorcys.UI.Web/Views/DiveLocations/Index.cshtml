@@ -33,10 +33,11 @@
                columns.Bound(o => o.Notes).Sortable(false).Width(300);
                columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.IndexForLocation(o.Id), "Display")).Width(5).HtmlAttributes(new {@class = "grid"});
                columns.Template(o => Html.ActionLink<DiveLocationsController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
-               columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.Create(), "Create Site at This Location")).Width(150).HtmlAttributes(new { @class = "grid" });
+               columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.CreateForLocation(o.Id), "Create Site at This Location")).Width(150).HtmlAttributes(new { @class = "grid" });
              })
   .Pageable()
   .Sortable()
+  .Resizable(m => m.Columns(true))
   .Render();
   }
   </div>

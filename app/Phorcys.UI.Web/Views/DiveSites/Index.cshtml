@@ -12,7 +12,9 @@
 <script type="text/javascript" language="javascript">
     function SubmitForm(id) {
         frmSite.SiteId.value = id;
-        frmSite.submit();
+        if (confirm("Are you sure?")) {
+            frmSite.submit();
+        }
     }
 
 </script>
@@ -55,6 +57,7 @@
   .Sortable()
   .Groupable()
   .Filterable()
+  .Resizable(m => m.Columns(true))
   .Render();
  }
 </div>

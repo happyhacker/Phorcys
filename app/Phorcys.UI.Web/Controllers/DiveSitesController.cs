@@ -89,12 +89,23 @@ namespace Phorcys.UI.Web.Controllers {
       //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
         DiveSitesModel viewModel = new DiveSitesModel();
         viewModel.DiveSite = new DiveSite();
-        IList<SelectListItem> DiveLocationsListItems = BuildLocationList();
+        IList<SelectListItem> DiveLocationsListItems = BuildLocationList(null);
         viewModel.DiveLocationsListItems = DiveLocationsListItems;
         //viewModel.DiveLocationsListItems = DiveLocationsListItems.OrderBy(m => m.Text).ToList(); //this works to as opposed to the following 2 lines
         //var sortedList = from row in DiveLocationsListItems orderby row.Text select row;
         //viewModel.DiveLocationsListItems = sortedList.ToList();
       return View(viewModel);
+    }
+
+    [Authorize]
+    [AcceptVerbs(HttpVerbs.Get)]
+    public ActionResult CreateForLocation(int locationId)
+    {
+        DiveSitesModel viewModel = new DiveSitesModel();
+        IList<SelectListItem> DiveLocationsListItems = BuildLocationList(locationId);
+        viewModel.DiveLocationsListItems = DiveLocationsListItems;
+
+        return View("Create",viewModel);
     }
 
     [ValidateAntiForgeryToken]
@@ -146,7 +157,7 @@ namespace Phorcys.UI.Web.Controllers {
       return View(viewModel);
     }
 
-    private IList<SelectListItem> BuildLocationList()
+    private IList<SelectListItem> BuildLocationList(int ?locationId)
     {
         IList<SelectListItem> LocationList = new List<SelectListItem>();
         IList<DiveLocation> DiveLocations = getDiveLocations();
@@ -157,6 +168,13 @@ namespace Phorcys.UI.Web.Controllers {
             LocationItem = new SelectListItem();
             LocationItem.Text = location.Title;
             LocationItem.Value = location.Id.ToString();
+            if (locationId != null)
+            {
+                if (location.Id == locationId)
+                {
+                    LocationItem.Selected = true;
+                }
+            }
             LocationList.Add(LocationItem);
         }
 

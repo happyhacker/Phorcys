@@ -681,6 +681,7 @@
     <Content Include="Views\DiveTypes\Index.aspx" />
     <Content Include="Views\DiveTypes\Show.aspx" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Gear\Index.cshtml" />
     <None Include="Views\Shared\LogOnUserControl.cshtml" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />

@@ -46,13 +46,22 @@ namespace Phorcys.UI.Web.Models
             set { DiveSite.Notes = value; } 
         }
 
+        
+        [Range(1f,36198f)]
+        [DisplayName("Max Depth")]
+        public float MaxDepth
+        {
+            get { return DiveSite.MaxDepth; }
+            set { DiveSite.MaxDepth = value; }
+        }
+
         public  int UserId {
             get { return DiveSite.UserId; }
             set { DiveSite.UserId = value; } 
         }
 
         public DiveSite DiveSite { get; internal set; }
-        public IList<DiveLocation> DiveLocationsList { get; set; }
+        //public IList<DiveLocation> DiveLocationsList { get; set; }
         public IList<SelectListItem> DiveLocationsListItems { get; set; }
 
     }

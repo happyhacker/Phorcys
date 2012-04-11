@@ -133,7 +133,7 @@ namespace Phorcys.UI.Web.Controllers {
     [Transaction]
     public ActionResult Edit(int id) {
       //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
-        DiveSitesModel viewModel = new DiveSitesModel();
+       DiveSitesModel viewModel = new DiveSitesModel();
       IList<DiveLocation> DiveLocations = getDiveLocations();
       SelectListItem locationItem;
       IList<SelectListItem> DiveLocationsList = new List<SelectListItem>();
@@ -184,25 +184,26 @@ namespace Phorcys.UI.Web.Controllers {
     //[ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Edit(DiveSite diveSite) {
-      DiveSite diveSiteToUpdate = diveSiteRepository.Get(diveSite.Id);
-      //ToDo: this is total BS. Must be able to remove next line
-      diveSite.User = diveSiteToUpdate.User;
-      TransferFormValuesTo(diveSiteToUpdate, diveSite);
-      diveSiteToUpdate.DiveLocation = locationRepository.Get(diveSite.DiveLocationId);
+    public ActionResult Edit(DiveSitesModel diveSitesModel)
+    {
+      diveSitesModel.DiveLocationsListItems = BuildLocationList(diveSitesModel.DiveSite.Id);
+      DiveSite diveSiteToUpdate = diveSiteRepository.Get(diveSitesModel.DiveSite.Id);
+      diveSitesModel.DiveSite.User = diveSiteToUpdate.User;
+      TransferFormValuesTo(diveSiteToUpdate, diveSitesModel.DiveSite);
+      diveSiteToUpdate.DiveLocation = locationRepository.Get(diveSitesModel.DiveSite.DiveLocationId);
 
-      if (ViewData.ModelState.IsValid) {
+      if (ModelState.IsValid) {
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
-  "The diveSite was successfully updated.";
+           "The diveSite was successfully updated.";
         return RedirectToAction("Index");
       }
       else {
         diveSiteRepository.DbContext.RollbackTransaction();
 
         //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
-        DiveSitesModel viewModel = new DiveSitesModel();
-        viewModel.DiveSite = diveSite;
-        return View(viewModel);
+        //DiveSitesModel viewModel = new DiveSitesModel();
+        //viewModel.DiveSite = diveSite;
+        return View(diveSitesModel); //(viewModel);
       }
     }
 
@@ -210,6 +211,7 @@ namespace Phorcys.UI.Web.Controllers {
       diveSiteToUpdate.DiveLocationId = diveSiteFromForm.DiveLocationId;
       diveSiteToUpdate.Title = diveSiteFromForm.Title;
       diveSiteToUpdate.IsFreshWater = diveSiteFromForm.IsFreshWater;
+      diveSiteToUpdate.MaxDepth = diveSiteFromForm.MaxDepth;
       diveSiteToUpdate.GeoCode = diveSiteFromForm.GeoCode;
       diveSiteToUpdate.Notes = diveSiteFromForm.Notes;
       diveSiteToUpdate.User = diveSiteFromForm.User;

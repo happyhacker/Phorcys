@@ -39,6 +39,7 @@ namespace Phorcys.Core {
 
     public virtual DateTime LastModified {  get; set; }
 
+    public virtual float MaxDepth { get; set; }
 
     public virtual DiveLocation DiveLocation {
       get;

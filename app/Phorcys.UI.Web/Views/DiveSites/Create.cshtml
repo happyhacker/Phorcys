@@ -49,9 +49,16 @@
         <input type="radio" id="DiveSite_Fresh" name="DiveSite.IsFreshWater" value="true" checked="checked" />
         Fresh
         <input type="radio" id="DiveSite_Salt" name="DiveSite.IsFreshWater" value="false" />
-        Salt
     </div>
     <br />
+    
+    <label for="DiveSite_MaxDepth">
+        Max Depth:</label>
+    @Html.ValidationMessageFor(m => m.MaxDepth)
+    <div>
+        <input id="DiveSite_MaxDepth" name="DiveSite.MaxDepth" type="text" value="@Model.MaxDepth"/>
+    </div>
+    
     <label for="GeoCode">
         GeoCode:</label>
     <div>

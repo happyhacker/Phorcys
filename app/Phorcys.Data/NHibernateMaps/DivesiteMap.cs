@@ -13,6 +13,7 @@ namespace Phorcys.Data.NHibernateMaps {
       Map(x => x.IsFreshWater, "IsFreshWater").Not.Nullable();
       Map(x => x.Notes, "Notes").Length(255);
       Map(x => x.Title, "Title").Length(40).Not.Nullable();
+      Map(x => x.MaxDepth, "MaxDepth");
       //Map(x => x.UserId, "UserId").Not.Nullable();
       //Map(x => x.DiveLocationId, "DiveLocationId").Nullable();
       Map(x => x.Created).ReadOnly();

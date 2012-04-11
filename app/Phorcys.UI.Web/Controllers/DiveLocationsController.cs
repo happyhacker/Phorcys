@@ -107,7 +107,7 @@ namespace Phorcys.UI.Web.Controllers
 			diveLocationToUpdate.LastModified = System.DateTime.Now;
         }
 
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete(int id) {

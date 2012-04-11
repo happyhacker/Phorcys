@@ -8,7 +8,9 @@
 @{
     ViewBag.Title = "Edit Dive Site";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
+    Html.EnableClientValidation(true);
 }
+
 <h1>
     Edit Dive Site</h1>
 @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
@@ -16,7 +18,7 @@
        @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
    </p>
 }
-@Html.ValidationSummary()
+@Html.ValidationSummary(true, "Please correct the errors and try again")
 @using (Html.BeginForm()) {
     Html.AntiForgeryToken();
 
@@ -28,12 +30,13 @@
             <!--disccussion - why doesn't the helper select the correct item?-->
 
             <select id="DiveSite_DiveLocationId" name="DiveSite.DiveLocationId" >
-              @foreach(SelectListItem item in Model.DiveLocationsListItems) {
-                <option value="@item.Value" @(item.Selected ? "selected" : "")> @item.Text </option>
-              }
+                @foreach(SelectListItem item in Model.DiveLocationsListItems) {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")> @item.Text </option>
+                }
             </select>
-
         </div>
+        <br/>
+
         <label for="DiveSite_Title">
             Title:</label>
         <div>
@@ -61,6 +64,17 @@
             Salt
         </div>
         <br />
+        
+        <div class="editor-label">
+            <label for="DiveSite_MaxDepth">
+            Max Depth: 
+            </label>
+            @Html.TextBoxFor(m => m.MaxDepth) 
+            <!--<input id="DiveSite_MaxDepth" name="DiveSite.MaxDepth" type="text" value="@Model.MaxDepth" />-->
+            <div class="errorOnPage">@Html.ValidationMessageFor(m => m.MaxDepth) </div>       
+        </div>
+        <br/>
+
         <label for="DiveSite_GeoCode">
             GeoCode:</label>
         <div>
@@ -68,6 +82,7 @@
         </div>
         <br />
         @Html.ValidationMessageFor(m => m.GeoCode)
+
         <label for="DiveSite_Notes">
             Notes:</label>
         <div>

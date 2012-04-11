@@ -156,6 +156,11 @@ p#logo, h1#logo
 	_height: 1px; /* only IE6 applies CSS properties starting with an underscrore */
 }
 
+.errorOnPage 
+{
+    color: red;
+}
+
 .columnsContainer
 {
     position: relative;

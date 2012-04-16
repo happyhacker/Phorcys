@@ -275,6 +275,7 @@
     <Compile Include="Controllers\DiveSitesController.cs" />
     <Compile Include="Controllers\DiveTypesController.cs" />
     <Compile Include="Controllers\EnumerationController.cs" />
+    <Compile Include="Controllers\GearController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RouteRegistrar.cs" />
     <Compile Include="Controllers\UsersController.cs" />

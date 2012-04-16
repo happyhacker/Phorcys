@@ -81,9 +81,14 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="IPhorcysRepository.cs" />
+    <Compile Include="NHibernateMaps\ContactMapping.cs" />
     <Compile Include="NHibernateMaps\DiveLocationMap.cs" />
     <Compile Include="NHibernateMaps\DivesiteMap.cs" />
     <Compile Include="NHibernateMaps\EnumerationMap.cs" />
+    <Compile Include="NHibernateMaps\GearMapping.cs" />
+    <Compile Include="NHibernateMaps\ManufacturerMapping.cs" />
+    <Compile Include="NHibernateMaps\SoldGearMapping.cs" />
+    <Compile Include="NHibernateMaps\TankMapping.cs" />
     <Compile Include="NHibernateMaps\UserMap.cs" />
     <Compile Include="PhorcysRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

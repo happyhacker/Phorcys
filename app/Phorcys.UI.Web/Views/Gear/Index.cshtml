@@ -3,7 +3,8 @@
 @using Phorcys.UI.Web.Controllers
 @using Phorcys.Web.Controllers
 @using Telerik.Web.Mvc.UI
-@model IEnumerable<Phorcys.Core.DiveLocation>
+@using Telerik.Web.Mvc.UI.Fluent
+@model IEnumerable<Phorcys.Core.Gear>
 @{
   ViewBag.Title = "Gear";
   Layout = "~/Views/Shared/SiteMaster.cshtml";
@@ -45,12 +46,17 @@
   .BindTo(Model)
   .Columns(columns =>
              {
-               columns.Bound(o => o.Title).Title("Location").Sortable(true).Width(10).HtmlAttributes(new {@class = "grid"});
-               columns.Bound(o => o.Notes).Sortable(false).Width(500);
-               columns.Bound(o => o.User.LoginId).Sortable(true);
+               columns.Bound(o => o.Title).Title("Gear").Sortable(true).HtmlAttributes(new {@class = "grid"});
+               columns.Bound(o => o.Acquired).Format("{0:MM/dd/yy}");
+               columns.Bound(o => o.NoLongerUse).Title("Retired").Format("{0:MM/dd/yy}");
+               columns.Bound(o => o.Sn).Title("SN");
+               //columns.Bound(o => o.Notes).Sortable(false).Width(500);
+               columns.Bound(o => o.RetailPrice).Format("{0:$###,###0.00}");
+               columns.Bound(o => o.Paid).Format("{0:$###,###0.00}");
+               columns.Bound(o => o.Weight);
+               columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
                columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.IndexForLocation(o.Id), "Display")).Width(5).HtmlAttributes(new {@class = "grid"});
                columns.Template(o => Html.ActionLink<DiveLocationsController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
-               columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.CreateForLocation(o.Id), "Create Site at This Location")).Width(150).HtmlAttributes(new { @class = "grid" }).Width(300);
                columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" }).Width(25);
              })
   .Pageable()

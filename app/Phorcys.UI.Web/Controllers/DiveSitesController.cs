@@ -1,5 +1,6 @@
 using System.Web.Mvc;
 using Phorcys.Core;
+using Phorcys.Services;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core.DomainModel;
 using System.Collections;
@@ -43,18 +44,10 @@ namespace Phorcys.UI.Web.Controllers {
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Index() {
       UserServices userServices = new UserServices(userRepository);
+      DiveSiteServices diveSiteServices = new DiveSiteServices();
+
       User user = userServices.FindUser(this.User.Identity.Name);
-      User system = userServices.FindUser("system");
-      DetachedCriteria query = DetachedCriteria.For(typeof(DiveSite));
-      int locationId = Int32.Parse(Request.Params.Get("locationId") ?? "0");
-      
-      query.Add(Expression.Or(Expression.Eq("User.Id", user.Id), Expression.Eq("User.Id", system.Id)));
-      if (locationId > 0)
-      {
-          query.Add(Expression.Eq("LocationId", locationId));
-      }
-      //query.AddOrder(Order.Asc("DiveLocation.Title")); //didn't understand this property for some reason
-      IList<DiveSite> diveSites = this.diveSiteRepository.GetSystemAndUserRecords(query); //.GetAll();
+      IList<DiveSite> diveSites = diveSiteServices.GetAllForUser(user.Id);
       diveSites = diveSites.OrderBy(m => m.Title).ToList();
       return View(diveSites);
     }

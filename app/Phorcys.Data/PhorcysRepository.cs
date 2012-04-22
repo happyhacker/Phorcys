@@ -18,5 +18,20 @@ namespace Phorcys.Data {
         return list;
       }
     }
+
+      public IList<T> GetAllForUser(int userId, int systemId)
+      {
+          DetachedCriteria criteria = DetachedCriteria.For(typeof (DiveSite));
+          criteria.Add(Expression.Or(Expression.Eq("User.Id", userId), Expression.Eq("User.Id", systemId)));
+          
+          using (var transaction = Session.BeginTransaction())
+          {
+              IList<T> list = criteria.GetExecutableCriteria(Session).List<T>();
+              transaction.Commit();
+
+              return list;
+          }
+
+      }
   }
 }

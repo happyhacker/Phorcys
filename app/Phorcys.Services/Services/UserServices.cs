@@ -10,7 +10,7 @@ namespace Phorcys.Services.Services {
     public UserServices(IRepository<User> userRepository) {
       this.userRepository = userRepository;
     }
-  private readonly IRepository<User> userRepository;  
+    private readonly IRepository<User> userRepository;
 
     public User FindUser(string userId) {
       User user = new User();

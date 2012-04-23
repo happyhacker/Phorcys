@@ -11,18 +11,16 @@ using SharpArch.Core.PersistenceSupport;
 using SharpArch.Data.NHibernate;
 
 namespace Phorcys.Services {
-   public class DiveSiteServices
-   {
-       private IPhorcysRepository<DiveSite> diveSiteRepository = new PhorcysRepository<DiveSite>();
-       
-       public IList<DiveSite> GetAllForUser(int userId)
-       {
-           UserServices userServices = new UserServices(new Repository<User>());
-           User systemUser = userServices.FindUser("system");
+  public class DiveSiteServices {
+    private IDiveSiteRepository<DiveSite> diveSiteRepository = new DiveSiteRepository<DiveSite>();
 
-           IList<DiveSite> diveSites = diveSiteRepository.GetAllForUser(userId, systemUser.Id);
+    public IList<DiveSite> GetAllForUser(int userId) {
+      UserServices userServices = new UserServices(new Repository<User>());
+      User systemUser = userServices.FindUser("system");
 
-           return diveSites;
-       } 
-   }
+      IList<DiveSite> diveSites = diveSiteRepository.GetAllForUser(userId, systemUser.Id);
+
+      return diveSites;
+    }
+  }
 }

@@ -2,8 +2,7 @@
 using SharpArch.Core.PersistenceSupport;
 
 namespace Phorcys.Data {
-  public interface IPhorcysRepository<T> : IRepository<T> {
-    IList<T> GetSystemAndUserRecords(NHibernate.Criterion.DetachedCriteria detachedCriteria);
+  public interface IDiveSiteRepository<T> : IRepository<T> {
     IList<T> GetAllForUser(int userId, int systemId);
   }
 }

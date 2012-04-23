@@ -80,6 +80,8 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DiveSiteRepository.cs" />
+    <Compile Include="IDiveSiteRepository.cs" />
     <Compile Include="IGearRepository.cs" />
     <Compile Include="IPhorcysRepository.cs" />
     <Compile Include="NHibernateMaps\ContactMapping.cs" />

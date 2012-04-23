@@ -36,46 +36,43 @@ namespace Phorcys.Core {
     //[DomainSignature]
     public virtual DateTime LastModified { get; set; }
 
-    public override bool Equals(object obj)
-    {
-        if (ReferenceEquals(this, obj))
-            return true;
-
-        return Equals(obj as DiveLocation);
-    }
-
-    public virtual bool Equals(DiveLocation obj)
-    {
-        if (obj == null) return false;
-
-        if (Equals(Created, obj.Created) == false)
-            return false;
-
-        if (Equals(Id, obj.Id) == false)
-            return false;
-
-        if (Equals(Title, obj.Title) == false)
-            return false;
-
-        if (Equals(LastModified, obj.LastModified) == false)
-            return false;
-
-        if (Equals(Notes, obj.Notes) == false)
-            return false;
-
+    public override bool Equals(object obj) {
+      if (ReferenceEquals(this, obj))
         return true;
+
+      return Equals(obj as DiveLocation);
     }
 
-    public override int GetHashCode()
-    {
-        int result = 1;
+    public virtual bool Equals(DiveLocation obj) {
+      if (obj == null) return false;
 
-        result = (result * 397) ^ (Created != null ? Created.GetHashCode() : 0);
-        result = (result * 397) ^ (Id != null ? Id.GetHashCode() : 0);
-        result = (result * 397) ^ (LastModified != null ? LastModified.GetHashCode() : 0);
-        result = (result * 397) ^ (Notes != null ? Notes.GetHashCode() : 0);
-        result = (result * 397) ^ (Title != null ? Title.GetHashCode() : 0);
-        return result;
+      if (Equals(Created, obj.Created) == false)
+        return false;
+
+      if (Equals(Id, obj.Id) == false)
+        return false;
+
+      if (Equals(Title, obj.Title) == false)
+        return false;
+
+      if (Equals(LastModified, obj.LastModified) == false)
+        return false;
+
+      if (Equals(Notes, obj.Notes) == false)
+        return false;
+
+      return true;
+    }
+
+    public override int GetHashCode() {
+      int result = 1;
+
+      result = (result * 397) ^ (Created != null ? Created.GetHashCode() : 0);
+      result = (result * 397) ^ (Id != null ? Id.GetHashCode() : 0);
+      result = (result * 397) ^ (LastModified != null ? LastModified.GetHashCode() : 0);
+      result = (result * 397) ^ (Notes != null ? Notes.GetHashCode() : 0);
+      result = (result * 397) ^ (Title != null ? Title.GetHashCode() : 0);
+      return result;
     }
   }
 }

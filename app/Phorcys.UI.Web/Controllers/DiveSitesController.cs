@@ -26,6 +26,7 @@ namespace Phorcys.UI.Web.Controllers {
     private readonly IPhorcysRepository<DiveSite> diveSiteRepository;
     private readonly IRepository<User> userRepository;
     private readonly IRepository<DiveLocation> locationRepository;
+    private DiveSitesModel viewModel = new DiveSitesModel();
 
     public DiveSitesController(IRepository<DiveSite> diveSiteRepository, IRepository<User> userRepository) {
 
@@ -38,17 +39,21 @@ namespace Phorcys.UI.Web.Controllers {
       this.userRepository = userRepository;
     }
 
+ 
     [Authorize]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Index() {
       UserServices userServices = new UserServices(userRepository);
       DiveSiteServices diveSiteServices = new DiveSiteServices();
+      DiveSitesIndexModel model = new DiveSitesIndexModel();
 
       User user = userServices.FindUser(this.User.Identity.Name);
       IList<DiveSite> diveSites = diveSiteServices.GetAllForUser(user.Id);
       diveSites = diveSites.OrderBy(m => m.Title).ToList();
-      return View(diveSites);
+      model.DiveSiteList = diveSites;
+
+      return View(model);
     }
 
     [Authorize]
@@ -77,7 +82,7 @@ namespace Phorcys.UI.Web.Controllers {
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Create() {
       //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
-      DiveSitesModel viewModel = new DiveSitesModel();
+      viewModel = new DiveSitesModel();
       viewModel.DiveSite = new DiveSite();
       IList<SelectListItem> DiveLocationsListItems = BuildLocationList(null);
       viewModel.DiveLocationsListItems = DiveLocationsListItems;
@@ -90,7 +95,7 @@ namespace Phorcys.UI.Web.Controllers {
     [Authorize]
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult CreateForLocation(int locationId) {
-      DiveSitesModel viewModel = new DiveSitesModel();
+      viewModel = new DiveSitesModel();
       IList<SelectListItem> DiveLocationsListItems = BuildLocationList(locationId);
       viewModel.DiveLocationsListItems = DiveLocationsListItems;
 
@@ -121,7 +126,7 @@ namespace Phorcys.UI.Web.Controllers {
     [Transaction]
     public ActionResult Edit(int id) {
       //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
-      DiveSitesModel viewModel = new DiveSitesModel();
+      viewModel = new DiveSitesModel();
       IList<DiveLocation> DiveLocations = getDiveLocations();
       SelectListItem locationItem;
       IList<SelectListItem> DiveLocationsList = new List<SelectListItem>();

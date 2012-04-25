@@ -6,7 +6,8 @@ using NHibernate.Validator.Constraints;
 using SharpArch.Core.DomainModel;
 
 namespace Phorcys.Core {
-  public class DiveSite : Entity {
+  public class DiveSite : Entity, IDiveSite
+  {
     public DiveSite() { }
 
     //[DomainSignature]
@@ -105,23 +106,23 @@ namespace Phorcys.Core {
       return result;
     }
 
-    public virtual string Url4Map() {
-      var retVal = new StringBuilder("");
+    //public virtual string Url4Map() {
+    //  var retVal = new StringBuilder("");
 
-      if(GeoCode != null && GeoCode.Trim().Length > 0 ) {
-        retVal.Append("<a href=\"http://maps.google.com/maps?q=");
-        retVal.Append(GeoCode.Trim());
-        //arrow is centered
-        retVal.Append("&ll=");
-        retVal.Append(GeoCode.Trim());
-        //zoom level
-        retVal.Append("&z=14");
-        retVal.Append("\"");
-        retVal.Append(" target=\"_blank\" ");
-        //retVal.Append("onclick='return ! window.open(this.href);'");
-        retVal.Append(">Map</a>");
-      }
-      return retVal.ToString();
-    }
+    //  if(GeoCode != null && GeoCode.Trim().Length > 0 ) {
+    //    retVal.Append("<a href=\"http://maps.google.com/maps?q=");
+    //    retVal.Append(GeoCode.Trim());
+    //    //arrow is centered
+    //    retVal.Append("&ll=");
+    //    retVal.Append(GeoCode.Trim());
+    //    //zoom level
+    //    retVal.Append("&z=14");
+    //    retVal.Append("\"");
+    //    retVal.Append(" target=\"_blank\" ");
+    //    //retVal.Append("onclick='return ! window.open(this.href);'");
+    //    retVal.Append(">Map</a>");
+    //  }
+    //  return retVal.ToString();
+    //}
   }
 }

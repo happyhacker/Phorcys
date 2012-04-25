@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Phorcys.UI.Web.Models.DiveSitesModel">
+    <Position X="14" Y="4" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAIAAEQAAAAAgCgAAAAAAAAAAABQAACAAAE=</HashCode>
+      <FileName>Models\DiveSitesModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DiveSite" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Phorcys.UI.Web.Controllers.DiveSitesController">
+    <Position X="9.5" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAQwCAAgAAEEAEACAAEAAIUAAAA=</HashCode>
+      <FileName>Controllers\DiveSitesController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="viewModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Phorcys.Core.DiveSite">
+    <Position X="6.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="DiveLocation" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Phorcys.Data.NHibernateMaps.DivesiteMap">
+    <Position X="1.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Phorcys.Data.DiveSiteRepository&lt;T&gt;">
+    <Position X="3.25" Y="0.75" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="Phorcys.Core.DiveLocation">
+    <Position X="3.25" Y="5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Phorcys.UI.Web.Models.DiveSiteModel">
+    <Position X="6.75" Y="5.75" Width="1.75" />
+    <InheritanceLine Type="Phorcys.Core.DiveSite" ManuallyRouted="true">
+      <Path>
+        <Point X="7.5" Y="5.069" />
+        <Point X="7.5" Y="5.43" />
+        <Point X="7.625" Y="5.43" />
+        <Point X="7.625" Y="5.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Models\DiveSiteModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Phorcys.Data.IDiveSiteRepository&lt;T&gt;">
+    <Position X="3.25" Y="2.75" Width="2" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

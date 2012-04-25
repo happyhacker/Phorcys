@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Web.Mvc;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -60,9 +58,30 @@ namespace Phorcys.UI.Web.Models
             set { DiveSite.UserId = value; } 
         }
 
-        public DiveSite DiveSite { get; internal set; }
         //public IList<DiveLocation> DiveLocationsList { get; set; }
+        
         public IList<SelectListItem> DiveLocationsListItems { get; set; }
 
+        public DiveSite DiveSite { get; internal set;}
+
+
+        public virtual string Url4Map() {
+          var retVal = new StringBuilder("");
+
+          if (GeoCode != null && GeoCode.Trim().Length > 0) {
+            retVal.Append("<a href=\"http://maps.google.com/maps?q=");
+            retVal.Append(GeoCode.Trim());
+            //arrow is centered
+            retVal.Append("&ll=");
+            retVal.Append(GeoCode.Trim());
+            //zoom level
+            retVal.Append("&z=14");
+            retVal.Append("\"");
+            retVal.Append(" target=\"_blank\" ");
+            //retVal.Append("onclick='return ! window.open(this.href);'");
+            retVal.Append(">Map</a>");
+          }
+          return retVal.ToString();
+        }
     }
 }

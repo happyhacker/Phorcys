@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Overrode default to use my own db tables. Implementation required to use attributes such as [Authorize] on methods in Controller. Telerik uses for menus to determine if it should display a menu item.">
+    <Position X="1.083" Y="0.677" Height="1.698" Width="1.7" />
+  </Comment>
+  <Comment CommentText="Several Models for security are in AccountModels.cs">
+    <Position X="14.135" Y="0.781" Height="0.448" Width="1.7" />
+  </Comment>
+  <Class Name="Phorcys.UI.Web.Controllers.AccountController">
+    <Position X="6.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAIABAAAAhQgAAAAAAAAAAAABAAAEAAAAAIQAAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phorcys.UI.Web.Security.DiveLogMembershipProvider">
+    <Position X="2.75" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAAAQAEkAiOEYAECAAQAQIAAAICHAEAAIkAAQQ=</HashCode>
+      <FileName>Security\DiveLogMembershipProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phorcys.UI.Web.Models.LogOnModel">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQAAAAAgAAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phorcys.UI.Web.Models.RegisterModel">
+    <Position X="9.5" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAQAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phorcys.UI.Web.Models.AccountMembershipService" BaseTypeListCollapsed="true">
+    <Position X="9.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAgAAAAQAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Phorcys.UI.Web.Models.IMembershipService">
+    <Position X="11.5" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAgAAAAQAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

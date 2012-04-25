@@ -84,6 +84,7 @@
     <Compile Include="GasPrice.cs" />
     <Compile Include="Gear.cs" />
     <Compile Include="GearServiceEvent.cs" />
+    <Compile Include="IDiveSite.cs" />
     <Compile Include="InsurancePolicy.cs" />
     <Compile Include="Manufacturer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

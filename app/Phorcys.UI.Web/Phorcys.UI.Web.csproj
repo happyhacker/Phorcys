@@ -286,6 +286,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\DiveSiteModel.cs" />
+    <Compile Include="Models\DiveSitesIndexModel.cs" />
     <Compile Include="Models\DiveSitesModel.cs" />
     <Compile Include="Models\EnumerationChangeNameViewModel.cs" />
     <Compile Include="Models\EnumerationCreateViewModel.cs" />
@@ -662,6 +664,8 @@
     <Content Include="Scripts\2011.1.315\telerik.upload.min.js" />
     <Content Include="Scripts\2011.1.315\telerik.window.min.js" />
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
+    <None Include="DiveSitesClassModel.cd" />
+    <None Include="Security\SecurityClassModel.cd" />
     <None Include="Views\Account\LogOn.cshtml" />
     <None Include="Views\Account\Register.cshtml" />
     <None Include="Views\Account\ChangePassword.cshtml" />

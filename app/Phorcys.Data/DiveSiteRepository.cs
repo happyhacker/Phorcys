@@ -16,7 +16,6 @@ namespace Phorcys.Data {
       using (var transaction = Session.BeginTransaction()) {
         IList<T> list = criteria.GetExecutableCriteria(Session).List<T>();
         transaction.Commit();
-
         return list;
       }
     }

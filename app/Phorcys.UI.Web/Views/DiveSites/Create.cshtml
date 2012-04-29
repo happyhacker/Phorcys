@@ -18,8 +18,10 @@
 @using (Html.BeginForm("Create", "DiveSites")) {
     @Html.AntiForgeryToken()
 
+  <div class="errorOnPage">
     @Html.ValidationSummary(true, "Please correct the errors and try again.")
-
+  </div>
+    
     <label for="DiveLocation">
         Dive Location:</label>
     <div>

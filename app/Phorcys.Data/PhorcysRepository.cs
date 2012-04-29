@@ -11,13 +11,6 @@ using Phorcys.Core;
 
 namespace Phorcys.Data {
   public class PhorcysRepository<T> : Repository<T>, IRepository<T>, Phorcys.Data.IPhorcysRepository<T> {
-    public IList<T> GetSystemAndUserRecords(DetachedCriteria detachedCriteria) {
-      using (var transaction = Session.BeginTransaction()) {
-        IList<T> list = detachedCriteria.GetExecutableCriteria(Session).List<T>();
-        transaction.Commit();
-        return list;
-      }
-    }
 
     public IList<T> GetByCriteria(DetachedCriteria criteria) {
       using (var transaction = Session.BeginTransaction()) {
@@ -27,7 +20,7 @@ namespace Phorcys.Data {
       }
     }
 
-    public IList<T> GetAllForUser(int userId, int systemId) {
+    public IList<T> GetAllSystemAndUser(int userId, int systemId) {
       DetachedCriteria criteria = DetachedCriteria.For(typeof(T));
       criteria.Add(Expression.Or(Expression.Eq("User.Id", userId), Expression.Eq("User.Id", systemId)));
 
@@ -37,7 +30,6 @@ namespace Phorcys.Data {
 
         return list;
       }
-
     }
   }
 }

@@ -15,31 +15,24 @@ namespace Phorcys.UI.Web.Controllers {
   [HandleError]
   public class DiveSitesController : Controller {
     private readonly IDiveSiteServices diveSiteServices = new DiveSiteServices();
-    private readonly IPhorcysRepository<DiveSite> diveSiteRepository;
-    private readonly IRepository<User> userRepository;
-    private readonly IRepository<DiveLocation> locationRepository;
+    private readonly ILocationServices locationServices = new LocationServices();
+    private readonly UserServices userServices = new UserServices();
+    private User user;
+    private User systemUser;
     private DiveSitesModel viewModel = new DiveSitesModel();
 
     public DiveSitesController(IRepository<DiveSite> diveSiteRepository, IRepository<User> userRepository) {
-
       Check.Require(diveSiteRepository != null, "diveSiteRepository may not be null");
       Check.Require(userRepository != null, "userRepository may not be null");
-
-      //this.userRepository = SharpArch.Data.NHibernate.Repository<User>();
-      this.diveSiteRepository = new PhorcysRepository<DiveSite>();
-      this.locationRepository = new PhorcysRepository<DiveLocation>();
-      this.userRepository = userRepository;
     }
 
- 
     [Authorize]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Index() {
-      UserServices userServices = new UserServices(userRepository);
+      user = userServices.FindUser(this.User.Identity.Name);
       DiveSitesIndexModel model = new DiveSitesIndexModel();
 
-      User user = userServices.FindUser(this.User.Identity.Name);
       IList<DiveSite> diveSites = diveSiteServices.GetAllForUser(user.Id);
       diveSites = diveSites.OrderBy(m => m.Title).ToList();
       model.DiveSiteList = diveSites;
@@ -51,12 +44,11 @@ namespace Phorcys.UI.Web.Controllers {
     [Transaction]
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult IndexForLocation(int locationId) {
-      UserServices userServices = new UserServices(userRepository);
-      User user = userServices.FindUser(this.User.Identity.Name);
-      User system = userServices.FindUser("system");
+      user = userServices.FindUser(this.User.Identity.Name);
+      systemUser = userServices.FindUser("system");
       IList<DiveSite> diveSites;
 
-      diveSites = diveSiteServices.GetDiveSitesForLocation(locationId, system.Id, user.Id);
+      diveSites = diveSiteServices.GetDiveSitesForLocation(locationId, systemUser.Id, user.Id);
       DiveSitesIndexModel viewModel = new DiveSitesIndexModel();
       viewModel.DiveSiteList = diveSites;
       return View("Index", viewModel);
@@ -65,7 +57,7 @@ namespace Phorcys.UI.Web.Controllers {
     [Authorize]
     [Transaction]
     public ActionResult Show(int id) {
-      DiveSite diveSite = diveSiteRepository.Get(id);
+      DiveSite diveSite = diveSiteServices.Get(id);
       return View(diveSite);
     }
 
@@ -77,7 +69,7 @@ namespace Phorcys.UI.Web.Controllers {
       viewModel.DiveSite = new DiveSite();
       IList<SelectListItem> DiveLocationsListItems = BuildLocationList(null);
       viewModel.DiveLocationsListItems = DiveLocationsListItems;
-      //viewModel.DiveLocationsListItems = DiveLocationsListItems.OrderBy(m => m.Text).ToList(); //this works to as opposed to the following 2 lines
+      //viewModel.DiveLocationsListItems = DiveLocationsListItems.OrderBy(m => m.Text).ToList(); //this works too as opposed to the following 2 lines
       //var sortedList = from row in DiveLocationsListItems orderby row.Text select row;
       //viewModel.DiveLocationsListItems = sortedList.ToList();
       return View(viewModel);
@@ -97,15 +89,14 @@ namespace Phorcys.UI.Web.Controllers {
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Create(DiveSitesModel diveSitesModel) {
-      Core.User user;
+      user = userServices.FindUser(this.User.Identity.Name);
+
       if (ModelState.IsValid) {
-        UserServices userServices = new UserServices(this.userRepository);
-        user = userServices.FindUser(this.User.Identity.Name);
         diveSitesModel.DiveSite.User = user;
-        diveSitesModel.DiveSite.DiveLocation = locationRepository.Get(diveSitesModel.DiveSite.DiveLocationId);
+        diveSitesModel.DiveSite.DiveLocation = locationServices.Get(diveSitesModel.DiveSite.DiveLocationId);
         diveSitesModel.DiveSite.Created = DateTime.Now;
         diveSitesModel.DiveSite.LastModified = DateTime.Now;
-        diveSiteRepository.SaveOrUpdate(diveSitesModel.DiveSite);
+        diveSiteServices.Save(diveSitesModel.DiveSite);
 
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "The diveSite was successfully created.";
         return RedirectToAction("Index");
@@ -123,7 +114,7 @@ namespace Phorcys.UI.Web.Controllers {
       SelectListItem locationItem;
       IList<SelectListItem> DiveLocationsList = new List<SelectListItem>();
 
-      viewModel.DiveSite = diveSiteRepository.Get(id);
+      viewModel.DiveSite = diveSiteServices.Get(id);
       foreach (var location in DiveLocations) {
         locationItem = new SelectListItem();
         locationItem.Text = location.Title;
@@ -165,19 +156,18 @@ namespace Phorcys.UI.Web.Controllers {
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Edit(DiveSitesModel diveSitesModel) {
       diveSitesModel.DiveLocationsListItems = BuildLocationList(diveSitesModel.DiveSite.Id);
-      DiveSite diveSiteToUpdate = diveSiteRepository.Get(diveSitesModel.DiveSite.Id);
+      DiveSite diveSiteToUpdate = diveSiteServices.Get(diveSitesModel.DiveSite.Id);
       diveSitesModel.DiveSite.User = diveSiteToUpdate.User;
       TransferFormValuesTo(diveSiteToUpdate, diveSitesModel.DiveSite);
-      diveSiteToUpdate.DiveLocation = locationRepository.Get(diveSitesModel.DiveSite.DiveLocationId);
+      diveSiteToUpdate.DiveLocation = locationServices.Get(diveSitesModel.DiveSite.DiveLocationId);
 
       if (ModelState.IsValid) {
+        diveSiteServices.Save(diveSiteToUpdate);
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
            "The diveSite was successfully updated.";
         return RedirectToAction("Index");
       }
       else {
-        diveSiteRepository.DbContext.RollbackTransaction();
-
         return View(diveSitesModel);
       }
     }
@@ -196,18 +186,15 @@ namespace Phorcys.UI.Web.Controllers {
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Delete(int id) {
       string resultMessage = "The diveSite was successfully deleted.";
-      DiveSite diveSiteToDelete = diveSiteRepository.Get(id);
+      DiveSite diveSiteToDelete = diveSiteServices.Get(id);
 
       if (diveSiteToDelete != null) {
-        diveSiteRepository.Delete(diveSiteToDelete);
-
         try {
-          diveSiteRepository.DbContext.CommitChanges();
+          diveSiteServices.Delete(diveSiteToDelete);
         }
         catch {
           resultMessage = "A problem was encountered preventing the diveSite from being deleted. " +
                           "Another item likely depends on this diveSite.";
-          diveSiteRepository.DbContext.RollbackTransaction();
         }
       }
       else {
@@ -219,7 +206,9 @@ namespace Phorcys.UI.Web.Controllers {
     }
 
     private IList<DiveLocation> GetDiveLocations() {
-      IList<DiveLocation> locations = locationRepository.GetAll();
+      user = userServices.FindUser(this.User.Identity.Name);
+      systemUser = userServices.FindUser("system");
+      IList<DiveLocation> locations = locationServices.GetAllSystemAndUser(systemUser.Id, user.Id);
       return locations;
     }
 

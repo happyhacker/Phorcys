@@ -4,13 +4,19 @@ using System.Linq;
 using System.Text;
 using Phorcys.Core;
 using SharpArch.Core.PersistenceSupport;
+using SharpArch.Data.NHibernate;
 
 namespace Phorcys.Services.Services {
   public class UserServices {
+    private readonly IRepository<User> userRepository;
+
+    public UserServices() {
+      userRepository = new Repository<User>();
+    }
+
     public UserServices(IRepository<User> userRepository) {
       this.userRepository = userRepository;
     }
-    private readonly IRepository<User> userRepository;
 
     public User FindUser(string userId) {
       User user = new User();

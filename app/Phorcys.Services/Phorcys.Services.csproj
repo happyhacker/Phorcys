@@ -85,10 +85,12 @@
     </Compile>
     <Compile Include="DiveSiteServices.cs" />
     <Compile Include="IDiveSiteServices.cs" />
+    <Compile Include="ILocationServices.cs" />
+    <Compile Include="LocationServices.cs" />
     <Compile Include="Mappers\EnumerationMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\EnumerationService.cs" />
-    <Compile Include="Services\UserServices.cs" />
+    <Compile Include="EnumerationService.cs" />
+    <Compile Include="UserServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Phorcys.Core\Phorcys.Core.csproj">

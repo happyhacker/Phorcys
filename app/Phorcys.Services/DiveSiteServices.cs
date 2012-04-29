@@ -10,10 +10,28 @@ using Phorcys.Services.Services;
 using SharpArch.Data.NHibernate;
 
 namespace Phorcys.Services {
-  public class DiveSiteServices : IDiveSiteServices
-  {
+  public class DiveSiteServices : IDiveSiteServices {
     private IDiveSiteRepository<DiveSite> diveSiteRepository = new DiveSiteRepository<DiveSite>();
-    private IPhorcysRepository<DiveSite> phorcysRepository = new PhorcysRepository<DiveSite>(); 
+    private IPhorcysRepository<DiveSite> phorcysRepository = new PhorcysRepository<DiveSite>();
+
+    public void Delete(DiveSite diveSiteToDelete) {
+      diveSiteRepository.Delete(diveSiteToDelete);
+
+      try {
+        diveSiteRepository.DbContext.CommitChanges();
+      }
+      catch {
+        throw new Exception("A problem was encountered preventing the diveSite from being deleted. " +
+                            "Another item likely depends on this diveSite.");
+        diveSiteRepository.DbContext.RollbackTransaction();
+      }
+
+    }
+
+    public DiveSite Get(int id) {
+      DiveSite diveSite = diveSiteRepository.Get(id);
+      return diveSite;
+    }
 
     public IList<DiveSite> GetDiveSitesForLocation(int locationId, int systemId, int userId) {
       IList<DiveSite> diveSites;
@@ -33,6 +51,11 @@ namespace Phorcys.Services {
       IList<DiveSite> diveSites = diveSiteRepository.GetAllForUser(userId, systemUser.Id);
 
       return diveSites;
+    }
+
+    public void Save(DiveSite diveSite) {
+      DiveSite savedDiveSite = diveSiteRepository.SaveOrUpdate(diveSite);
+      diveSiteRepository.DbContext.CommitChanges();
     }
   }
 }

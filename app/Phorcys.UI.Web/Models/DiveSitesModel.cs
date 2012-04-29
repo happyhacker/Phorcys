@@ -45,7 +45,7 @@ namespace Phorcys.UI.Web.Models
         }
 
         
-        [Range(1f,36198f)]
+        [Range(0f,36198f)]
         [DisplayName("Max Depth")]
         public float MaxDepth
         {

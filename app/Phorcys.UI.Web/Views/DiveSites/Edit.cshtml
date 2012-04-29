@@ -29,7 +29,7 @@
         <div>
             <!--disccussion - why doesn't the helper select the correct item?-->
 
-            <select id="DiveSite_DiveLocationId" name="DiveSite.DiveLocationId" >
+            <select id="DiveSite_DiveLocationId" name="DiveSite.DiveLocationId" tabindex="1">
                 @foreach(SelectListItem item in Model.DiveLocationsListItems) {
                     <option value="@item.Value" @(item.Selected ? "selected" : "")> @item.Text </option>
                 }
@@ -40,7 +40,7 @@
         <label for="DiveSite_Title">
             Title:</label>
         <div>
-            <input id="DiveSite_Title" name="DiveSite.Title" type="text" value="@Model.Title" size="50" maxlength="40" />
+            <input id="DiveSite_Title"  name="DiveSite.Title" type="text" value="@Model.Title" size="50" maxlength="40" />
         </div>
         @Html.ValidationMessageFor(m => m.Title)
         <br />

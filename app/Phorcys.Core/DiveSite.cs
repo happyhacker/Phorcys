@@ -96,33 +96,14 @@ namespace Phorcys.Core {
     public override int GetHashCode() {
       int result = 1;
 
-      result = (result * 397) ^ (Created != null ? Created.GetHashCode() : 0);
-      result = (result * 397) ^ (Id != null ? Id.GetHashCode() : 0);
+      result = (result * 397) ^ (Created.GetHashCode());
+      result = (result * 397) ^ (Id.GetHashCode());
       result = (result * 397) ^ (GeoCode != null ? GeoCode.GetHashCode() : 0);
-      result = (result * 397) ^ (IsFreshWater != null ? IsFreshWater.GetHashCode() : 0);
-      result = (result * 397) ^ (LastModified != null ? LastModified.GetHashCode() : 0);
+      result = (result * 397) ^ (IsFreshWater.GetHashCode());
+      result = (result * 397) ^ (LastModified.GetHashCode());
       result = (result * 397) ^ (Notes != null ? Notes.GetHashCode() : 0);
       result = (result * 397) ^ (Title != null ? Title.GetHashCode() : 0);
       return result;
     }
-
-    //public virtual string Url4Map() {
-    //  var retVal = new StringBuilder("");
-
-    //  if(GeoCode != null && GeoCode.Trim().Length > 0 ) {
-    //    retVal.Append("<a href=\"http://maps.google.com/maps?q=");
-    //    retVal.Append(GeoCode.Trim());
-    //    //arrow is centered
-    //    retVal.Append("&ll=");
-    //    retVal.Append(GeoCode.Trim());
-    //    //zoom level
-    //    retVal.Append("&z=14");
-    //    retVal.Append("\"");
-    //    retVal.Append(" target=\"_blank\" ");
-    //    //retVal.Append("onclick='return ! window.open(this.href);'");
-    //    retVal.Append(">Map</a>");
-    //  }
-    //  return retVal.ToString();
-    //}
   }
 }

@@ -2,27 +2,19 @@ using System.Web.Mvc;
 using Phorcys.Core;
 using Phorcys.Services;
 using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core.DomainModel;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
-using NHibernate.Validator.Engine;
-using System.Text;
-using SharpArch.Web.CommonValidator;
 using SharpArch.Core;
-using SharpArch.Data;
-using Phorcys.Web.Controllers;
 using Phorcys.Services.Services;
 using Phorcys.Data;
-using NHibernate.Criterion;
 using Phorcys.UI.Web.Models;
 
 namespace Phorcys.UI.Web.Controllers {
   [HandleError]
   public class DiveSitesController : Controller {
+    private readonly IDiveSiteServices diveSiteServices = new DiveSiteServices();
     private readonly IPhorcysRepository<DiveSite> diveSiteRepository;
     private readonly IRepository<User> userRepository;
     private readonly IRepository<DiveLocation> locationRepository;
@@ -45,7 +37,6 @@ namespace Phorcys.UI.Web.Controllers {
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Index() {
       UserServices userServices = new UserServices(userRepository);
-      DiveSiteServices diveSiteServices = new DiveSiteServices();
       DiveSitesIndexModel model = new DiveSitesIndexModel();
 
       User user = userServices.FindUser(this.User.Identity.Name);
@@ -63,12 +54,12 @@ namespace Phorcys.UI.Web.Controllers {
       UserServices userServices = new UserServices(userRepository);
       User user = userServices.FindUser(this.User.Identity.Name);
       User system = userServices.FindUser("system");
-      DetachedCriteria query = DetachedCriteria.For(typeof(DiveSite));
+      IList<DiveSite> diveSites;
 
-      query.Add(Expression.Or(Expression.Eq("User.Id", user.Id), Expression.Eq("User.Id", system.Id)));
-      query.Add(Expression.Eq("DiveLocation.Id", locationId));
-      IList<DiveSite> diveSites = this.diveSiteRepository.GetSystemAndUserRecords(query); //.GetAll();
-      return View("Index", diveSites);
+      diveSites = diveSiteServices.GetDiveSitesForLocation(locationId, system.Id, user.Id);
+      DiveSitesIndexModel viewModel = new DiveSitesIndexModel();
+      viewModel.DiveSiteList = diveSites;
+      return View("Index", viewModel);
     }
 
     [Authorize]

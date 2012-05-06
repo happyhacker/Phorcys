@@ -1,49 +1,53 @@
 using System.Web.Mvc;
 using Phorcys.Core;
+using Phorcys.Services;
 using Phorcys.Services.Services;
 using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
 using System;
-using SharpArch.Web.NHibernate;
-using NHibernate.Validator.Engine;
-using System.Text;
-using SharpArch.Web.CommonValidator;
+//using SharpArch.Web.NHibernate;
 using SharpArch.Core;
 
 namespace Phorcys.UI.Web.Controllers {
   [HandleError]
   public class DiveLocationsController : Controller {
     private readonly IRepository<User> userRepository;
+    private readonly ILocationServices locationServices = new LocationServices();
+    private readonly UserServices userServices = new UserServices();
+    private User systemUser;
+    private User user;
+
     public DiveLocationsController(IRepository<DiveLocation> diveLocationRepository, IRepository<User> userRepository) {
       Check.Require(diveLocationRepository != null, "diveLocationRepository may not be null");
       Check.Require(userRepository != null, "userRepository may not be null");
 
-      this.diveLocationRepository = diveLocationRepository;
+      //this.diveLocationRepository = diveLocationRepository;
       this.userRepository = userRepository;
 
     }
 
     [Authorize]
-    [Transaction]
     public ActionResult Index() {
-      IList<DiveLocation> diveLocations = diveLocationRepository.GetAll();
+      systemUser = userServices.FindUser("system");
+      user = userServices.FindUser(this.User.Identity.Name);
+
+      IList<DiveLocation> diveLocations = locationServices.GetAllSystemAndUser(systemUser.Id, user.Id); //diveLocationRepository.GetAll();
       return View(diveLocations);
     }
 
-    [Transaction]
+    [Authorize]
     public ActionResult Show(int id) {
-      DiveLocation diveLocation = diveLocationRepository.Get(id);
+      DiveLocation diveLocation = locationServices.Get(id);
       return View(diveLocation);
     }
 
+    [Authorize]
     public ActionResult Create() {
       DiveLocationFormViewModel viewModel = DiveLocationFormViewModel.CreateDiveLocationFormViewModel();
       return View(viewModel);
     }
 
     //[ValidateAntiForgeryToken]
-    [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Create(DiveLocation diveLocation) {
       User user;
@@ -54,8 +58,8 @@ namespace Phorcys.UI.Web.Controllers {
         user = userServices.FindUser(this.User.Identity.Name);
         diveLocation.User = user;
         diveLocation.UserId = user.Id;
-
-        diveLocationRepository.SaveOrUpdate(diveLocation);
+        locationServices.Create(diveLocation);
+        //diveLocationRepository.SaveOrUpdate(diveLocation);
 
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
   "The diveLocation was successfully created.";
@@ -67,28 +71,26 @@ namespace Phorcys.UI.Web.Controllers {
       return View(viewModel);
     }
 
-    [Transaction]
+    [Authorize]
     public ActionResult Edit(int id) {
       DiveLocationFormViewModel viewModel = DiveLocationFormViewModel.CreateDiveLocationFormViewModel();
-      viewModel.DiveLocation = diveLocationRepository.Get(id);
+      viewModel.DiveLocation = locationServices.Get(id);
       return View(viewModel);
     }
 
     //[ValidateAntiForgeryToken]
-    [Transaction]
+    [Authorize]
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Edit(DiveLocation diveLocation) {
-      DiveLocation diveLocationToUpdate = diveLocationRepository.Get(diveLocation.Id);
+      DiveLocation diveLocationToUpdate = locationServices.Get(diveLocation.Id);
       TransferFormValuesTo(diveLocationToUpdate, diveLocation);
 
       if (ViewData.ModelState.IsValid) {
-        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
-  "The diveLocation was successfully updated.";
+        locationServices.Save(diveLocation);
+        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "The diveLocation was successfully updated.";
         return RedirectToAction("Index");
       }
       else {
-        diveLocationRepository.DbContext.RollbackTransaction();
-
         DiveLocationFormViewModel viewModel = DiveLocationFormViewModel.CreateDiveLocationFormViewModel();
         viewModel.DiveLocation = diveLocation;
         return View(viewModel);
@@ -105,22 +107,18 @@ namespace Phorcys.UI.Web.Controllers {
     }
 
     //[ValidateAntiForgeryToken]
-    [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Delete(int id) {
       string resultMessage = "The diveLocation was successfully deleted.";
-      DiveLocation diveLocationToDelete = diveLocationRepository.Get(id);
+      DiveLocation diveLocationToDelete = locationServices.Get(id);
 
       if (diveLocationToDelete != null) {
-        diveLocationRepository.Delete(diveLocationToDelete);
-
         try {
-          diveLocationRepository.DbContext.CommitChanges();
+          locationServices.Delete(diveLocationToDelete);
         }
         catch {
           resultMessage = "A problem was encountered preventing the diveLocation from being deleted. " +
-  "Another item likely depends on this diveLocation.";
-          diveLocationRepository.DbContext.RollbackTransaction();
+                          "Another item likely depends on this diveLocation.";
         }
       }
       else {
@@ -131,9 +129,7 @@ namespace Phorcys.UI.Web.Controllers {
       return RedirectToAction("Index");
     }
 
-    /// <summary>
-    /// Holds data to be passed to the DiveLocation form for creates and edits
-    /// </summary>
+    /// <summary>Holds data to be passed to the DiveLocation form for creates and edits</summary>
     public class DiveLocationFormViewModel {
       private DiveLocationFormViewModel() { }
 
@@ -150,6 +146,5 @@ namespace Phorcys.UI.Web.Controllers {
       public DiveLocation DiveLocation { get; internal set; }
     }
 
-    private readonly IRepository<DiveLocation> diveLocationRepository;
   }
 }

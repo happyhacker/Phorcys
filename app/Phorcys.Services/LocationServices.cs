@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Phorcys.Core;
 using Phorcys.Data;
@@ -9,6 +10,32 @@ namespace Phorcys.Services {
   public class LocationServices : ILocationServices {
     public IPhorcysRepository<DiveLocation> Repository = new PhorcysRepository<DiveLocation>();
 
+    public DiveLocation Create(DiveLocation location) {
+      DiveLocation retVal = new DiveLocation();
+
+      try {
+        Repository.SaveOrUpdate(location);
+        Repository.DbContext.CommitChanges();
+      }
+      catch (Exception e) {
+      
+      }
+      return retVal;
+    }
+
+    public DiveLocation Delete(DiveLocation location) {
+      DiveLocation retVal = new DiveLocation();
+
+      try {
+        Repository.Delete(location);
+        Repository.DbContext.CommitChanges();
+      }
+      catch (Exception e) {
+
+      }
+      return retVal;
+    }
+
     public DiveLocation Get(int id) {
       return Repository.Get(id);
     }
@@ -16,6 +43,18 @@ namespace Phorcys.Services {
     public IList<DiveLocation> GetAllSystemAndUser(int systemId, int userId) {
       IList<DiveLocation> locations = Repository.GetAllSystemAndUser(systemId, userId);
       return locations;
+    }
+
+    public DiveLocation Save(DiveLocation location) {
+      DiveLocation retVal = new DiveLocation();
+      try {
+        retVal = Repository.SaveOrUpdate(location);
+        Repository.DbContext.CommitChanges();
+      }
+      catch (Exception e) {
+        //add logging
+      }
+      return retVal;
     }
   }
 }

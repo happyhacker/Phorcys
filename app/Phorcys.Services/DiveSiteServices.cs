@@ -21,9 +21,10 @@ namespace Phorcys.Services {
         diveSiteRepository.DbContext.CommitChanges();
       }
       catch {
+        diveSiteRepository.DbContext.RollbackTransaction();       
         throw new Exception("A problem was encountered preventing the diveSite from being deleted. " +
                             "Another item likely depends on this diveSite.");
-        diveSiteRepository.DbContext.RollbackTransaction();
+
       }
 
     }

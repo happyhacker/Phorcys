@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Phorcys.Core;
 using Phorcys.Data;
+using log4net;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Data.NHibernate;
 
 namespace Phorcys.Services {
   public class LocationServices : ILocationServices {
     public IPhorcysRepository<DiveLocation> Repository = new PhorcysRepository<DiveLocation>();
+    protected static readonly ILog log = LogManager.GetLogger(typeof(LocationServices));
 
     public DiveLocation Create(DiveLocation location) {
       DiveLocation retVal = new DiveLocation();
@@ -30,8 +32,10 @@ namespace Phorcys.Services {
         Repository.Delete(location);
         Repository.DbContext.CommitChanges();
       }
-      catch (Exception e) {
-
+      catch (Exception e)
+      {
+        log.Error("Could not delete " + location.Title, e);
+        throw e;
       }
       return retVal;
     }

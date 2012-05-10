@@ -119,12 +119,12 @@ namespace Phorcys.Core {
     public override int GetHashCode() {
       int result = 1;
 
-      result = (result * 397) ^ (Created != null ? Created.GetHashCode() : 0);
-      result = (result * 397) ^ (LastModified != null ? LastModified.GetHashCode() : 0);
-      result = (result * 397) ^ (LoginCount != null ? LoginCount.GetHashCode() : 0);
+      result = (result * 397) ^ Created.GetHashCode();
+      result = (result * 397) ^ LastModified.GetHashCode();
+      result = (result*397) ^ LoginCount.GetHashCode();
       result = (result * 397) ^ (LoginId != null ? LoginId.GetHashCode() : 0);
       result = (result * 397) ^ (Password != null ? Password.GetHashCode() : 0);
-      result = (result * 397) ^ (Id != null ? Id.GetHashCode() : 0);
+      result = (result * 397) ^ Id.GetHashCode();
       return result;
     }
 

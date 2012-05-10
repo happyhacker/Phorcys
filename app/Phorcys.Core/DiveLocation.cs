@@ -67,9 +67,9 @@ namespace Phorcys.Core {
     public override int GetHashCode() {
       int result = 1;
 
-      result = (result * 397) ^ (Created != null ? Created.GetHashCode() : 0);
-      result = (result * 397) ^ (Id != null ? Id.GetHashCode() : 0);
-      result = (result * 397) ^ (LastModified != null ? LastModified.GetHashCode() : 0);
+      result = (result * 397) ^ Created.GetHashCode();
+      result = (result * 397) ^ Id.GetHashCode();
+      result = (result * 397) ^ LastModified.GetHashCode();
       result = (result * 397) ^ (Notes != null ? Notes.GetHashCode() : 0);
       result = (result * 397) ^ (Title != null ? Title.GetHashCode() : 0);
       return result;

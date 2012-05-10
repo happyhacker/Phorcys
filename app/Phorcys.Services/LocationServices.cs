@@ -20,7 +20,7 @@ namespace Phorcys.Services {
         Repository.DbContext.CommitChanges();
       }
       catch (Exception e) {
-      
+        log.Error("Unable to save Dive Location " + location.Title, e);
       }
       return retVal;
     }
@@ -56,7 +56,7 @@ namespace Phorcys.Services {
         Repository.DbContext.CommitChanges();
       }
       catch (Exception e) {
-        //add logging
+        log.Error("Unable to save Dive Location " + location.Title, e);
       }
       return retVal;
     }

@@ -16,7 +16,6 @@ namespace Phorcys.UI.Web.Security {
     private Phorcys.Core.User user = new Phorcys.Core.User();
     private IRepository<User> userRepository = new Repository<User>();
     private readonly SqlMembershipProvider sqlMembershipProvider = new SqlMembershipProvider();
-    private log4net.Core.LogException logger = new log4net.Core.LogException();
     private ILog log = LogManager.GetLogger(typeof(DiveLogMembershipProvider));
 
     public DiveLogMembershipProvider()
@@ -86,7 +85,7 @@ namespace Phorcys.UI.Web.Security {
         }
         catch (Exception ex)
         {
-            log.Warn("error accessing User table: ", ex);
+            log.Error("error accessing User table: ", ex);
         }
 
         return retVal;
@@ -117,6 +116,9 @@ namespace Phorcys.UI.Web.Security {
               //user = userRepository.FindOne(dictionary);
               userRepository.DbContext.CommitChanges();
               retVal = true;
+          } else
+          {
+            log.Warn("Invalid id or password: " + username + "|" + password);
           }
       }
       catch (Exception ex) {

@@ -61,6 +61,9 @@ namespace Phorcys.Core {
       if (Equals(Notes, obj.Notes) == false)
         return false;
 
+      if (Equals(User, obj.User) == false)
+        return false;
+
       return true;
     }
 
@@ -72,6 +75,7 @@ namespace Phorcys.Core {
       result = (result * 397) ^ LastModified.GetHashCode();
       result = (result * 397) ^ (Notes != null ? Notes.GetHashCode() : 0);
       result = (result * 397) ^ (Title != null ? Title.GetHashCode() : 0);
+      result = (result*397) ^ (User != null ? User.GetHashCode() : 0);
       return result;
     }
   }

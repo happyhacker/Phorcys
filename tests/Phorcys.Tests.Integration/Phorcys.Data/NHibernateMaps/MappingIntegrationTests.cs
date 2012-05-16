@@ -26,7 +26,7 @@ namespace Phorcys.Tests.Integration.Phorcys.Data.NHibernateMaps
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
             configuration = NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies,
                                    new AutoPersistenceModelGenerator().Generate(),
-                                   "../../../../app/Phorcys.Web/NHibernate.config");
+                                   "../../../../app/Phorcys.UI.Web/NHibernate.config");
         }
 
         [TearDown]

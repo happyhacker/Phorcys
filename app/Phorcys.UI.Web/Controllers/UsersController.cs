@@ -82,7 +82,6 @@ namespace Phorcys.Web.Controllers {
   
       if (ViewData.ModelState.IsValid && user.IsValid())
       {
-        //todo: confirm user doesn't already exist
         if (RetreiveUser(user) == null)
         {
           userRepository.SaveOrUpdate(user);

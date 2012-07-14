@@ -291,6 +291,7 @@
     <Compile Include="Models\DiveSitesModel.cs" />
     <Compile Include="Models\EnumerationChangeNameViewModel.cs" />
     <Compile Include="Models\EnumerationCreateViewModel.cs" />
+    <Compile Include="Models\GearModel.cs" />
     <Compile Include="Models\IndexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\DiveLogMembershipProvider.cs" />
@@ -663,6 +664,9 @@
     <Content Include="Scripts\2011.1.315\telerik.treeview.min.js" />
     <Content Include="Scripts\2011.1.315\telerik.upload.min.js" />
     <Content Include="Scripts\2011.1.315\telerik.window.min.js" />
+    <Content Include="Scripts\jquery-1.7.2.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.21.custom.css" />
+    <Content Include="Scripts\jquery-ui-1.8.21.custom.min.js" />
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <None Include="DiveSitesClassModel.cd" />
     <None Include="Security\SecurityClassModel.cd" />
@@ -687,6 +691,7 @@
     <Content Include="Views\DiveTypes\Show.aspx" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Gear\Index.cshtml" />
+    <Content Include="Views\Gear\Create.cshtml" />
     <None Include="Views\Shared\LogOnUserControl.cshtml" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />

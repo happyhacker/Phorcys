@@ -4,16 +4,23 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Phorcys.Data;
+using Phorcys.Services.Services;
+using Phorcys.UI.Web.Models;
 using SharpArch.Core;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Web.NHibernate;
 using Phorcys.Core;
+using log4net;
 
 namespace Phorcys.UI.Web.Controllers {
   public class GearController : Controller {
+    protected static readonly ILog log = LogManager.GetLogger(typeof(GearController));
+    private readonly UserServices userServices = new UserServices();
+    private User user;
+
     private readonly IRepository<Gear> gearRepository;
 
-    public GearController(IRepository<Gear> gearRepository) {
+    public GearController(IRepository<Gear> gearRepository, IRepository<User> userRepository ) {
       Check.Require(gearRepository != null, "gearRepository may not be null");
       this.gearRepository = new PhorcysRepository<Gear>();
     }
@@ -45,13 +52,25 @@ namespace Phorcys.UI.Web.Controllers {
     // POST: /Gear/Create
 
     [HttpPost]
-    public ActionResult Create(FormCollection collection) {
+    public ActionResult Create(GearModel model) {  //FormCollection collection) {
       try {
-        // TODO: Add insert logic here
+        this.user = userServices.FindUser(this.User.Identity.Name);
+
+        Gear gear = new Gear();
+        gear.Title = model.Title;
+        gear.Sn = model.Sn;
+        gear.Acquired = model.Acquired;
+        gear.RetailPrice = model.RetailPrice;
+        gear.Paid = model.Paid;
+        gear.Notes = model.Notes;
+        gear.Weight = model.Weight;
+        gear.User = this.user;
+        gearRepository.SaveOrUpdate(gear);
 
         return RedirectToAction("Index");
       }
-      catch {
+      catch(Exception ex) {
+        log.Error(ex.Message);
         return View();
       }
     }

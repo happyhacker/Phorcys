@@ -7,7 +7,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
   <title> @ViewBag.Title </title>
-
   <link href="/Phorcys/Content/Site.css" rel="stylesheet" type="text/css" />
 
   @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => 
@@ -15,78 +14,79 @@
        .Add("telerik.web20.css")))
    
 </head>
-<body>
-  <div class="page">
-    <div id="menuContainer">
-      @(Html.Telerik().Menu()
-          .Name("Menu")
-          .Items(items => {
-                     items.Add().Text("Home").Action("Index", "Home");
-                     items.Add().Text("Contacts")
-                       .Items(item => {
-                          item.Add().Text("Divers");
-                          item.Add().Text("Dive Shops");
-                          item.Add().Text("Manufacturers");
-                          item.Add().Text("Instructors");
-                          item.Add().Text("Agencies");
-                       });
-                     items.Add().Text("My Profile");
-                     items.Add().Text("Gear").Action("Index","Gear")
-                       .Items(item => {
-                         item.Add().Text("In Use");
-                         item.Add().Text("Out of Use");
-                         item.Add().Text("Sold");
-                         item.Add().Text("Insurance");
-                       });
-                     items.Add().Text("Locations/Sites")
-                       .Items(item => {
-                           item.Add().Text("Dive Locations").Action("Index", "DiveLocations");
-                           item.Add().Text("Dive Sites").Action("Index", "DiveSites");
-                       });  
-                     items.Add().Text("Dive Planning")
-                       .Items(item => {
-                         item.Add().Text("Pre-Dive");
-                         item.Add().Text("Post-Dive");
-                       });
-                     items.Add().Text("Calculators")
-                      .Items(item => {
-                         item.Add().Text("Rule of Thirds");
-                         item.Add().Text("MOD");
-                         item.Add().Text("END");
-                     });
-                     items.Add().Text("About").Action("About", "Home");
+  <body>
+    
+    <div class="page">
+      <div id="menuContainer">
+        @(Html.Telerik().Menu()
+         .Name("Menu")
+         .Items(items => {
+                           items.Add().Text("Home").Action("Index", "Home");
+                           items.Add().Text("Contacts")
+                             .Items(item => {
+                                              item.Add().Text("Divers");
+                                              item.Add().Text("Dive Shops");
+                                              item.Add().Text("Manufacturers");
+                                              item.Add().Text("Instructors");
+                                              item.Add().Text("Agencies");
+                             });
+                           items.Add().Text("My Profile");
+                           items.Add().Text("Gear").Action("Index","Gear")
+                             .Items(item => {
+                                              item.Add().Text("In Use");
+                                              item.Add().Text("Out of Use");
+                                              item.Add().Text("Sold");
+                                              item.Add().Text("Insurance");
+                             });
+                           items.Add().Text("Locations/Sites")
+                             .Items(item => {
+                                              item.Add().Text("Dive Locations").Action("Index", "DiveLocations");
+                                              item.Add().Text("Dive Sites").Action("Index", "DiveSites");
+                             });  
+                           items.Add().Text("Dive Planning")
+                             .Items(item => {
+                                              item.Add().Text("Pre-Dive");
+                                              item.Add().Text("Post-Dive");
+                             });
+                           items.Add().Text("Calculators")
+                             .Items(item => {
+                                              item.Add().Text("Rule of Thirds");
+                                              item.Add().Text("MOD");
+                                              item.Add().Text("END");
+                             });
+                           items.Add().Text("About").Action("About", "Home");
 
-                   })
-      )
-    </div>
-    <div id="mainContentOfPage">
-      <div class="columnsContainer">
+         })
+            )
+      </div>
+      <div id="mainContentOfPage">
+        <div class="columnsContainer">
 
-        <!--/leftColumn-->
-        <div class="rightColumn">
-          <div id="logindisplay" align="right">
-            @{ Html.RenderPartial("LogOnUserControl"); } 
+          <!--/leftColumn-->
+          <div class="rightColumn">
+            <div id="logindisplay" align="right">
+              @{ Html.RenderPartial("LogOnUserControl"); } 
+            </div>
+          </div>
+          <!--/rightColumn-->
+          <div class="clear">
+
           </div>
         </div>
-        <!--/rightColumn-->
-        <div class="clear">
-
+        <div id="main">
+          @RenderBody()
+          <div id="footer">
+          </div>
         </div>
       </div>
-      <div id="main">
-        @RenderBody()
-        <div id="footer">
-        </div>
-      </div>
+      <table width="100%" >
+        <tr>
+          <td align="left"> <img src="@(Href("~/Content/Images/larry_peacock2009.jpg"))" alt="Larry Hack, Peacock Springs" /></td>
+          <td align="left"> <img src="@(Href("~/Content/images/JugHoleLarry.jpg"))" alt="Larry Hack, Jug Hole" /></td>
+          <td align="right"><img src="@(Href("~/Content/images/LarryJB2009.jpg"))" alt="Larry Hack, Jackson Blue" /></td>
+        </tr>
+      </table>
+      @Html.Telerik().ScriptRegistrar()
     </div>
-    <table width="100%" >
-      <tr>
-        <td align="left"> <img src="@(Href("~/Content/Images/larry_peacock2009.jpg"))" alt="Larry Hack, Peacock Springs" /></td>
-        <td align="left"> <img src="@(Href("~/Content/images/JugHoleLarry.jpg"))" alt="Larry Hack, Jug Hole" /></td>
-        <td align="right"><img src="@(Href("~/Content/images/LarryJB2009.jpg"))" alt="Larry Hack, Jackson Blue" /></td>
-      </tr>
-    </table>
-  @Html.Telerik().ScriptRegistrar()
-</div>
-</body>
+  </body>
 </html>

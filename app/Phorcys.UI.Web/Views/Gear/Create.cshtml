@@ -1,15 +1,12 @@
 ﻿@using Microsoft.Web.Mvc
 @using Phorcys.UI.Web.Controllers
 @model Phorcys.UI.Web.Models.GearModel
-  
-
- 
 @{
   ViewBag.Title = "Add Dive Gear";
   Layout = "~/Views/Shared/SiteMaster.cshtml";
   
   
-  <link href="/Phorcys/Scripts/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css"/>
+  <link href="/Phorcys/Scripts/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css" />
   <script src="/Phorcys/Scripts/jquery-1.7.2.min.js" type="text/javascript"></script>
   <script src="/Phorcys/Scripts/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>  
   
@@ -23,15 +20,12 @@
 }
 <div id="datepicker">
 </div>
-
-
 @Html.ValidationSummary()
 @using (Html.BeginForm()) {
   Html.AntiForgeryToken();
 
   
-   <fieldset>
-
+  <fieldset>
     <div>
       <p>
         <label for="Gear_Title">
@@ -52,14 +46,14 @@
     <div>
       <p>
         <label for="Gear_Acquired">
-          Date Acquired:</label><br/>
+          Date Acquired:</label><br />
         @Html.TextBoxFor(m => m.Acquired)
       </p>
     </div>
     <div>
       <p>
         <label for="Gear_RetailPrice">
-          Retail Price:</label><br/>
+          Retail Price:</label><br />
         @Html.TextBoxFor(m => m.RetailPrice)
         @Html.ValidationMessageFor(m => m.RetailPrice)
       </p>
@@ -67,9 +61,16 @@
     <div>
       <p>
         <label for="Gear_Paid">
-          Paid:</label><br/>
+          Paid:</label><br />
         @Html.TextBoxFor(m => m.Paid)
         @Html.ValidationMessageFor(m => m.Paid)
+      </p>
+    </div>
+    <div>
+      <p>
+        <label for="Gear_Weight" ></label><br/>
+        @Html.TextBoxFor(m => m.Weight)
+        @Html.ValidationMessageFor(m => m.Weight)
       </p>
     </div>
     <div>

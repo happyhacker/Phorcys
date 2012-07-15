@@ -17,6 +17,7 @@ textarea
 {
     font-family: Verdana, Helvetica, Sans-Serif;
     font-size: 1.0em;
+    background-color: darkgray;
 }
 
 select
@@ -29,6 +30,7 @@ input
 {
     font-family: Verdana, Helvetica, Sans-Serif;
     font-size: 1.0em;
+  background-color: darkgray;
 }
 
 button
@@ -73,6 +75,7 @@ h1, h2, h3, h4, h5, h6
 
 h1
 {
+    text-align: center;
     font-size: 2em;
     padding-bottom: 0;
     margin-bottom: 0;
@@ -164,6 +167,10 @@ p#logo, h1#logo
 .columnsContainer
 {
     position: relative;
+}
+
+.editor-label {
+  color: antiquewhite;
 }
 
 .leftColumn

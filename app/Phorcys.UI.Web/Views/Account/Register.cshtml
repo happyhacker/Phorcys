@@ -26,37 +26,37 @@
     @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
         
         <div>
-            <fieldset>
+            <fieldset class="editor-label">
                 <legend>Account Information</legend>
                 
-                <div class="editor-label">
-                    <label for="UserName">User Name</label>
+                <div>
+                    <label for="UserName">User Name*</label>
                 </div>
-                <div class="editor-field">
+                <div>
                     @Html.TextBox("UserName")
                     @Html.ValidationMessage("UserName")
                 </div>
                 <br />
-                <div class="editor-label">
+                <div>
                     <label for="User_Email">Email</label>
                 </div>
-                <div class="editor-field">
+                <div>
                     @Html.TextBox("Email")
                     @Html.ValidationMessage("Email")
                 </div>
                 <br />
-                <div class="editor-label">
-                   <label for="Password">Password</label>
+                <div>
+                   <label for="Password">Password*</label>
                 </div>
-                <div class="editor-field">
+                <div>
                     @Html.Password("Password")
                     @Html.ValidationMessage("Password")
                 </div>
                 <br />
-                <div class="editor-label">
-                    <label for="ConfirmPassword")>Confirm Password</label>
+                <div>
+                    <label for="ConfirmPassword")>Confirm Password*</label>
                 </div>
-                <div class="editor-field">
+                <div>
                     @Html.Password("ConfirmPassword")
                     @Html.ValidationMessage("ConfirmPassword")
                 </div>

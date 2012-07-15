@@ -11,15 +11,14 @@
 }
 <script type="text/javascript" language="javascript">
     function SubmitForm(id) {
-        frmSite.SiteId.value = id;
+        frmGear.GearId.value = id;
         if (confirm("Are you sure?")) {
-            frmSite.submit();
+            frmGear.submit();
         }
     }
 </script>
 
-<h1>
-    Gear</h1>
+<h1>Gear</h1>
     
     
 <div id="error" class="errorOnPage">
@@ -35,7 +34,7 @@
     @(Html.ActionLink<GearController>(c => c.Create(), "Add a piece of gear"))
  </p> 
  
- <form action="/Phorcys/Gear/Delete/" name="frmSite" method="post">
+ <form action="/Phorcys/Gear/Delete/" name="frmGear" method="post">
   <input type="hidden" id="GearId" name="Id" />
 </form>
 
@@ -49,18 +48,21 @@
                columns.Bound(o => o.Title).Title("Gear").Sortable(true).HtmlAttributes(new {@class = "grid"});
                columns.Bound(o => o.Acquired).Format("{0:MM/dd/yy}");
                columns.Bound(o => o.NoLongerUse).Title("Retired").Format("{0:MM/dd/yy}");
+               //columns.Template(o => o.SoldGear.SoldOn).Title("Sold").Format("{0:MM/dd/yy}"); doesn't work if SoldGear is null. Would have to use template, but then can't sort/filter
                columns.Bound(o => o.Sn).Title("SN");
                //columns.Bound(o => o.Notes).Sortable(false).Width(500);
                columns.Bound(o => o.RetailPrice).Format("{0:$###,###0.00}");
                columns.Bound(o => o.Paid).Format("{0:$###,###0.00}");
                columns.Bound(o => o.Weight);
+               columns.Bound(o => o.Created).Format("{0:MM/dd/yy}");
                columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
-               columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.IndexForLocation(o.Id), "Display")).Width(5).HtmlAttributes(new {@class = "grid"});
-               columns.Template(o => Html.ActionLink<DiveLocationsController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
+               columns.Template(o => Html.ActionLink<GearController>(c => c.Details(o.Id), "Display")).Width(5).HtmlAttributes(new {@class = "grid"});
+               columns.Template(o => Html.ActionLink<GearController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
                columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" }).Width(25);
              })
   .Pageable()
   .Sortable()
+  .Filterable()
   .Resizable(m => m.Columns(true))
   .Render();
   }

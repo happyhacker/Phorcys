@@ -25,11 +25,11 @@
   Html.AntiForgeryToken();
 
   
-  <fieldset>
+  <fieldset class="editor-label">
     <div>
       <p>
         <label for="Gear_Title">
-          Title:</label>
+          Title*</label>
         <br />
         @Html.TextBoxFor(m => m.Title)
         @Html.ValidationMessageFor(m => m.Title)
@@ -38,7 +38,7 @@
     <div>
       <p>
         <label for="Gear_SN">
-          Serial #:</label>
+          Serial #</label>
         <br />
         @Html.TextBoxFor(m => m.Sn)
       </p>
@@ -46,14 +46,14 @@
     <div>
       <p>
         <label for="Gear_Acquired">
-          Date Acquired:</label><br />
+          Date Acquired</label><br />
         @Html.TextBoxFor(m => m.Acquired)
       </p>
     </div>
     <div>
       <p>
         <label for="Gear_RetailPrice">
-          Retail Price:</label><br />
+          Retail Price</label><br />
         @Html.TextBoxFor(m => m.RetailPrice)
         @Html.ValidationMessageFor(m => m.RetailPrice)
       </p>
@@ -61,14 +61,15 @@
     <div>
       <p>
         <label for="Gear_Paid">
-          Paid:</label><br />
+          Paid</label><br />
         @Html.TextBoxFor(m => m.Paid)
         @Html.ValidationMessageFor(m => m.Paid)
       </p>
     </div>
     <div>
       <p>
-        <label for="Gear_Weight" ></label><br/>
+        <label for="Gear_Weight" >
+        Weight</label><br/>
         @Html.TextBoxFor(m => m.Weight)
         @Html.ValidationMessageFor(m => m.Weight)
       </p>
@@ -76,7 +77,7 @@
     <div>
       <p>
         <label for="Gear_Notes">
-          Notes:</label>
+          Notes</label>
         <br />
         <textarea id="notes" name="Notes" rows="6" cols="50"> 
       </textarea>

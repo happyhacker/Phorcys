@@ -4,13 +4,24 @@
 @{
   ViewBag.Title = "Add Dive Gear";
   Layout = "~/Views/Shared/SiteMaster.cshtml";
-  
-  
-  <link href="/Phorcys/Scripts/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css" />
-  <script src="/Phorcys/Scripts/jquery-1.7.2.min.js" type="text/javascript"></script>
-  <script src="/Phorcys/Scripts/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>  
-  
 }
+
+  @section Header
+  {
+  <link href="/Phorcys/Scripts/jquery-ui-1.8.21.custom.css" rel="stylesheet" type="text/css" />
+  @*<script src="/Phorcys/Scripts/jquery-1.7.2.min.js" type="text/javascript"></script>*@
+  <script src="/Phorcys/Scripts/jquery-ui-1.8.21.custom.min.js" type="text/javascript"></script>  
+
+	<script type="text/javascript">
+	  $(document).ready(function() {
+	    $("#Acquired").datepicker();
+	  });
+	</script>
+    
+  }
+  
+  	
+
 <h2>
   Add Dive Gear</h2>
 @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
@@ -18,8 +29,7 @@
      @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
    </p>
 }
-<div id="datepicker">
-</div>
+
 @Html.ValidationSummary()
 @using (Html.BeginForm()) {
   Html.AntiForgeryToken();

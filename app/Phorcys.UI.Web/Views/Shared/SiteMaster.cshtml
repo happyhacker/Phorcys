@@ -8,11 +8,12 @@
 <head id="Head1" runat="server">
   <title> @ViewBag.Title </title>
   <link href="/Phorcys/Content/Site.css" rel="stylesheet" type="text/css" />
-
+  
   @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => 
       group.Add("telerik.common.css")
-       .Add("telerik.web20.css")))
-   
+        .Add("telerik.web20.css")))
+  @Html.Telerik().ScriptRegistrar()
+  @RenderSection("Header", false)
 </head>
   <body>
     
@@ -84,7 +85,7 @@
           <td align="right"><img src="@(Href("~/Content/images/LarryJB2009.jpg"))" alt="Larry Hack, Jackson Blue" /></td>
         </tr>
       </table>
-      @Html.Telerik().ScriptRegistrar()
+      
     </div>
   </body>
 </html>

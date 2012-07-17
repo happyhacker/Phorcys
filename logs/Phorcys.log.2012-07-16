@@ -1,0 +1,8 @@
+WARN No mapped documents found in assembly: Phorcys.Data, Version=1.9.5.0, Culture=neutral, PublicKeyToken=null - 2012-07-16 11:41:04,188 NHibernate.Cfg.Configuration 
+---
+WARN Invalid id or password: larryhack|bernda - 2012-07-16 11:41:14,817 Phorcys.UI.Web.Security.DiveLogMembershipProvider 
+---
+WARN No mapped documents found in assembly: Phorcys.Data, Version=1.9.5.0, Culture=neutral, PublicKeyToken=null - 2012-07-16 11:44:39,421 NHibernate.Cfg.Configuration 
+---
+WARN No mapped documents found in assembly: Phorcys.Data, Version=1.9.5.0, Culture=neutral, PublicKeyToken=null - 2012-07-16 11:58:41,501 NHibernate.Cfg.Configuration 
+---

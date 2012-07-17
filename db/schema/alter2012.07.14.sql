@@ -5,7 +5,7 @@
 /* Project name:                                                          */
 /* Author:                                                                */
 /* Script type:           Alter database script                           */
-/* Created on:            2012-07-15 00:11                                */
+/* Created on:            2012-07-17 10:36                                */
 /* ---------------------------------------------------------------------- */
 
 
@@ -57,29 +57,29 @@ GO
 /* Modify table "Gear"                                                    */
 /* ---------------------------------------------------------------------- */
 
-ALTER TABLE [dbo].[Gear] DROP CONSTRAINT [DF__Gear__Created__5F9E293D]
+ALTER TABLE [dbo].[Gear] DROP CONSTRAINT [GearCreated]
 GO
 
 
-ALTER TABLE [dbo].[Gear] DROP CONSTRAINT [DF__Gear__LastModifi__60924D76]
+ALTER TABLE [dbo].[Gear] DROP CONSTRAINT [GearLastModified]
 GO
 
 
-ALTER TABLE [dbo].[Gear] ALTER COLUMN [Created] DATETIME NOT NULL
+ALTER TABLE [dbo].[Gear] ALTER COLUMN [Created] DATETIME
 GO
 
 
-ALTER TABLE [dbo].[Gear] ALTER COLUMN [LastModified] DATETIME NOT NULL
+ALTER TABLE [dbo].[Gear] ALTER COLUMN [LastModified] DATETIME
 GO
 
 
 ALTER TABLE [dbo].[Gear] ADD CONSTRAINT [GearCreated] 
-    DEFAULT (GetDate()) FOR [Created]
+    DEFAULT (getdate()) FOR [Created]
 GO
 
 
 ALTER TABLE [dbo].[Gear] ADD CONSTRAINT [GearLastModified] 
-    DEFAULT (GetDate()) FOR [LastModified]
+    DEFAULT (getdate()) FOR [LastModified]
 GO
 
 

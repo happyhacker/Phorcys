@@ -1,7 +1,4 @@
-﻿@using System.Web.Services.Description
-@using System.Web.UI.WebControls
-@using Phorcys.UI.Web.Controllers
-@using Telerik.Web.Mvc.UI
+﻿@using Telerik.Web.Mvc.UI
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -12,11 +9,10 @@
   @(Html.Telerik().StyleSheetRegistrar().DefaultGroup(group => 
       group.Add("telerik.common.css")
         .Add("telerik.web20.css")))
-  @Html.Telerik().ScriptRegistrar()
+
   @RenderSection("Header", false)
 </head>
   <body>
-    
     <div class="page">
       <div id="menuContainer">
         @(Html.Telerik().Menu()
@@ -85,7 +81,7 @@
           <td align="right"><img src="@(Href("~/Content/images/LarryJB2009.jpg"))" alt="Larry Hack, Jackson Blue" /></td>
         </tr>
       </table>
-      
     </div>
   </body>
+  @Html.Telerik().ScriptRegistrar()
 </html>

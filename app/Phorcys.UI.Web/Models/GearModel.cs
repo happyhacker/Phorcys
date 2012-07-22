@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -9,25 +10,26 @@ namespace Phorcys.UI.Web.Models {
 
     public int GearId { get; set; }
 
-    [Required]
+    [DisplayName("Date Acquired")]
     public string Title { get; set; }
 
+    [DisplayName("Serial #")]
     public string Sn { get; set; }
 
-    [Range(0,int.MaxValue)]
+    [DisplayName("Retail Price")]
     public decimal RetailPrice { get; set; }
 
-    [Range(0,int.MaxValue)]
     public decimal Paid { get; set; }
 
-    [Range(0,int.MaxValue)]
-    public double Weight { get; set; }
+    public float Weight { get; set; }
 
+    [DataType(DataType.Date)]
     public DateTime Acquired { get; set;  }
 
     public string Notes { get; set; }
 
     //additional tank data
+    /*
     [Range(0,5000)]
     public int TankVolume { get; set; }
 
@@ -39,5 +41,6 @@ namespace Phorcys.UI.Web.Models {
 
     [Range(0,99)]
     public int ManufacturedYear { get; set; }
+     */
   }
 }

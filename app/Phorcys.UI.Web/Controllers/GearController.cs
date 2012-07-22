@@ -58,18 +58,24 @@ namespace Phorcys.UI.Web.Controllers {
       try {
         this.user = userServices.FindUser(this.User.Identity.Name);
 
-        Gear gear = new Gear();
-        gear.Title = model.Title;
-        gear.Sn = model.Sn;
-        gear.Acquired = model.Acquired;
-        gear.RetailPrice = model.RetailPrice;
-        gear.Paid = model.Paid;
-        gear.Notes = model.Notes;
-        gear.Weight = model.Weight;
-        gear.User = this.user;
-        gearRepository.SaveOrUpdate(gear);
+        if (ModelState.IsValid)
+        {
+          Gear gear = new Gear();
+          gear.Title = model.Title;
+          gear.Sn = model.Sn;
+          gear.Acquired = model.Acquired;
+          gear.RetailPrice = model.RetailPrice;
+          gear.Paid = model.Paid;
+          gear.Notes = model.Notes;
+          gear.Weight = model.Weight;
+          gear.User = this.user;
+          gear.Created = DateTime.Now;
+          gear.LastModified = DateTime.Now;
+          gearRepository.SaveOrUpdate(gear);
 
-        return RedirectToAction("Index");
+          return RedirectToAction("Index");
+        }
+        return View();
       }
       catch(Exception ex) {
         log.Error(ex.Message);

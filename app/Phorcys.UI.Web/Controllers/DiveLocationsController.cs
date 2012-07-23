@@ -2,26 +2,19 @@ using System.Web.Mvc;
 using Phorcys.Core;
 using Phorcys.Services;
 using Phorcys.Services.Services;
-using SharpArch.Core.PersistenceSupport;
 using System.Collections.Generic;
 using SharpArch.Core;
 
 namespace Phorcys.UI.Web.Controllers {
   [HandleError]
   public class DiveLocationsController : Controller {
-    private readonly IRepository<User> userRepository;
+    //private readonly IRepository<User> userRepository;
     private readonly ILocationServices locationServices = new LocationServices();
     private readonly UserServices userServices = new UserServices();
     private User systemUser;
     private User user;
 
-    public DiveLocationsController(IRepository<DiveLocation> diveLocationRepository, IRepository<User> userRepository) {
-      Check.Require(diveLocationRepository != null, "diveLocationRepository may not be null");
-      Check.Require(userRepository != null, "userRepository may not be null");
-
-      //this.diveLocationRepository = diveLocationRepository;
-      this.userRepository = userRepository;
-
+    public DiveLocationsController() {
     }
 
     [Authorize]
@@ -29,7 +22,7 @@ namespace Phorcys.UI.Web.Controllers {
       systemUser = userServices.FindUser("system");
       user = userServices.FindUser(this.User.Identity.Name);
 
-      IList<DiveLocation> diveLocations = locationServices.GetAllSystemAndUser(systemUser.Id, user.Id); //diveLocationRepository.GetAll();
+      IList<DiveLocation> diveLocations = locationServices.GetAllSystemAndUser(systemUser.Id, user.Id);
       return View(diveLocations);
     }
 
@@ -52,12 +45,10 @@ namespace Phorcys.UI.Web.Controllers {
       if (ViewData.ModelState.IsValid) {
         diveLocation.Created = System.DateTime.Now;
         diveLocation.LastModified = System.DateTime.Now;
-        UserServices userServices = new UserServices(this.userRepository);
         user = userServices.FindUser(this.User.Identity.Name);
         diveLocation.User = user;
         diveLocation.UserId = user.Id;
         locationServices.Create(diveLocation);
-        //diveLocationRepository.SaveOrUpdate(diveLocation);
 
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
   "The diveLocation was successfully created.";

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Phorcys.Data;
+using Phorcys.Services;
 using Phorcys.Services.Services;
 using Phorcys.UI.Web.Models;
 using SharpArch.Core;
@@ -15,12 +16,13 @@ using log4net;
 namespace Phorcys.UI.Web.Controllers {
   public class GearController : Controller {
     protected static readonly ILog log = LogManager.GetLogger(typeof(GearController));
+    private readonly GearServices gearServices = new GearServices();
     private readonly UserServices userServices = new UserServices();
     private User user;
 
     private readonly IRepository<Gear> gearRepository;
 
-    public GearController(IRepository<Gear> gearRepository, IRepository<User> userRepository ) {
+    public GearController(IRepository<Gear> gearRepository ) {
       Check.Require(gearRepository != null, "gearRepository may not be null");
       this.gearRepository = new PhorcysRepository<Gear>();
     }
@@ -71,7 +73,11 @@ namespace Phorcys.UI.Web.Controllers {
           gear.User = this.user;
           gear.Created = DateTime.Now;
           gear.LastModified = DateTime.Now;
-          gearRepository.SaveOrUpdate(gear);
+
+          gearServices.Create(gear);
+          TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = gear.Title + " was successfully created.";
+
+          //gearRepository.SaveOrUpdate(gear);
 
           return RedirectToAction("Index");
         }
@@ -109,6 +115,7 @@ namespace Phorcys.UI.Web.Controllers {
     // GET: /Gear/Delete/5
 
     public ActionResult Delete(int id) {
+
       return View();
     }
 
@@ -117,14 +124,24 @@ namespace Phorcys.UI.Web.Controllers {
 
     [HttpPost]
     public ActionResult Delete(int id, FormCollection collection) {
-      try {
-        // TODO: Add delete logic here
+      string resultMessage = "The gear was successfully deleted.";
+      Gear gearToDelete = gearServices.Get(id);
 
-        return RedirectToAction("Index");
+      if (gearToDelete != null) {
+        try {
+          gearServices.Delete(gearToDelete);
+        }
+        catch {
+          resultMessage = "A problem was encountered preventing this piece of gear from being deleted. " +
+                          "A dive probably references this piece of gear.";
+        }
       }
-      catch {
-        return View();
+      else {
+        resultMessage = "This piece of gear could not be found for deletion. It may already have been deleted.";
       }
+
+      TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = resultMessage;
+      return RedirectToAction("Index");
     }
   }
 }

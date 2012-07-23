@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace Phorcys.UI.Web.Models {
   public class GearModel {
 
     public int GearId { get; set; }
 
-    [DisplayName("Date Acquired")]
+    [Required(ErrorMessage = "*")]
     public string Title { get; set; }
 
     [DisplayName("Serial #")]
@@ -23,7 +20,6 @@ namespace Phorcys.UI.Web.Models {
 
     public float Weight { get; set; }
 
-    [DataType(DataType.Date)]
     public DateTime Acquired { get; set;  }
 
     public string Notes { get; set; }

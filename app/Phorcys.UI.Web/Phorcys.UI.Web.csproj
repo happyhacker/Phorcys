@@ -694,7 +694,6 @@
     <Content Include="Views\Gear\Create.cshtml" />
     <None Include="Views\Shared\LogOnUserControl.cshtml" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
-    <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Users\Edit.aspx" />
     <Content Include="Views\Users\Index.aspx" />
     <Content Include="Views\Users\Login.aspx" />
@@ -729,16 +728,13 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Enumeration\Index.cshtml" />
     <Content Include="Views\Enumeration\Create.cshtml" />
     <None Include="Views\Enumeration\Detail.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Enumeration\ChangeName.cshtml" />
-    <Content Include="Views\Shared\Site.Master" />
     <None Include="Views\Shared\SiteMaster.cshtml" />
-    <None Include="Views\Shared\SiteLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NHibernate.config">

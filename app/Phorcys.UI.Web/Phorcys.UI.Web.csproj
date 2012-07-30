@@ -615,11 +615,13 @@
     <Content Include="Content\2011.1.315\Windows7\slider-vs-right.gif" />
     <Content Include="Content\2011.1.315\Windows7\sprite-vertical.png" />
     <Content Include="Content\2011.1.315\Windows7\sprite.png" />
+    <Content Include="Content\Images\Contract.png" />
+    <Content Include="Content\Images\Expand.jpg" />
+    <Content Include="Content\Images\JugHoleLarry.jpg" />
     <Content Include="Content\Images\Kristopher-JB.jpg" />
     <Content Include="Content\Images\LarryJB2009.jpg" />
     <Content Include="Content\Images\larry_peacock2009.jpg" />
-    <Content Include="Content\Images\sharp_arch.jpg" />
-    <Content Include="Content\Images\sharp_arch_small.gif" />
+    <Content Include="Content\Images\Tank.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />

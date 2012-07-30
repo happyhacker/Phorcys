@@ -22,7 +22,7 @@ namespace Phorcys.UI.Web.Controllers {
 
     private readonly IRepository<Gear> gearRepository;
 
-    public GearController(IRepository<Gear> gearRepository ) {
+    public GearController(IRepository<Gear> gearRepository) {
       Check.Require(gearRepository != null, "gearRepository may not be null");
       this.gearRepository = new PhorcysRepository<Gear>();
     }
@@ -31,10 +31,8 @@ namespace Phorcys.UI.Web.Controllers {
     // GET: /Gear/
     [Authorize]
     [Transaction]
-    public ActionResult Index()
-    {
+    public ActionResult Index() {
       IList<Gear> gear = gearRepository.GetAll().OrderByDescending(m => m.GearId).ToList();
-
       return View(gear);
     }
 
@@ -57,33 +55,55 @@ namespace Phorcys.UI.Web.Controllers {
 
     [HttpPost]
     public ActionResult Create(GearModel model) {  //FormCollection collection) {
+
       try {
         this.user = userServices.FindUser(this.User.Identity.Name);
 
-        if (ModelState.IsValid)
-        {
-          Gear gear = new Gear();
-          gear.Title = model.Title;
-          gear.Sn = model.Sn;
-          gear.Acquired = model.Acquired;
-          gear.RetailPrice = model.RetailPrice;
-          gear.Paid = model.Paid;
-          gear.Notes = model.Notes;
-          gear.Weight = model.Weight;
-          gear.User = this.user;
-          gear.Created = DateTime.Now;
-          gear.LastModified = DateTime.Now;
+        if (ModelState.IsValid) {
+          //if they enter any tank info at all...
+          if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0) {
+            Tank tank = new Tank();
+            tank.Volume = model.TankVolume;
+            tank.WorkingPressure = model.WorkingPressure;
+            tank.ManufacturedMonth = model.ManufacturedMonth;
+            tank.ManufacturedYear = model.ManufacturedYear;
 
-          gearServices.Create(gear);
-          TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = gear.Title + " was successfully created.";
+            tank.Title = model.Title;
+            tank.Sn = model.Sn;
+            tank.Acquired = model.Acquired;
+            tank.RetailPrice = model.RetailPrice;
+            tank.Paid = model.Paid;
+            tank.Notes = model.Notes;
+            tank.Weight = model.Weight;
+            tank.User = this.user;
+            tank.Created = DateTime.Now;
+            tank.LastModified = DateTime.Now;
 
-          //gearRepository.SaveOrUpdate(gear);
+            gearServices.Create(tank);
+          }
+          else {
+            Gear gear = new Gear();
+            gear.Title = model.Title;
+            gear.Sn = model.Sn;
+            gear.Acquired = model.Acquired;
+            gear.RetailPrice = model.RetailPrice;
+            gear.Paid = model.Paid;
+            gear.Notes = model.Notes;
+            gear.Weight = model.Weight;
+            gear.User = this.user;
+            gear.Created = DateTime.Now;
+            gear.LastModified = DateTime.Now;
+
+            gearServices.Create(gear);
+          }
+
+          TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = model.Title + " was successfully created.";
 
           return RedirectToAction("Index");
         }
         return View();
       }
-      catch(Exception ex) {
+      catch (Exception ex) {
         log.Error(ex.Message);
         return View();
       }

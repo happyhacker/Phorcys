@@ -6,29 +6,41 @@ using log4net;
 
 namespace Phorcys.Services {
   public class GearServices : IGearServices {
-    public IPhorcysRepository<Gear> Repository = new PhorcysRepository<Gear>();
+    public IPhorcysRepository<Gear> GearRepository = new PhorcysRepository<Gear>();
+    public IPhorcysRepository<Tank> TankRepository = new PhorcysRepository<Tank>();
+
     protected static readonly ILog log = LogManager.GetLogger(typeof(LocationServices));
 
 
-    public Gear Create(Gear gear)
-    {
-      Gear retVal = new Gear();
-           try {
-        Repository.SaveOrUpdate(gear);
-        Repository.DbContext.CommitChanges();
+    public Gear Create(Gear gear) {
+      try {
+        GearRepository.SaveOrUpdate(gear);
+        GearRepository.DbContext.CommitChanges();
       }
       catch (Exception e) {
         log.Error("Unable to save gear " + gear.Title, e);
       }
-      return retVal;
+      return gear;
     }
+
+    public Tank Create(Tank tank) {
+       try {
+        TankRepository.SaveOrUpdate(tank);
+        TankRepository.DbContext.CommitChanges();
+      }
+      catch (Exception e) {
+        log.Error("Unable to save tank " + tank.Title, e);
+      }
+      return tank;
+    }
+
 
     public Gear Delete(Gear gear) {
       Gear retVal = new Gear();
 
       try {
-        Repository.Delete(gear);
-        Repository.DbContext.CommitChanges();
+        GearRepository.Delete(gear);
+        GearRepository.DbContext.CommitChanges();
       }
       catch (Exception e) {
         log.Error("Cound not delete piece of gear " + gear.Title + ". A dive probably references this piece of gear");
@@ -38,9 +50,8 @@ namespace Phorcys.Services {
 
     }
 
-    public Gear Get(int id)
-    {
-      return Repository.Get(id);
+    public Gear Get(int id) {
+      return GearRepository.Get(id);
     }
 
     public IList<Gear> GetAllSystemAndUser(int systemId, int userId) {

@@ -101,7 +101,7 @@
         Tank Volume
       </div>
       <div>
-        @Html.TextBoxFor(m => m.TankVolume, new { @size = "6" })
+        @Html.TextBoxFor(m => m.TankVolume, new { @Value = "0", @size = "6" })
         @Html.ValidationMessageFor(m => m.TankVolume)
       </div>
       <br />
@@ -109,7 +109,7 @@
         Working Pressure
       </div>
       <div>
-        @Html.TextBoxFor(m => m.WorkingPressure, new { @size = "6" })
+        @Html.TextBoxFor(m => m.WorkingPressure, new { @Value = "0", @size = "6" })
         @Html.ValidationMessageFor(m => m.WorkingPressure)
       </div>
       <br />
@@ -118,7 +118,7 @@
       </div>
       <div>
         <select name="ManufacturedMonth" id="ManufacturedMonth">
-          <option value="" selected="selected"></option>
+          <option value="0" selected="selected"></option>
           <option value="01">January</option>
           <option value="02">February</option>
           <option value="03">March</option>
@@ -138,7 +138,7 @@
         Manufactured Year
       </div>
       <div>
-        @Html.TextBoxFor(m => m.ManufacturedYear, new { @size = "6" })
+        @Html.TextBoxFor(m => m.ManufacturedYear, new { @Value = "0", @size = "6" })
         @Html.ValidationMessageFor(m => m.ManufacturedYear)
       </div>
     </div>

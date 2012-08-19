@@ -31,8 +31,11 @@ namespace Phorcys.UI.Web.Controllers {
     // GET: /Gear/
     [Authorize]
     [Transaction]
-    public ActionResult Index() {
-      IList<Gear> gear = gearRepository.GetAll().OrderByDescending(m => m.GearId).ToList();
+    public ActionResult Index()
+    {
+      user = userServices.FindUser(this.User.Identity.Name);
+      IList<Gear> gear = gearServices.GetAllForUser(user.Id).OrderByDescending(m => m.GearId).ToList();
+      //IList<Gear> gear = gearRepository.GetAll().OrderByDescending(m => m.GearId).ToList();
       return View(gear);
     }
 

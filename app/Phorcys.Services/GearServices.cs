@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Phorcys.Core;
 using Phorcys.Data;
+using Phorcys.Services.Services;
+using SharpArch.Data.NHibernate;
 using log4net;
 
 namespace Phorcys.Services {
@@ -54,8 +56,13 @@ namespace Phorcys.Services {
       return GearRepository.Get(id);
     }
 
-    public IList<Gear> GetAllSystemAndUser(int systemId, int userId) {
-      throw new NotImplementedException();
+    public IList<Gear> GetAllForUser(int userId) {
+      UserServices userServices = new UserServices(new Repository<User>());
+      User systemUser = userServices.FindUser("system");
+
+      IList<Gear> diveSites = GearRepository.GetAllSystemAndUser(userId, systemUser.Id);
+
+      return diveSites;
     }
 
     public Gear Save(Gear gear) {

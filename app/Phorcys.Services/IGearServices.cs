@@ -7,7 +7,7 @@ namespace Phorcys.Services {
     Gear Create(Gear gear);
     Gear Delete(Gear gear);
     Gear Get(int id);
-    IList<Gear> GetAllSystemAndUser(int systemId, int userId);
+    IList<Gear> GetAllForUser(int userId);
     Gear Save(Gear gear);
   }
 }

@@ -1,0 +1,151 @@
+﻿@using Microsoft.Web.Mvc
+@using Phorcys.UI.Web.Controllers
+@using Telerik.Web.Mvc.UI
+@model Phorcys.UI.Web.Models.GearModel
+@{
+  ViewBag.Title = "Edit Dive Gear";
+  Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+@section Header
+{
+  <script language="javascript" type="text/javascript">
+    function ToggleViewTanks() {
+      var elem = document.getElementById("Tanks");
+      if (elem.style.display == "none") {
+        elem.style.display = "block";
+        document.images.ExpandContractIcon.src = "@(Href("~/Content/Images/Contract.png"))";
+      } else {
+        elem.style.display = "none";
+        document.images.ExpandContractIcon.src = "@(Href("~/Content/Images/Expand.jpg"))";
+      }
+    }    
+  </script>
+}
+<h1>
+  Add Dive Gear</h1>
+@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+   } <p id="pageMessage">
+     @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+   </p>
+}
+@using (Html.BeginForm()) {
+  <div class="errorOnPage">
+    @Html.ValidationSummary()
+  </div>
+  Html.AntiForgeryToken();
+
+  
+  <fieldset>
+    <div>
+      <div class="editor-label">
+        Title*
+      </div>
+      <div>
+        @Html.TextBoxFor(m => m.Title, new { @size = "50" })
+        @Html.ValidationMessageFor(m => m.Title)
+      </div>
+    </div>
+    <br/>
+    <div class="editor-label">
+      Serial #
+    </div>
+    <div>
+      @Html.TextBoxFor(m => m.Sn)
+    </div>
+    <div>
+      <br />
+      <div class="editor-label">
+        Date Acquired
+      </div>
+      <div>
+        @Html.Telerik().DatePickerFor(m => m.Acquired)
+        @Html.ValidationMessageFor(m => m.Acquired)
+      </div>
+    </div>
+    <br />
+    <div class="editor-label">
+      Retail Price
+    </div>
+    <div>
+      @Html.TextBoxFor(m => m.RetailPrice, new { @size = "10" })
+      @Html.ValidationMessageFor(m => m.RetailPrice)
+    </div>
+    <div>
+      <br />
+      <div class="editor-label">
+        Paid
+      </div>
+      <div>
+        @Html.TextBoxFor(m => m.Paid, new { @size = "10" })
+        @Html.ValidationMessageFor(m => m.Paid)
+      </div>
+    </div>
+    <br />
+    <div>
+      <div class="editor-label">
+        Weight
+      </div>
+      <div>
+      </div>
+      @Html.TextBoxFor(m => m.Weight, new { @size = "6" })
+      @Html.ValidationMessageFor(m => m.Weight)
+    </div>
+    <p>
+      <img src="@(Href("~/Content/Images/Tank.png"))" />
+      <a href class="section-title" onclick="ToggleViewTanks()">Tank Information</a>
+      <br/>
+      <img id="ExpandContractIcon" name="ExpandContractIcon" src="@(Href("~/Content/Images/Expand.jpg"))" onclick="ToggleViewTanks()"/>
+    </p>
+    <div title="Tanks" id="Tanks" style="display:none;">
+      <div class="editor-label">
+        Tank Volume
+      </div>
+      @Html.Hidden("GearId",Model.GearId)
+      <div>
+        @Html.TextBoxFor(m => m.TankVolume, new { @size = "6" })
+        @Html.ValidationMessageFor(m => m.TankVolume)
+      </div>
+      <br />
+      <div class="editor-label">
+        Working Pressure
+      </div>
+      <div>
+        @Html.TextBoxFor(m => m.WorkingPressure, new { @size = "6" })
+        @Html.ValidationMessageFor(m => m.WorkingPressure)
+      </div>
+      <br />
+      <div class="editor-label">
+        Manufactured Month
+      </div>
+      <div>
+        <select name="ManufacturedMonth" id="ManufacturedMonth">
+          @foreach(SelectListItem item in Model.MonthSelectList) {
+            <option value="@item.Value" @(item.Selected ? "selected" : "")> @item.Text </option>
+          }
+        </select>
+      </div>
+      <br />
+      <div class="editor-label">
+        Manufactured Year
+      </div>
+      <div>
+        @Html.TextBoxFor(m => m.ManufacturedYear, new { @size = "6" })
+        @Html.ValidationMessageFor(m => m.ManufacturedYear)
+      </div>
+    </div>
+    <div>
+      <br />
+      <div class="editor-label">
+        Notes
+      </div>
+      <textarea id="notes" name="Notes" rows="6" cols="50"> 
+      </textarea>
+      @Html.ValidationMessageFor(m => m.Notes)
+    </div>
+    <br />
+    <div>
+      @Html.SubmitButton("btnSave", "Save")
+      @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+    </div>
+  </fieldset>
+}

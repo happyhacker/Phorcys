@@ -14,7 +14,7 @@ namespace Phorcys.Services {
     protected static readonly ILog log = LogManager.GetLogger(typeof(LocationServices));
 
 
-    public Gear Create(Gear gear) {
+    public Gear Save(Gear gear) {
       try {
         GearRepository.SaveOrUpdate(gear);
         GearRepository.DbContext.CommitChanges();
@@ -25,7 +25,7 @@ namespace Phorcys.Services {
       return gear;
     }
 
-    public Tank Create(Tank tank) {
+    public Tank Save(Tank tank) {
        try {
         TankRepository.SaveOrUpdate(tank);
         TankRepository.DbContext.CommitChanges();
@@ -35,7 +35,6 @@ namespace Phorcys.Services {
       }
       return tank;
     }
-
 
     public Gear Delete(Gear gear) {
       Gear retVal = new Gear();
@@ -52,8 +51,13 @@ namespace Phorcys.Services {
 
     }
 
-    public Gear Get(int id) {
+    public Gear GetGear(int id) {
       return GearRepository.Get(id);
+    }
+
+    public Tank GetTank(int id)
+    {
+      return TankRepository.Get(id);
     }
 
     public IList<Gear> GetAllForUser(int userId) {
@@ -63,10 +67,6 @@ namespace Phorcys.Services {
       IList<Gear> diveSites = GearRepository.GetAllSystemAndUser(userId, systemUser.Id);
 
       return diveSites;
-    }
-
-    public Gear Save(Gear gear) {
-      throw new NotImplementedException();
     }
   }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Phorcys.UI.Web.Models {
   public class GearModel {
@@ -20,11 +22,11 @@ namespace Phorcys.UI.Web.Models {
 
     public float Weight { get; set; }
 
-    public DateTime Acquired { get; set;  }
+    public DateTime? Acquired { get; set;  }
 
     public string Notes { get; set; }
 
-    //additional tank data
+    //additional tank dat
     [Range(0,5000)]
     public int TankVolume { get; set; }
     [Range(0,5000)]
@@ -34,5 +36,7 @@ namespace Phorcys.UI.Web.Models {
     [Range(0,99)]
     public int ManufacturedYear { get; set; }
     
+    //UI controls
+    public IList<SelectListItem> MonthSelectList { get; set; }
   }
 }

@@ -694,6 +694,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Gear\Index.cshtml" />
     <Content Include="Views\Gear\Create.cshtml" />
+    <Content Include="Views\Gear\Edit.cshtml" />
     <None Include="Views\Shared\LogOnUserControl.cshtml" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
     <Content Include="Views\Users\Edit.aspx" />

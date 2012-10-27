@@ -13,12 +13,14 @@ using SharpArch.Core.PersistenceSupport;
 using SharpArch.Web.NHibernate;
 using Phorcys.Core;
 using log4net;
+using HackLib.UIHelpers;
 
 namespace Phorcys.UI.Web.Controllers {
   public class GearController : Controller {
     protected static readonly ILog log = LogManager.GetLogger(typeof(GearController));
     private readonly GearServices gearServices = new GearServices();
     private readonly UserServices userServices = new UserServices();
+    private readonly SelectListHelper selectListHelper = new SelectListHelper();
     private User user;
 
     private readonly IRepository<Gear> gearRepository;
@@ -159,32 +161,32 @@ namespace Phorcys.UI.Web.Controllers {
         viewModel.ManufacturedYear = tank.ManufacturedYear;
         viewModel.TankVolume = tank.Volume;
         viewModel.WorkingPressure = tank.WorkingPressure;
-        viewModel.MonthSelectList = GetMonthsList(tank.ManufacturedMonth);
+        viewModel.MonthSelectList = selectListHelper.GetMonthsList(tank.ManufacturedMonth);
       }
 
       return viewModel;
     }
 
-    IList<SelectListItem> GetMonthsList(int monthNum) {
-      IList<SelectListItem> MonthsSelectList = new List<SelectListItem>();
-      SelectListItem item;
-      int count = 0;
-      List<string> months = DateTimeFormatInfo.CurrentInfo.MonthNames.Take(12).ToList();
-      foreach (string month in months )
-      {
-        count++;
-        item = new SelectListItem();
-        item.Value = count.ToString();
-        item.Text = month;
-        if(count == monthNum)
-        {
-          item.Selected = true;
-        }
-        MonthsSelectList.Add(item);
-      }
+    //IList<SelectListItem> GetMonthsList(int monthNum) {
+    //  IList<SelectListItem> MonthsSelectList = new List<SelectListItem>();
+    //  SelectListItem item;
+    //  int count = 0;
+    //  List<string> months = DateTimeFormatInfo.CurrentInfo.MonthNames.Take(12).ToList();
+    //  foreach (string month in months )
+    //  {
+    //    count++;
+    //    item = new SelectListItem();
+    //    item.Value = count.ToString();
+    //    item.Text = month;
+    //    if(count == monthNum)
+    //    {
+    //      item.Selected = true;
+    //    }
+    //    MonthsSelectList.Add(item);
+    //  }
 
-      return MonthsSelectList;
-    }
+    //  return MonthsSelectList;
+    //}
 
 
     //

@@ -277,6 +277,7 @@
     <Compile Include="Controllers\EnumerationController.cs" />
     <Compile Include="Controllers\GearController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModController.cs" />
     <Compile Include="Controllers\RouteRegistrar.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">

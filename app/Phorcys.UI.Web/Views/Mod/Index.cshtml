@@ -9,21 +9,22 @@
 }
 
 <script type="text/javascript">
-  function Calc(o2, po2, isFreshWater) {
-    var atmDepth = 34;
-    var isFresh = true;
-    
-    for (i = 0; i < isFreshWater.length; i++) {
-      if(isFreshWater[i].checked) {
-        isFresh = isFreshWater[i].value;
+    function Calc(o2, po2, isFreshWater) {
+
+      var atmDepth = 34;
+      var isFresh = true;
+
+      for (i = 0; i < isFreshWater.length; i++) {
+        if (isFreshWater[i].checked) {
+          isFresh = isFreshWater[i].value;
+        }
       }
+      if (isFresh == "false") {
+        atmDepth = 33;
+      }
+      var mod = (po2 / (o2 / 100) - 1) * atmDepth;
+      return mod;
     }
-    if(isFresh == "false") {
-      atmDepth = 33;
-    }
-    var mod = (po2 / (o2 / 100) - 1) * atmDepth;
-    return mod;
-  }
 </script>
 
 <h1>Maximum Operating Depth</h1>
@@ -53,7 +54,7 @@
     Salt
  
     <br/> <br/>
-    <button type="button" onclick="form1.Mod.value = Calc(form1.O2.value, form1.PO2.value,form1.IsFreshWater)">Calc</button>
+    <button type="button" id="button" onclick="form1.Mod.value = Calc(form1.O2.value, form1.PO2.value,form1.IsFreshWater)">Calc</button>
     <br/><br/>
 
     <label for="Mod">

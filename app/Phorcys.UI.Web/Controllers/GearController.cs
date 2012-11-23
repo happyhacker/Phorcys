@@ -152,6 +152,7 @@ namespace Phorcys.UI.Web.Controllers {
       viewModel.Sn = gear.Sn;
       viewModel.Title = gear.Title;
       viewModel.Weight = gear.Weight;
+      viewModel.MonthSelectList = selectListHelper.GetMonthsList(0);
 
       Tank tank = gearServices.GetTank(id);
       if (tank != null) {

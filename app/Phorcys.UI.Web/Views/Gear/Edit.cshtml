@@ -119,9 +119,9 @@
       </div>
       <div>
         <select name="ManufacturedMonth" id="ManufacturedMonth">
-          @foreach(SelectListItem item in Model.MonthSelectList) {
-            <option value="@item.Value" @(item.Selected ? "selected" : "")> @item.Text </option>
-          }
+          @foreach (SelectListItem item in Model.MonthSelectList) {
+              <option value="@item.Value" @(item.Selected ? "selected" : "")> @item.Text </option>
+           }
         </select>
       </div>
       <br />

@@ -135,10 +135,10 @@
       </div>
       <br />
       <div class="editor-label">
-        Manufactured Year
+        Manufactured Year (2 digits)
       </div>
       <div>
-        @Html.TextBoxFor(m => m.ManufacturedYear, new { @Value = "0", @size = "6" })
+        @Html.TextBoxFor(m => m.ManufacturedYear, new { @Value = "0", @size = "2", @maxlength="2" })
         @Html.ValidationMessageFor(m => m.ManufacturedYear)
       </div>
     </div>

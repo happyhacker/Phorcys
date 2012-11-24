@@ -6,11 +6,13 @@ using System.Web.Mvc;
 
 namespace Phorcys.UI.Web.Controllers
 {
-    public class ModController : Controller
+    public class EndController : Controller
     {
+
         public ActionResult Index()
         {
             return View();
         }
- }
+
+    }
 }

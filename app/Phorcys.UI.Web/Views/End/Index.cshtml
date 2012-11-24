@@ -1,0 +1,54 @@
+﻿@using Microsoft.Web.Mvc
+@using NHibernate.Mapping
+@using Phorcys.UI.Web.Controllers
+@using Telerik.Web.Mvc.UI
+
+@{
+  ViewBag.Title = "END Calculator";
+  Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+
+<script src="/Phorcys/Scripts/DiveCalcs.js"></script>
+
+<h1>END Calculator</h1>
+
+<div id="body">
+
+</div>
+
+<div id="calculator" align="center">
+  <form id="form1" name="form1" action="" >
+    <br/> <br/>
+    <label for="O2">
+      Oxygen %:</label>
+    <input id="O2" name="O2" value="21" size="2"/>
+    
+    <label for="HE">
+      Helium %:</label>
+    <input id="HE" name="HE" value="0" size="2"/>
+
+    <br/><br/>
+    <label for="Depth">
+      Depth: </label>
+    <input id="Depth" name="Depth" value="" size="4"/>
+    <br/><br/>
+
+    <label for="IsFreshWater">
+      Fresh/Salt Water:</label>
+    <input type="radio" id="Fresh" name="IsFreshWater" value="true"
+           checked="checked" />
+    Fresh
+    <input type="radio" id="Salt" name="IsFreshWater" value="false" />
+    Salt
+ 
+    <br/> <br/>
+    <button type="button" id="button" onclick="END.value=CalcEND(parseFloat(form1.HE.value), parseFloat(form1.Depth.value),GetRadioValue(form1.IsFreshWater))">Calc</button>
+    <br/><br/>
+
+    <label for="END">
+      <b>E</b>quivalent <b>N</b>itrogen <b>D</b>epth
+    </label>
+    <input id="END" name="END" size="4" readonly/>
+    <br/><br/>
+  </form>
+</div>

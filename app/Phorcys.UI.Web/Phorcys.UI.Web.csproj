@@ -274,6 +274,7 @@
     <Compile Include="Controllers\DiveLocationsController.cs" />
     <Compile Include="Controllers\DiveSitesController.cs" />
     <Compile Include="Controllers\DiveTypesController.cs" />
+    <Compile Include="Controllers\EndController.cs" />
     <Compile Include="Controllers\EnumerationController.cs" />
     <Compile Include="Controllers\GearController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -667,6 +668,7 @@
     <Content Include="Scripts\2011.1.315\telerik.treeview.min.js" />
     <Content Include="Scripts\2011.1.315\telerik.upload.min.js" />
     <Content Include="Scripts\2011.1.315\telerik.window.min.js" />
+    <Content Include="Scripts\DiveCalcs.js" />
     <Content Include="Scripts\jquery-1.7.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.css" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.min.js" />
@@ -697,6 +699,7 @@
     <Content Include="Views\Gear\Create.cshtml" />
     <Content Include="Views\Gear\Edit.cshtml" />
     <Content Include="Views\Mod\Index.cshtml" />
+    <Content Include="Views\End\Index.cshtml" />
     <None Include="Views\Shared\LogOnUserControl.cshtml" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
     <Content Include="Views\Users\Edit.aspx" />

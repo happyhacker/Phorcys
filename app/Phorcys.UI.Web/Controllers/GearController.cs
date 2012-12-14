@@ -65,7 +65,7 @@ namespace Phorcys.UI.Web.Controllers {
       }
 
       try {
-        saveGear(model);
+        saveNewGear(model);
 
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = model.Title + " was successfully created.";
 
@@ -78,33 +78,20 @@ namespace Phorcys.UI.Web.Controllers {
       }
     }
 
-    private void saveGear(GearModel model) {
+    private void saveNewGear(GearModel model) {
       this.user = userServices.FindUser(this.User.Identity.Name);
+      Gear gear = new Gear();
+      Tank tank;
 
       //if they enter any tank info at all...
       if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0) {
-        Tank tank = new Tank();
+        tank = new Tank();
         tank.GearId = model.GearId;
         tank.Volume = model.TankVolume;
         tank.WorkingPressure = model.WorkingPressure;
         tank.ManufacturedMonth = model.ManufacturedMonth;
         tank.ManufacturedYear = model.ManufacturedYear;
 
-        tank.Title = model.Title;
-        tank.Sn = model.Sn;
-        tank.Acquired = model.Acquired;
-        tank.RetailPrice = model.RetailPrice;
-        tank.Paid = model.Paid;
-        tank.Notes = model.Notes;
-        tank.Weight = model.Weight;
-        tank.User = this.user;
-        tank.Created = DateTime.Now;
-        tank.LastModified = DateTime.Now;
-
-        gearServices.Save(tank);
-      }
-      else {
-        Gear gear = new Gear();
         gear.Title = model.Title;
         gear.Sn = model.Sn;
         gear.Acquired = model.Acquired;
@@ -115,7 +102,7 @@ namespace Phorcys.UI.Web.Controllers {
         gear.User = this.user;
         gear.Created = DateTime.Now;
         gear.LastModified = DateTime.Now;
-
+        gear.Tank = tank;
         gearServices.Save(gear);
       }
     }
@@ -130,7 +117,7 @@ namespace Phorcys.UI.Web.Controllers {
     [HttpPost]
     public ActionResult Edit(GearModel model) {
       try {
-        saveGear(model);
+        saveEditedGear(model);
 
         return RedirectToAction("Index");
       }
@@ -139,6 +126,36 @@ namespace Phorcys.UI.Web.Controllers {
         return View();
       }
     }
+
+    private void saveEditedGear(GearModel model)
+    {
+      this.user = userServices.FindUser(this.User.Identity.Name);
+      Gear gear = gearServices.GetGear(model.GearId);
+      //if they enter any tank info at all...
+      if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0) {
+        if(gear.Tank==null)
+        {
+          gear.Tank = new Tank();
+        }
+        gear.Tank.GearId = model.GearId;
+        gear.Tank.Volume = model.TankVolume;
+        gear.Tank.WorkingPressure = model.WorkingPressure;
+        gear.Tank.ManufacturedMonth = model.ManufacturedMonth;
+        gear.Tank.ManufacturedYear = model.ManufacturedYear;
+
+        gear.Title = model.Title;
+        gear.Sn = model.Sn;
+        gear.Acquired = model.Acquired;
+        gear.RetailPrice = model.RetailPrice;
+        gear.Paid = model.Paid;
+        gear.Notes = model.Notes;
+        gear.Weight = model.Weight;
+        gear.User = this.user;
+        gear.LastModified = DateTime.Now;
+
+        gearServices.Save(gear);
+      }
+     }
 
     private GearModel getGearView(int id) {
       bool isTank = false;

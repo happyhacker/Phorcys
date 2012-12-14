@@ -25,17 +25,6 @@ namespace Phorcys.Services {
       return gear;
     }
 
-    public Tank Save(Tank tank) {
-       try {
-        TankRepository.SaveOrUpdate(tank);
-        TankRepository.DbContext.CommitChanges();
-      }
-      catch (Exception e) {
-        log.Error("Unable to save tank " + tank.Title, e);
-      }
-      return tank;
-    }
-
     public Gear Delete(Gear gear) {
       Gear retVal = new Gear();
 
@@ -51,6 +40,19 @@ namespace Phorcys.Services {
 
     }
 
+    public void DeleteTank(Tank tank) {
+
+      try {
+        TankRepository.Delete(tank);
+        TankRepository.DbContext.CommitChanges();
+      }
+      catch (Exception e) {
+        log.Error("Cound not delete tank. A dive probably references this tank");
+        throw e;
+      }
+      return;
+    }
+
     public Gear GetGear(int id) {
       return GearRepository.Get(id);
     }
@@ -64,9 +66,9 @@ namespace Phorcys.Services {
       UserServices userServices = new UserServices(new Repository<User>());
       User systemUser = userServices.FindUser("system");
 
-      IList<Gear> diveSites = GearRepository.GetAllSystemAndUser(userId, systemUser.Id);
+      IList<Gear> gear = GearRepository.GetAllSystemAndUser(userId, systemUser.Id);
 
-      return diveSites;
+      return gear;
     }
   }
 }

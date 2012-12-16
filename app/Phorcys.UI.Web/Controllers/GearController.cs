@@ -15,9 +15,11 @@ using Phorcys.Core;
 using log4net;
 using HackLib.UIHelpers;
 
-namespace Phorcys.UI.Web.Controllers {
-  public class GearController : Controller {
-    protected static readonly ILog log = LogManager.GetLogger(typeof(GearController));
+namespace Phorcys.UI.Web.Controllers
+{
+  public class GearController : Controller
+  {
+    protected static readonly ILog log = LogManager.GetLogger(typeof (GearController));
     private readonly GearServices gearServices = new GearServices();
     private readonly UserServices userServices = new UserServices();
     private readonly SelectListHelper selectListHelper = new SelectListHelper();
@@ -25,7 +27,8 @@ namespace Phorcys.UI.Web.Controllers {
 
     private readonly IRepository<Gear> gearRepository;
 
-    public GearController(IRepository<Gear> gearRepository) {
+    public GearController(IRepository<Gear> gearRepository)
+    {
       Check.Require(gearRepository != null, "gearRepository may not be null");
       this.gearRepository = new PhorcysRepository<Gear>();
     }
@@ -34,7 +37,8 @@ namespace Phorcys.UI.Web.Controllers {
     // GET: /Gear/
     [Authorize]
     [Transaction]
-    public ActionResult Index() {
+    public ActionResult Index()
+    {
       user = userServices.FindUser(this.User.Identity.Name);
       IList<Gear> gear = gearServices.GetAllForUser(user.Id).OrderByDescending(m => m.GearId).ToList();
       //IList<Gear> gear = gearRepository.GetAll().OrderByDescending(m => m.GearId).ToList();
@@ -44,70 +48,78 @@ namespace Phorcys.UI.Web.Controllers {
     //
     // GET: /Gear/Details/5
 
-    public ActionResult Details(int id) {
+    public ActionResult Details(int id)
+    {
       return View();
     }
 
     //
     // GET: /Gear/Create
 
-    public ActionResult Create() {
+    public ActionResult Create()
+    {
       return View();
     }
 
     //
     // POST: /Gear/Create
     [HttpPost]
-    public ActionResult Create(GearModel model) {
+    public ActionResult Create(GearModel model)
+    {
 
-      if (!ModelState.IsValid) {
+      if (!ModelState.IsValid)
+      {
         return View();
       }
 
-      try {
+      try
+      {
         saveNewGear(model);
 
-        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = model.Title + " was successfully created.";
+        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = model.Title +
+                                                                                  " was successfully created.";
 
         return RedirectToAction("Index");
 
       }
-      catch (Exception ex) {
+      catch (Exception ex)
+      {
         log.Error("Unable to create " + model.Title + ". " + ex.Message);
         return View();
       }
     }
 
-    private void saveNewGear(GearModel model) {
+    private void saveNewGear(GearModel model)
+    {
       this.user = userServices.FindUser(this.User.Identity.Name);
       Gear gear = new Gear();
-      Tank tank;
+      Tank tank = null;
 
       //if they enter any tank info at all...
-      if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0) {
+      if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0)
+      {
         tank = new Tank();
-        tank.GearId = model.GearId;
         tank.Volume = model.TankVolume;
         tank.WorkingPressure = model.WorkingPressure;
         tank.ManufacturedMonth = model.ManufacturedMonth;
         tank.ManufacturedYear = model.ManufacturedYear;
-
-        gear.Title = model.Title;
-        gear.Sn = model.Sn;
-        gear.Acquired = model.Acquired;
-        gear.RetailPrice = model.RetailPrice;
-        gear.Paid = model.Paid;
-        gear.Notes = model.Notes;
-        gear.Weight = model.Weight;
-        gear.User = this.user;
-        gear.Created = DateTime.Now;
-        gear.LastModified = DateTime.Now;
-        gear.Tank = tank;
-        gearServices.Save(gear);
       }
+      gear.Title = model.Title;
+      gear.Sn = model.Sn;
+      gear.Acquired = model.Acquired;
+      gear.RetailPrice = model.RetailPrice;
+      gear.Paid = model.Paid;
+      gear.Notes = model.Notes;
+      gear.Weight = model.Weight;
+      gear.User = this.user;
+      gear.Created = DateTime.Now;
+      gear.LastModified = DateTime.Now;
+      gearServices.Save(gear);
+      tank.GearId = gear.GearId;
+      gearServices.Save(tank);
     }
 
-    // GET: /Gear/Edit/5
+// GET: /Gear/Edit/5
     public ActionResult Edit(int id) {
       GearModel viewModel = getGearView(id);
       return View(viewModel);
@@ -136,8 +148,8 @@ namespace Phorcys.UI.Web.Controllers {
         if(gear.Tank==null)
         {
           gear.Tank = new Tank();
+          gear.Tank.GearId = model.GearId;
         }
-        gear.Tank.GearId = model.GearId;
         gear.Tank.Volume = model.TankVolume;
         gear.Tank.WorkingPressure = model.WorkingPressure;
         gear.Tank.ManufacturedMonth = model.ManufacturedMonth;
@@ -153,6 +165,8 @@ namespace Phorcys.UI.Web.Controllers {
         gear.User = this.user;
         gear.LastModified = DateTime.Now;
 
+        gearServices.Save(gear.Tank);
+        gear.Tank = null;
         gearServices.Save(gear);
       }
      }
@@ -171,15 +185,14 @@ namespace Phorcys.UI.Web.Controllers {
       viewModel.Weight = gear.Weight;
       viewModel.MonthSelectList = selectListHelper.GetMonthsList(0);
 
-      Tank tank = gearServices.GetTank(id);
-      if (tank != null) {
+      if (gear.Tank != null) {
         isTank = true;
-        viewModel.GearId = tank.GearId;
-        viewModel.ManufacturedMonth = tank.ManufacturedMonth;
-        viewModel.ManufacturedYear = tank.ManufacturedYear;
-        viewModel.TankVolume = tank.Volume;
-        viewModel.WorkingPressure = tank.WorkingPressure;
-        viewModel.MonthSelectList = selectListHelper.GetMonthsList(tank.ManufacturedMonth);
+        viewModel.GearId = gear.Tank.GearId;
+        viewModel.ManufacturedMonth = gear.Tank.ManufacturedMonth;
+        viewModel.ManufacturedYear = gear.Tank.ManufacturedYear;
+        viewModel.TankVolume = gear.Tank.Volume;
+        viewModel.WorkingPressure = gear.Tank.WorkingPressure;
+        viewModel.MonthSelectList = selectListHelper.GetMonthsList(gear.Tank.ManufacturedMonth);
       }
 
       return viewModel;

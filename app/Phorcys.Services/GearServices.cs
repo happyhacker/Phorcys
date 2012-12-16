@@ -24,7 +24,20 @@ namespace Phorcys.Services {
       }
       return gear;
     }
-
+    
+    public void Save(Tank tank)
+    {
+      try
+      {
+        TankRepository.SaveOrUpdate(tank);
+        TankRepository.DbContext.CommitChanges();
+      }
+      catch (Exception e)
+      {
+        log.Error(("Unable to save tank"));
+      }
+    }
+    
     public Gear Delete(Gear gear) {
       Gear retVal = new Gear();
 

@@ -7,7 +7,6 @@ namespace Phorcys.Data.NHibernateMaps {
     public DivesiteMap() {
       Table("DiveSites");
       Id(x => x.Id, "DiveSiteId").GeneratedBy.Identity().UnsavedValue(0);
-      //Map(x => x.DiveSiteId, "DiveSiteId").ReadOnly();
       //References(x => x.Dives).Column("Dives");
       Map(x => x.GeoCode, "GeoCode").Length(20);
       Map(x => x.IsFreshWater, "IsFreshWater").Not.Nullable();

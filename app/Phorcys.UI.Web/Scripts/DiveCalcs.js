@@ -23,7 +23,7 @@ function CalcBoth(formVar) {
 function CalcEND(he, depth, isFreshWater) {
   var end;
   var atmDepth = 33;
-  if (isFreshWater=="true") atmDepth = 34;
+  if (isFreshWater == "true") atmDepth = 34;
   //end = ( (1 - (he / 100)) * (depth + atmDepth)) - atmDepth;
   var1 = 1 - (he / 100);
   var2 = parseFloat(depth) + atmDepth;

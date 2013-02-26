@@ -275,6 +275,7 @@
     <Compile Include="Controllers\DiveSitesController.cs" />
     <Compile Include="Controllers\DiveTypesController.cs" />
     <Compile Include="Controllers\EndController.cs" />
+    <Compile Include="Controllers\EndKoController.cs" />
     <Compile Include="Controllers\EnumerationController.cs" />
     <Compile Include="Controllers\GearController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -700,6 +701,7 @@
     <Content Include="Views\Gear\Edit.cshtml" />
     <Content Include="Views\Mod\Index.cshtml" />
     <Content Include="Views\End\Index.cshtml" />
+    <Content Include="Views\EndKo\Index.cshtml" />
     <None Include="Views\Shared\LogOnUserControl.cshtml" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
     <Content Include="Views\Users\Edit.aspx" />

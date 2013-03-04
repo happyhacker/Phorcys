@@ -670,6 +670,7 @@
     <Content Include="Scripts\2011.1.315\telerik.upload.min.js" />
     <Content Include="Scripts\2011.1.315\telerik.window.min.js" />
     <Content Include="Scripts\DiveCalcs.js" />
+    <Content Include="Scripts\EndModel.js" />
     <Content Include="Scripts\jquery-1.7.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.css" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.min.js" />
@@ -695,7 +696,6 @@
     <Content Include="Views\DiveTypes\Edit.aspx" />
     <Content Include="Views\DiveTypes\Index.aspx" />
     <Content Include="Views\DiveTypes\Show.aspx" />
-    <Content Include="Models\EndModel.js" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Gear\Index.cshtml" />
     <Content Include="Views\Gear\Create.cshtml" />

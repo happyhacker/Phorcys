@@ -695,13 +695,13 @@
     <Content Include="Views\DiveTypes\Edit.aspx" />
     <Content Include="Views\DiveTypes\Index.aspx" />
     <Content Include="Views\DiveTypes\Show.aspx" />
+    <Content Include="Models\EndModel.js" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Gear\Index.cshtml" />
     <Content Include="Views\Gear\Create.cshtml" />
     <Content Include="Views\Gear\Edit.cshtml" />
     <Content Include="Views\Mod\Index.cshtml" />
     <Content Include="Views\End\Index.cshtml" />
-    <Content Include="Views\EndKo\Index.cshtml" />
     <None Include="Views\Shared\LogOnUserControl.cshtml" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
     <Content Include="Views\Users\Edit.aspx" />

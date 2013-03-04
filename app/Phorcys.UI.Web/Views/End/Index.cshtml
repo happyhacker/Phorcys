@@ -8,7 +8,9 @@
   Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 
-<script src="/Phorcys/Scripts/DiveCalcs.js"></script>
+<script type='text/javascript' src='/Phorcys/Scripts/knockout-2.2.1.js'></script>
+<script type='text/javascript' src="/Phorcys/Scripts/DiveCalcs.js"></script>
+<script type='text/javascript' src="/Phorcys/Models/EndModel.js"></script>
 
 <h1>END Calculator</h1>
 
@@ -21,34 +23,28 @@
     <br/> <br/>
     <label for="O2">
       Oxygen %:</label>
-    <input id="O2" name="O2" value="21" size="2"/>
+    <input id="O2" name="O2" data-bind="value: O2" size="2"/>
     
     <label for="HE">
       Helium %:</label>
-    <input id="HE" name="HE" value="0" size="2"/>
+    <input id="HE" name="HE" data-bind="value: He" size="2"/>
 
     <br/><br/>
     <label for="Depth">
       Depth: </label>
-    <input id="Depth" name="Depth" value="" size="4"/>
+    <input id="Depth" name="Depth" data-bind="value: Depth" size="4"/>
     <br/><br/>
 
-    <label for="IsFreshWater">
-      Fresh/Salt Water:</label>
-    <input type="radio" id="Fresh" name="IsFreshWater" value="true"
-           checked="checked" />
-    Fresh
-    <input type="radio" id="Salt" name="IsFreshWater" value="false" />
-    Salt
- 
-    <br/> <br/>
-    <button type="button" id="button" onclick="END.value=CalcEND(parseFloat(form1.HE.value), parseFloat(form1.Depth.value),GetRadioValue(form1.IsFreshWater))">Calc</button>
+    <button data-bind="click: Calc">Calc</button>
     <br/><br/>
 
     <label for="END">
       <b>E</b>quivalent <b>N</b>itrogen <b>D</b>epth
     </label>
-    <input id="END" name="END" size="4" readonly/>
+    <input id="END" name="END" data-bind="value: END" size="4" readonly/>
     <br/><br/>
   </form>
 </div>
+<script type="text/javascript">
+  ko.applyBindings(viewModel);
+</script>

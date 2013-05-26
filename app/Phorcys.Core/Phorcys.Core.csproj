@@ -65,7 +65,6 @@
     <Compile Include="Certification.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Contact.cs" />
-    <Compile Include="Country.cs" />
     <Compile Include="Dive.cs" />
     <Compile Include="DiveAgency.cs" />
     <Compile Include="DiveDetail.cs" />

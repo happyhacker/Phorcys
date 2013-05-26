@@ -10,14 +10,8 @@ namespace Phorcys.Core {
   {
     public DiveSite() { }
 
-    //[DomainSignature]
-   // public virtual int DiveSiteId { get; set; }
-
-    [DomainSignature]
-    public virtual int DiveLocationId { get; set; }
-
-    [DomainSignature]
-    [NotNull, NotEmpty]
+   [DomainSignature]
+   public virtual int DiveLocationId { get; set; }
 
     public virtual string Title { get; set; }
 

@@ -1,0 +1,62 @@
+﻿@using Microsoft.Web.Mvc
+@using Phorcys.Core
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.Web.Controllers
+@using Telerik.Web.Mvc.UI
+@model IEnumerable<Phorcys.Core.Contact>
+@{
+  ViewBag.Title = "Contacts";
+  Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+<script type="text/javascript" language="javascript">
+  function SubmitForm(id) {
+    frmContact.ContactId.value = id;
+    if (confirm("Are you sure?")) {
+      frmContact.submit();
+    }
+  }
+</script>
+
+<h1>
+    Contacts</h1>
+    
+    
+<div id="error" class="errorOnPage">
+@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null)
+       {
+       } <p id="pageMessage">
+           @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+       </p>
+}
+</div>
+
+<p>
+    @(Html.ActionLink<ContactsController>(c => c.Create(), "Create New Contact"))
+ </p> 
+ 
+ <form action="/Phorcys/Contacts/Delete/" name="frmContact" method="post">
+  <input type="hidden" id="ContactId" name="Id" />
+</form>
+
+<div id="grid">
+  @{ Html.Telerik().Grid<Contact>()
+  .Name("ContactGrid")
+  .Pageable(pager => pager.PageSize(20))
+  .BindTo(Model)
+  .Columns(columns =>
+             {
+               columns.Bound(o => o.FirstName).Title("First Name").Sortable(true).Width(10).HtmlAttributes(new {@class = "grid"});
+               columns.Bound(o => o.LastName).Title("Last Name").Sortable(true).Width(10).HtmlAttributes(new {@class = "grid"});
+               columns.Bound(o => o.User.LoginId).Sortable(true);
+               columns.Template(o => Html.ActionLink<ContactsController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
+               columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" }).Width(25);
+             })
+  .Pageable()
+  .Sortable()
+  .Filterable()
+  .Resizable(m => m.Columns(true))
+  .Render();
+  }
+
+</div>
+

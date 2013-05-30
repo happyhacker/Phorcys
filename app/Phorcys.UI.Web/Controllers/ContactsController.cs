@@ -3,17 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SharpArch.Web.NHibernate;
+using SharpArch.Core;
+using SharpArch.Core.PersistenceSupport;
+using log4net;
+using Phorcys.Core;
+using Phorcys.Data;
+using Phorcys.Services;
 
 namespace Phorcys.UI.Web.Controllers
 {
-    public class ContactsController : Controller
-    {
-        //
-        // GET: /Contacts/
+    public class ContactsController : Controller {
+      protected static readonly ILog log = LogManager.GetLogger(typeof(GearController));
+      private readonly ContactServices contactServices = new ContactServices();
+      private readonly UserServices userServices = new UserServices();
 
-        public ActionResult Index()
-        {
-            return View();
+      private readonly IRepository<Contact> contactRepository;
+      private User user;
+
+        public ContactsController(IRepository<Contact> contactRepository) {
+          Check.Require(contactRepository != null, "contactRepository may not be null");
+          this.contactRepository = new PhorcysRepository<Contact>();
+        }
+
+        public ActionResult Index() {
+          user = userServices.FindUser(this.User.Identity.Name);
+          IList<Contact> contacts = contactServices.GetAllForUser(user.Id);
+
+            return View(contacts);
         }
 
         //

@@ -83,8 +83,10 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ContactServices.cs" />
     <Compile Include="DiveSiteServices.cs" />
     <Compile Include="GearServices.cs" />
+    <Compile Include="IContactServices.cs" />
     <Compile Include="IDiveSiteServices.cs" />
     <Compile Include="IGearServices.cs" />
     <Compile Include="ILocationServices.cs" />

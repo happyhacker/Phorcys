@@ -3,7 +3,7 @@
 @using Phorcys.UI.Web.Controllers
 @using Phorcys.Web.Controllers
 @using Telerik.Web.Mvc.UI
-@model IEnumerable<Phorcys.Core.Contact>
+@model IEnumerable<Phorcys.UI.Web.Models.ContactsIndexModel>
 @{
   ViewBag.Title = "Contacts";
   Layout = "~/Views/Shared/SiteMaster.cshtml";
@@ -19,8 +19,6 @@
 
 <h1>
     Contacts</h1>
-    
-    
 <div id="error" class="errorOnPage">
 @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null)
        {
@@ -39,17 +37,20 @@
 </form>
 
 <div id="grid">
-  @{ Html.Telerik().Grid<Contact>()
+  @{ Html.Telerik().Grid<Phorcys.UI.Web.Models.ContactsIndexModel>()
   .Name("ContactGrid")
-  .Pageable(pager => pager.PageSize(20))
+  .Pageable(pager => pager.PageSize(10))
   .BindTo(Model)
   .Columns(columns =>
              {
+               columns.Bound(o => o.Company).Sortable(true).HtmlAttributes(new { @class = "grid" });
                columns.Bound(o => o.FirstName).Title("First Name").Sortable(true).Width(10).HtmlAttributes(new {@class = "grid"});
                columns.Bound(o => o.LastName).Title("Last Name").Sortable(true).Width(10).HtmlAttributes(new {@class = "grid"});
-               columns.Bound(o => o.User.LoginId).Sortable(true);
-               columns.Template(o => Html.ActionLink<ContactsController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
-               columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" }).Width(25);
+               columns.Template(o => o.EmailLink).Title("Email").HtmlAttributes(new { @class = "grid" });
+               columns.Template(o => o.tags).Title("Tags").HtmlAttributes(new { @class = "grid" });
+               columns.Bound(o => o.User).Sortable(true);
+               columns.Template(o => (o.User == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<ContactsController>(c => c.Edit(o.ContactId), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
+               columns.Template(o => (o.User == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.ContactId + ")").ToString())).HtmlAttributes(new { @Class = "grid" }).Width(25);
              })
   .Pageable()
   .Sortable()

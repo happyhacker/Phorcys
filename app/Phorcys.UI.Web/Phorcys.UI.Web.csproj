@@ -290,7 +290,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\ContactsModel.cs" />
+    <Compile Include="Models\ContactsIndexModel.cs" />
     <Compile Include="Models\DiveSiteModel.cs" />
     <Compile Include="Models\DiveSitesIndexModel.cs" />
     <Compile Include="Models\DiveSitesModel.cs" />

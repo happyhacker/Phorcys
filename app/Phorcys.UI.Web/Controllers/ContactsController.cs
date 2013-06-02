@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ using log4net;
 using Phorcys.Core;
 using Phorcys.Data;
 using Phorcys.Services;
+using Phorcys.UI.Web.Models;
 
 namespace Phorcys.UI.Web.Controllers
 {
@@ -29,8 +31,34 @@ namespace Phorcys.UI.Web.Controllers
         public ActionResult Index() {
           user = userServices.FindUser(this.User.Identity.Name);
           IList<Contact> contacts = contactServices.GetAllForUser(user.Id);
+          IList<ContactsIndexModel> contactsModelList = new List<ContactsIndexModel>();
+          ContactsIndexModel contactsModel;
 
-            return View(contacts);
+          foreach (Contact c in contacts) {
+            contactsModel = new ContactsIndexModel();
+            contactsModel.ContactId = c.Id;
+            contactsModel.Company = c.Company;
+            contactsModel.FirstName = c.FirstName;
+            contactsModel.LastName = c.LastName;
+            contactsModel.Email = c.Email;
+            contactsModel.User = c.User.LoginId;
+            contactsModel.tags = getTags(c);
+            contactsModelList.Add(contactsModel);
+          }
+
+            return View(contactsModelList);
+        }
+
+        private string getTags(Contact c) {
+          IList<String> tags = new List<String>();
+          if (! c.DiveAgencies.IsEmpty) 
+            tags.Add("DiveAgency");
+          if (! c.Divers.IsEmpty) 
+            tags.Add("Diver");
+          if (! c.DiveShops.IsEmpty) 
+            tags.Add("DiveShop");
+          
+          return string.Join(", ", tags.ToArray());
         }
 
         //

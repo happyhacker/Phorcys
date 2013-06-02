@@ -270,6 +270,7 @@
     </Compile>
     <Compile Include="CastleWindsor\ComponentRegistrar.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\ControllerEnums.cs" />
     <Compile Include="Controllers\DiveLocationsController.cs" />
     <Compile Include="Controllers\DiveSitesController.cs" />
@@ -289,6 +290,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ContactsIndexModel.cs" />
     <Compile Include="Models\DiveSiteModel.cs" />
     <Compile Include="Models\DiveSitesIndexModel.cs" />
     <Compile Include="Models\DiveSitesModel.cs" />
@@ -682,6 +684,7 @@
     <None Include="Views\Account\ChangePassword.cshtml" />
     <None Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\Contacts\Index.cshtml" />
     <None Include="Views\DiveLocations\Index.cshtml" />
     <None Include="Views\DiveLocations\Create.cshtml" />
     <None Include="Views\DiveLocations\Edit.cshtml" />

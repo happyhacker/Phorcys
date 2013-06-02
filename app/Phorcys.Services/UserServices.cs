@@ -6,7 +6,7 @@ using Phorcys.Core;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Data.NHibernate;
 
-namespace Phorcys.Services.Services {
+namespace Phorcys.Services {
   public class UserServices {
     private readonly IRepository<User> userRepository;
 

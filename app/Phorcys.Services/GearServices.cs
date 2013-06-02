@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Phorcys.Core;
 using Phorcys.Data;
-using Phorcys.Services.Services;
 using SharpArch.Data.NHibernate;
 using log4net;
 

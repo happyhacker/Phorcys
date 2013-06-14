@@ -16,7 +16,7 @@ using Phorcys.UI.Web.Models;
 namespace Phorcys.UI.Web.Controllers
 {
     public class ContactsController : Controller {
-      protected static readonly ILog log = LogManager.GetLogger(typeof(GearController));
+      protected static readonly ILog log = LogManager.GetLogger(typeof(ContactsController));
       private readonly ContactServices contactServices = new ContactServices();
       private readonly UserServices userServices = new UserServices();
 
@@ -28,6 +28,7 @@ namespace Phorcys.UI.Web.Controllers
           this.contactRepository = new PhorcysRepository<Contact>();
         }
 
+        [Authorize]
         public ActionResult Index() {
           user = userServices.FindUser(this.User.Identity.Name);
           IList<Contact> contacts = contactServices.GetAllForUser(user.Id);
@@ -72,6 +73,7 @@ namespace Phorcys.UI.Web.Controllers
         //
         // GET: /Contacts/Create
 
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -81,23 +83,60 @@ namespace Phorcys.UI.Web.Controllers
         // POST: /Contacts/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
+        public ActionResult Create(ContactModel model) {
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+          if (!ModelState.IsValid) {
+            return View();
+          }
+
+          try {
+            saveNewContact(model);
+
+            TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "Contact was successfully created.";
+
+            return RedirectToAction("Index");
+
+          }
+          catch (Exception ex) {
+            StringBuilder errMsg = new StringBuilder();
+            errMsg.Append("Unable to create " + model.Company + ", " + model.FirstName + " " + model.LastName + ". " + ex.Message);
+            log.Error(errMsg.ToString());
+            TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = errMsg.ToString();
+            return View();
+          }
         }
+
+        private void saveNewContact(ContactModel model) {
+          this.user = userServices.FindUser(this.User.Identity.Name);
+          Contact contact = new Contact();
+
+          contact.Company = model.Company == null ? "" : model.Company;
+          contact.FirstName = model.FirstName == null ? "" : model.FirstName;
+          contact.LastName = model.LastName == null ? "" : model.LastName;
+          contact.Gender = model.Gender == null ? "" : model.Gender;
+          contact.Address1 = model.Address1 == null ? "" : model.Address1;
+          contact.Address2 = model.Address2 == null ? "" : model.Address2;
+          contact.City = model.City == null ? "" : model.City;
+          contact.State = model.State == null ? "" : model.State;
+          contact.PostalCode = model.PostalCode == null ? "" : model.PostalCode;
+          contact.CellPhone = model.CellPhone == null ? "" : model.CellPhone;
+          contact.HomePhone = model.HomePhone == null ? "" : model.HomePhone;
+          contact.WorkPhone = model.WorkPhone == null ? "" : model.WorkPhone;
+          contact.Email = model.Email == null ? "" : model.Email;
+          contact.Birthday = model.Birthday;
+          contact.Notes = model.Notes;
+
+          contact.User = this.user;
+          contact.Created = DateTime.Now;
+          contact.LastModified = DateTime.Now;
+          contactServices.Save(contact);
+        }
+
+
         
         //
         // GET: /Contacts/Edit/5
- 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             return View();
@@ -123,7 +162,7 @@ namespace Phorcys.UI.Web.Controllers
 
         //
         // GET: /Contacts/Delete/5
- 
+        [Authorize]
         public ActionResult Delete(int id)
         {
             return View();
@@ -135,16 +174,24 @@ namespace Phorcys.UI.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
- 
-                return RedirectToAction("Index");
+          string resultMessage = "The contact was successfully deleted.";
+          Contact contactToDelete = contactServices.GetContact(id);
+
+          if (contactToDelete != null) {
+            try {
+              contactServices.Delete(contactToDelete);
             }
-            catch
-            {
-                return View();
+            catch {
+              resultMessage = "A problem was encountered preventing this contact from being deleted. " +
+                              "A dive probably references this contact.";
             }
+          }
+          else {
+            resultMessage = "This contact could not be found for deletion. It may already have been deleted.";
+          }
+
+          TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = resultMessage;
+          return RedirectToAction("Index");
         }
     }
 }

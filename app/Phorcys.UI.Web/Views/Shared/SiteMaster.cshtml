@@ -33,7 +33,7 @@
                                               item.Add().Text("Sold");
                                               item.Add().Text("Insurance");
                              });
-                           items.Add().Text("Locations/Sites")
+                           items.Add().Text("Locations/Sites").Action("Index","DiveLocations")
                              .Items(item => {
                                               item.Add().Text("Dive Locations").Action("Index", "DiveLocations");
                                               item.Add().Text("Dive Sites").Action("Index", "DiveSites");

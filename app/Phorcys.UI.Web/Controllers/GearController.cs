@@ -54,7 +54,7 @@ namespace Phorcys.UI.Web.Controllers
 
     //
     // GET: /Gear/Create
-
+    [Authorize]
     public ActionResult Create()
     {
       return View();
@@ -119,6 +119,7 @@ namespace Phorcys.UI.Web.Controllers
     }
 
 // GET: /Gear/Edit/5
+    [Authorize]
     public ActionResult Edit(int id) {
       GearModel viewModel = getGearView(id);
       return View(viewModel);

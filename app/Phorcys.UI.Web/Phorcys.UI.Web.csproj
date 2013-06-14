@@ -290,6 +290,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\ContactsIndexModel.cs" />
     <Compile Include="Models\DiveSiteModel.cs" />
     <Compile Include="Models\DiveSitesIndexModel.cs" />
@@ -685,6 +686,7 @@
     <None Include="Views\Account\ChangePasswordSuccess.cshtml" />
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\Contacts\Create.cshtml" />
     <None Include="Views\DiveLocations\Index.cshtml" />
     <None Include="Views\DiveLocations\Create.cshtml" />
     <None Include="Views\DiveLocations\Edit.cshtml" />

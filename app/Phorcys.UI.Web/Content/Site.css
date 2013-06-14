@@ -114,8 +114,8 @@ first child of the left and right table columns */
 page width. Or, you can specify an exact pixel width. */
 .page
 {
-    width: 99%;
-    margin-top: 10px;
+    width: 100%;
+    margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -168,7 +168,7 @@ p#logo, h1#logo
 
 .columnsContainer
 {
-    position: relative;
+    position:relative;
 }
 
 .editor-label {
@@ -309,6 +309,7 @@ ul#mainMenu li.selected a
 .grid a
 {
 	color: #000;
+	background-color:White;
 	text-decoration: underline;
 }
 

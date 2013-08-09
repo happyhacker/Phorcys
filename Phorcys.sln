@@ -1,13 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generation", "Code Generation", "{444836E2-F827-47F4-A568-E266FDBD8906}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Design", "Design", "{33333EC7-3915-4C55-A891-526E15AF9A85}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phorcys.Core", "app\Phorcys.Core\Phorcys.Core.csproj", "{7696B4F6-2A10-40C4-A1E2-B9768182588C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phorcys.Data", "app\Phorcys.Data\Phorcys.Data.csproj", "{63E9AECE-3385-44F0-BDF9-4C01DD3C0647}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phorcys.Tests.Unit", "tests\Phorcys.Tests.Unit\Phorcys.Tests.Unit.csproj", "{A909BF90-3A0F-4CB9-9D78-44328589BF2C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generation", "Code Generation", "{444836E2-F827-47F4-A568-E266FDBD8906}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudScaffoldingForEnterpriseApp", "tools\CrudScaffoldingForEnterpriseApp\CrudScaffoldingForEnterpriseApp.csproj", "{D0A5D52D-4397-4DD7-BD20-8FBE3C35288F}"
 EndProject
@@ -18,8 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phorcys.UI.Web", "app\Phorcys.UI.Web\Phorcys.UI.Web.csproj", "{CD7332DD-EA9E-462E-8BEF-492354A7837B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phorcys.Services.Contracts", "app\Phorcys.Services.Contracts\Phorcys.Services.Contracts.csproj", "{84C055FA-8487-4D56-8519-BFD3E5A8A18C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Design", "Design", "{33333EC7-3915-4C55-A891-526E15AF9A85}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackLib", "..\..\..\HackLib\HackLib.csproj", "{9432AE93-C3BD-4047-A1E1-2EC5C48841EC}"
 EndProject

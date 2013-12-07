@@ -84,6 +84,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ContactServices.cs" />
+    <Compile Include="CountryServices.cs" />
+    <Compile Include="ICountryServices.cs" />
     <Compile Include="DiveSiteServices.cs" />
     <Compile Include="GearServices.cs" />
     <Compile Include="IContactServices.cs" />

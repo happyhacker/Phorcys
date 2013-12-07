@@ -31,5 +31,20 @@ namespace Phorcys.Data {
         return list;
       }
     }
+
+    public Country GetCountry(string Id) {
+      DetachedCriteria criteria = DetachedCriteria.For(typeof(T));
+      criteria.Add(Expression.Eq("CountryId", Id));
+
+      using (var transaction = Session.BeginTransaction())
+      {
+        Country country = criteria.GetExecutableCriteria(Session).UniqueResult<Country>();
+        transaction.Commit();
+
+        return country;
+      }
+    }
+
+
   }
 }

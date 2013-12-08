@@ -8,5 +8,6 @@ namespace Phorcys.Data {
     IList<T> GetAllSystemAndUser(int userId, int systemId);
     IList<T> GetByCriteria(DetachedCriteria criteria);
     Country GetCountry(string Id);
+    IList<T> GetAllCountries();
   }
 }

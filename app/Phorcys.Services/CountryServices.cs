@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using NHibernate.Criterion;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Data.NHibernate;
 using Phorcys.Core;
@@ -17,5 +19,14 @@ namespace Phorcys.Services {
      {
        return CountryRepository.GetCountry(id);
      }
+
+    public IList<Country> GetAll()
+    {
+      IList<Country> countries = CountryRepository.GetAllCountries();
+
+        return countries;
+      }
+
+    } 
   }
-}
+

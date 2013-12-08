@@ -45,6 +45,18 @@ namespace Phorcys.Data {
       }
     }
 
+    public IList<T> GetAllCountries() {
+      DetachedCriteria criteria = DetachedCriteria.For(typeof(T));
+      criteria.Add(Expression.IsNotEmpty("CountryCode"));
+
+      using (var transaction = Session.BeginTransaction()) {
+        IList<T> retVal = criteria.GetExecutableCriteria(Session).List<T>();
+        transaction.Commit();
+
+        return retVal;
+      }
+
+    } 
 
   }
 }

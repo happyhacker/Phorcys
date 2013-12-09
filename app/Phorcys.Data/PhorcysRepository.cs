@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,8 +37,7 @@ namespace Phorcys.Data {
       DetachedCriteria criteria = DetachedCriteria.For(typeof(T));
       criteria.Add(Expression.Eq("CountryId", Id));
 
-      using (var transaction = Session.BeginTransaction())
-      {
+      using (var transaction = Session.BeginTransaction()) {
         Country country = criteria.GetExecutableCriteria(Session).UniqueResult<Country>();
         transaction.Commit();
 
@@ -45,18 +45,22 @@ namespace Phorcys.Data {
       }
     }
 
-    public IList<T> GetAllCountries() {
-      DetachedCriteria criteria = DetachedCriteria.For(typeof(T));
-      criteria.Add(Expression.IsNotEmpty("CountryCode"));
+    public IList<Country> GetAllCountries() {
+      //DetachedCriteria criteria = DetachedCriteria.For(typeof(Country));
+      //criteria.Add(Expression.IsNotEmpty("CountryCode"));
 
-      using (var transaction = Session.BeginTransaction()) {
-        IList<T> retVal = criteria.GetExecutableCriteria(Session).List<T>();
-        transaction.Commit();
+      //using (var transaction = Session.BeginTransaction())
+      //{
+      //  IList<Country> retVal = criteria.GetExecutableCriteria(Session).List<Country>();
+      //  transaction.Commit();
 
-        return retVal;
-      }
+      ICriteria criteria = Session.CreateCriteria(typeof(Country));
+      IList<Country> retVal = criteria.List<Country>();
 
-    } 
+      return retVal;
+    }
 
   }
+
 }
+

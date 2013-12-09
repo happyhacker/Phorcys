@@ -91,23 +91,23 @@ namespace Phorcys.UI.Web.Controllers
 
         private IList<Country> GetCountries()
         {
-          //IList<Country> countries = countryServices.GetAll();
+          IList<Country> countries = countryServices.GetAll();
 
-          IList<Country> countries = new List<Country>();
-          Country c0 = new Country();
-          c0.CountryCode = "";
-          c0.Name = "";
-          countries.Add(c0);
+          //IList<Country> countries = new List<Country>();
+          //Country c0 = new Country();
+          //c0.CountryCode = "";
+          //c0.Name = "";
+          //countries.Add(c0);
 
-          Country c1 = new Country();
-          c1.CountryCode = "US";
-          c1.Name = "United States";
-          countries.Add(c1);
+          //Country c1 = new Country();
+          //c1.CountryCode = "US";
+          //c1.Name = "United States";
+          //countries.Add(c1);
 
-          Country c2 = new Country();
-          c2.CountryCode = "BS";
-          c2.Name = "Bahamas";
-          countries.Add(c2);
+          //Country c2 = new Country();
+          //c2.CountryCode = "BS";
+          //c2.Name = "Bahamas";
+          //countries.Add(c2);
 
           return countries;
         }

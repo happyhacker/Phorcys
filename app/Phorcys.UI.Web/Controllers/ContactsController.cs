@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MvcContrib.FluentHtml.Elements;
 using SharpArch.Web.NHibernate;
 using SharpArch.Core;
 using SharpArch.Core.PersistenceSupport;
@@ -18,6 +20,7 @@ namespace Phorcys.UI.Web.Controllers
     public class ContactsController : Controller {
       protected static readonly ILog log = LogManager.GetLogger(typeof(ContactsController));
       private readonly ContactServices contactServices = new ContactServices();
+      private readonly CountryServices countryServices = new CountryServices();
       private readonly UserServices userServices = new UserServices();
 
       private readonly IRepository<Contact> contactRepository;
@@ -41,6 +44,7 @@ namespace Phorcys.UI.Web.Controllers
             contactsModel.Company = c.Company;
             contactsModel.FirstName = c.FirstName;
             contactsModel.LastName = c.LastName;
+            
             contactsModel.Email = c.Email;
             contactsModel.User = c.User.LoginId;
             contactsModel.tags = getTags(c);
@@ -62,6 +66,53 @@ namespace Phorcys.UI.Web.Controllers
           return string.Join(", ", tags.ToArray());
         }
 
+        //private SelectList BuildCountryList(string code) {
+        private IList<SelectListItem> BuildCountryList(string code) {
+          IList<SelectListItem> CountryList = new List<SelectListItem>();
+          IList<Country> countries = GetCountries();
+          SelectListItem CountryItem;
+          //retVal = null;
+
+          countries = countries.OrderBy(m => m.Name).ToList();
+          foreach (var country in countries) {
+            CountryItem = new SelectListItem();
+            CountryItem.Text = country.Name;
+            CountryItem.Value = country.CountryCode;
+            if (code != "") {
+              if (country.CountryCode == code) {
+                CountryItem.Selected = true;
+              }
+            }
+            CountryList.Add(CountryItem);
+          }
+          //retVal = new SelectList(CountryList);
+          return CountryList;
+        }
+
+        private IList<Country> GetCountries()
+        {
+          IList<Country> countries = countryServices.GetAll();
+
+          //IList<Country> countries = new List<Country>();
+          //Country c0 = new Country();
+          //c0.CountryCode = "";
+          //c0.Name = "";
+          //countries.Add(c0);
+
+          //Country c1 = new Country();
+          //c1.CountryCode = "US";
+          //c1.Name = "United States";
+          //countries.Add(c1);
+
+          //Country c2 = new Country();
+          //c2.CountryCode = "BS";
+          //c2.Name = "Bahamas";
+          //countries.Add(c2);
+
+          return countries;
+        }
+
+
         //
         // GET: /Contacts/Details/5
 
@@ -76,7 +127,12 @@ namespace Phorcys.UI.Web.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            return View();
+          ContactModel viewModel = new ContactModel();
+          //IList<SelectListItem> DiveLocationsListItems = BuildLocationList(locationId);
+          //viewModel.DiveLocationsListItems = DiveLocationsListItems;
+          viewModel.Countries = BuildCountryList("");
+
+          return View("Create", viewModel);
         } 
 
         //
@@ -183,7 +239,7 @@ namespace Phorcys.UI.Web.Controllers
             }
             catch {
               resultMessage = "A problem was encountered preventing this contact from being deleted. " +
-                              "A dive probably references this contact.";
+                              "something references this contact.";
             }
           }
           else {

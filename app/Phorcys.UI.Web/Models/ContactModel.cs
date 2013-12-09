@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Phorcys.Core;
 
 namespace Phorcys.UI.Web.Models {
   public class ContactModel {
@@ -22,7 +24,8 @@ namespace Phorcys.UI.Web.Models {
     public string City { get; set; }
     public string State { get; set; }
     public string PostalCode { get; set; }
-
+    public Country Country { get; set; }
+    public IList<SelectListItem> Countries { get; set; }
     public DateTime? Birthday { get; set; }
  
     public string HomePhone { get; set; }

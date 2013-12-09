@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,5 +32,35 @@ namespace Phorcys.Data {
         return list;
       }
     }
+
+    public Country GetCountry(string Id) {
+      DetachedCriteria criteria = DetachedCriteria.For(typeof(T));
+      criteria.Add(Expression.Eq("CountryId", Id));
+
+      using (var transaction = Session.BeginTransaction()) {
+        Country country = criteria.GetExecutableCriteria(Session).UniqueResult<Country>();
+        transaction.Commit();
+
+        return country;
+      }
+    }
+
+    public IList<Country> GetAllCountries() {
+      //DetachedCriteria criteria = DetachedCriteria.For(typeof(Country));
+      //criteria.Add(Expression.IsNotEmpty("CountryCode"));
+
+      //using (var transaction = Session.BeginTransaction())
+      //{
+      //  IList<Country> retVal = criteria.GetExecutableCriteria(Session).List<Country>();
+      //  transaction.Commit();
+
+      ICriteria criteria = Session.CreateCriteria(typeof(Country));
+      IList<Country> retVal = criteria.List<Country>();
+
+      return retVal;
+    }
+
   }
+
 }
+

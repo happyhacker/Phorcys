@@ -31,13 +31,14 @@ input
 {
     font-family: Verdana, Helvetica, Sans-Serif;
     font-size: 1.0em;
-  background-color: darkgray;
+    background-color: darkgray;
 }
 
 button
 {
     font-family: Verdana, Helvetica, Sans-Serif;
-    font-size: 1.0em;    
+    font-size: 1.0em;
+    background-color: darkgray; 
 }
 
 a:link

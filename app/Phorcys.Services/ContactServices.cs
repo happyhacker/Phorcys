@@ -46,9 +46,15 @@ namespace Phorcys.Services {
     public IList<Contact> GetAllForUser(int userId) {
       UserServices userServices = new UserServices(new Repository<User>());
       User systemUser = userServices.FindUser("system");
-
-      IList<Contact> contact = ContactRepository.GetAllSystemAndUser(userId, systemUser.Id);
-
+      IList<Contact> contact = null;
+      try
+      {
+        contact = ContactRepository.GetAllSystemAndUser(userId, systemUser.Id);
+      }
+      catch (Exception e)
+      {
+        log.Error("Error retrieving contacts");
+      }
       return contact;
     }
   }

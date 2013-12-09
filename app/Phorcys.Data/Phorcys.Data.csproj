@@ -85,6 +85,7 @@
     <Compile Include="IGearRepository.cs" />
     <Compile Include="IPhorcysRepository.cs" />
     <Compile Include="NHibernateMaps\ContactMap.cs" />
+    <Compile Include="NHibernateMaps\CountryMap.cs" />
     <Compile Include="NHibernateMaps\DiveAgencyMapping.cs" />
     <Compile Include="NHibernateMaps\DiveLocationMap.cs" />
     <Compile Include="NHibernateMaps\DiveMap.cs" />

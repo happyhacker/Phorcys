@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Phorcys.Core;
 using Phorcys.Data;
 using SharpArch.Data.NHibernate;
@@ -65,8 +66,18 @@ namespace Phorcys.Services {
       return;
     }
 
-    public Gear GetGear(int id) {
-      return GearRepository.Get(id);
+    public Gear GetGear(int id)
+    {
+      Gear gear = new Gear();
+      gear = GearRepository.Get(id);
+      try
+      {
+        int gearId = gear.Tank.GearId;
+      }catch(Exception e)
+      {
+        gear.Tank = null;
+      }
+      return gear;
     }
 
     public Tank GetTank(int id)

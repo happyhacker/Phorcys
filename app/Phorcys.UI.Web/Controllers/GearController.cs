@@ -179,7 +179,7 @@ namespace Phorcys.UI.Web.Controllers
       viewModel.Acquired = gear.Acquired;
       viewModel.Notes = gear.Notes;
       viewModel.Paid = Math.Round(gear.Paid, 2);
-      viewModel.RetailPrice = gear.RetailPrice;
+      viewModel.RetailPrice = Math.Round(gear.RetailPrice,2);
       viewModel.Sn = gear.Sn;
       viewModel.Title = gear.Title;
       viewModel.Weight = gear.Weight;

@@ -185,7 +185,8 @@ namespace Phorcys.UI.Web.Controllers
       viewModel.Weight = gear.Weight;
       viewModel.MonthSelectList = selectListHelper.GetMonthsList(0);
 
-      if (gear.Tank != null) {
+      //if (gear.Tank != null) {
+      try {
         isTank = true;
         viewModel.GearId = gear.Tank.GearId;
         viewModel.ManufacturedMonth = gear.Tank.ManufacturedMonth;
@@ -193,6 +194,10 @@ namespace Phorcys.UI.Web.Controllers
         viewModel.TankVolume = gear.Tank.Volume;
         viewModel.WorkingPressure = gear.Tank.WorkingPressure;
         viewModel.MonthSelectList = selectListHelper.GetMonthsList(gear.Tank.ManufacturedMonth);
+      }
+      catch (Exception)
+      {
+          gear.Tank = null;
       }
 
       return viewModel;

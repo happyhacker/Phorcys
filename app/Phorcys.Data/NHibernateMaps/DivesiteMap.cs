@@ -17,7 +17,6 @@ namespace Phorcys.Data.NHibernateMaps {
       //Map(x => x.DiveLocationId, "DiveLocationId").Nullable();
       Map(x => x.Created).ReadOnly();
       Map(x => x.LastModified).ReadOnly();
-      HasMany(x => x.Dives).KeyColumn("DiveSiteId").Fetch.Select().AsSet();
       References(x => x.DiveLocation).Class(typeof(DiveLocation)).Column("DiveLocationId").Insert().Update().Nullable();
       References(x => x.User)
         .Class(typeof (User))

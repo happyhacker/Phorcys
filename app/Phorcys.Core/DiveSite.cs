@@ -40,10 +40,7 @@ namespace Phorcys.Core {
       get;
       set;
     }
-    public virtual ISet<Dive> Dives {
-      get;
-      set;
-    }
+
     public virtual ISet<DiveSiteUrl> DiveSiteUrls {
       get;
       set;

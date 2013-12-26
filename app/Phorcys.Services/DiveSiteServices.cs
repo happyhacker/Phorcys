@@ -20,7 +20,7 @@ namespace Phorcys.Services {
       try {
         diveSiteRepository.DbContext.CommitChanges();
       }
-      catch {
+      catch (Exception e) {
         diveSiteRepository.DbContext.RollbackTransaction();       
         throw new Exception("A problem was encountered preventing the diveSite from being deleted. " +
                             "Another item likely depends on this diveSite.");

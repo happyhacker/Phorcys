@@ -195,14 +195,28 @@ namespace Phorcys.UI.Web.Controllers
         [Authorize]
         public ActionResult Edit(int id)
         {
-            return View();
+            ContactModel model = new ContactModel();
+            Contact contact = contactServices.GetContact(id);
+            model.Address1 = contact.Address1;
+            model.Address2 = contact.Address2;
+            model.City = contact.City;
+            model.Company = contact.Company;
+            model.ContactId = contact.Id;
+            model.Email = contact.Email;
+            model.FirstName = contact.FirstName;
+            model.LastName = contact.LastName;
+            model.Notes = contact.Notes;
+            model.PostalCode = contact.PostalCode;
+            model.State = contact.State;
+
+            return View(model);
         }
 
         //
         // POST: /Contacts/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, ContactModel model)
         {
             try
             {

@@ -699,6 +699,7 @@
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Contacts\Index.cshtml" />
     <Content Include="Views\Contacts\Create.cshtml" />
+    <Content Include="Views\Contacts\Edit.cshtml" />
     <None Include="Views\DiveLocations\Index.cshtml" />
     <None Include="Views\DiveLocations\Create.cshtml" />
     <None Include="Views\DiveLocations\Edit.cshtml" />

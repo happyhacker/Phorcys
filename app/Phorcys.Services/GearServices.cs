@@ -68,15 +68,9 @@ namespace Phorcys.Services {
 
     public Gear GetGear(int id)
     {
-      Gear gear = new Gear();
-      gear = GearRepository.Get(id);
-      try
-      {
-        int gearId = gear.Tank.GearId;
-      }catch(Exception e)
-      {
-        gear.Tank = null;
-      }
+      Gear gear = GearRepository.Get(id);
+      Tank tank = TankRepository.Get(id);
+      gear.Tank = tank;
       return gear;
     }
 

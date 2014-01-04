@@ -165,30 +165,33 @@ namespace Phorcys.UI.Web.Controllers
         private void saveNewContact(ContactModel model) {
           this.user = userServices.FindUser(this.User.Identity.Name);
           Contact contact = new Contact();
-
-          contact.Company = model.Company == null ? "" : model.Company;
-          contact.FirstName = model.FirstName == null ? "" : model.FirstName;
-          contact.LastName = model.LastName == null ? "" : model.LastName;
-          contact.Gender = model.Gender == null ? "" : model.Gender;
-          contact.Address1 = model.Address1 == null ? "" : model.Address1;
-          contact.Address2 = model.Address2 == null ? "" : model.Address2;
-          contact.City = model.City == null ? "" : model.City;
-          contact.State = model.State == null ? "" : model.State;
-          contact.PostalCode = model.PostalCode == null ? "" : model.PostalCode;
-          contact.CellPhone = model.CellPhone == null ? "" : model.CellPhone;
-          contact.HomePhone = model.HomePhone == null ? "" : model.HomePhone;
-          contact.WorkPhone = model.WorkPhone == null ? "" : model.WorkPhone;
-          contact.Email = model.Email == null ? "" : model.Email;
-          contact.Birthday = model.Birthday;
-          contact.Notes = model.Notes;
-
+          contact = UpdateContactFromModel(contact, model);
           contact.User = this.user;
           contact.Created = DateTime.Now;
           contact.LastModified = DateTime.Now;
           contactServices.Save(contact);
         }
 
+        private Contact UpdateContactFromModel(Contact contact, ContactModel model)
+        {
+            contact.Company = model.Company == null ? "" : model.Company;
+            contact.FirstName = model.FirstName == null ? "" : model.FirstName;
+            contact.LastName = model.LastName == null ? "" : model.LastName;
+            contact.Gender = model.Gender == null ? "" : model.Gender;
+            contact.Address1 = model.Address1 == null ? "" : model.Address1;
+            contact.Address2 = model.Address2 == null ? "" : model.Address2;
+            contact.City = model.City == null ? "" : model.City;
+            contact.State = model.State == null ? "" : model.State;
+            contact.PostalCode = model.PostalCode == null ? "" : model.PostalCode;
+            contact.CellPhone = model.CellPhone == null ? "" : model.CellPhone;
+            contact.HomePhone = model.HomePhone == null ? "" : model.HomePhone;
+            contact.WorkPhone = model.WorkPhone == null ? "" : model.WorkPhone;
+            contact.Email = model.Email == null ? "" : model.Email;
+            contact.Birthday = model.Birthday;
+            contact.Notes = model.Notes;
 
+            return contact;
+        }
         
         //
         // GET: /Contacts/Edit/5
@@ -220,8 +223,10 @@ namespace Phorcys.UI.Web.Controllers
         {
             try
             {
-                // TODO: Add update logic here
- 
+                Contact contact = contactServices.GetContact(id);
+                contact = UpdateContactFromModel(contact, model);
+                contactServices.Save(contact);
+
                 return RedirectToAction("Index");
             }
             catch

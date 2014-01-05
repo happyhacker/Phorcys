@@ -27,7 +27,7 @@
                                               item.Add().Text("Instructors");
                                               item.Add().Text("Agencies");
                              });
-                           items.Add().Text("My Profile");
+                           items.Add().Text("My Profile").Action("EditProfile", "Contacts");
                            items.Add().Text("Gear").Action("Index","Gear")
                              .Items(item => {
                                               item.Add().Text("Sold");

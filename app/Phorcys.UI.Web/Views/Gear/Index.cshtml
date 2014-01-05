@@ -48,10 +48,11 @@
                columns.Bound(o => o.Paid).Format("{0:$###,###0.00}");
                columns.Bound(o => o.Weight);
                columns.Bound(o => o.Created).Format("{0:MM/dd/yy}");
-               columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
+               columns.Bound(o => o.LastModified).Title("Modified").Format("{0:MM/dd/yy}");
+               //columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
                //columns.Template(o => Html.ActionLink<GearController>(c => c.Details(o.Id), "Display")).Width(5).HtmlAttributes(new { @class = "grid" });
-               columns.Template(o => Html.ActionLink<GearController>(c => c.Edit(o.GearId), "Edit")).Width(5).HtmlAttributes(new { @class = "grid" });
-               columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.GearId + ")").ToString())).HtmlAttributes(new { @Class = "grid" }).Width(25);
+               columns.Template(o => Html.ActionLink<GearController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new { @class = "grid" });
+               columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" }).Width(25);
              })
   .Pageable()
   .Sortable()

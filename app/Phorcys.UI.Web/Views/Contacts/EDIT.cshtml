@@ -1,0 +1,117 @@
+﻿@using Microsoft.Web.Mvc
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.UI.Web.Models
+@using Phorcys.Core
+@using SharpArch.Web.Areas
+@model ContactModel
+@{
+    ViewBag.Title = "Edit Contact";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+<h2>
+    Add a Contact</h2>
+@if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+    <p id="pageMessage">
+        @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
+}
+<!--@Html.ValidationSummary()-->
+@using (Html.BeginForm("Edit", "Contacts")) {
+    @Html.AntiForgeryToken()
+
+  <div class="errorOnPage">
+    @Html.ValidationSummary(true, "Please correct the errors and try again.")
+  </div>
+    
+    <label for="Company">
+        Company:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.Company, new{@size = "50"})
+        @Html.ValidationMessageFor(m => m.Company)
+    </div>
+    <br />
+    
+    <label for="FirstName">
+        First Name:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.FirstName, Model.FirstName )
+         @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+    <br />
+    
+   <label for="LastName">
+       Last Name:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+    <br />
+ 
+    <label for="Address 1">
+        Address 1:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.Address1, new {@size ="50"})
+        @Html.ValidationMessageFor(m => m.Address1)
+    </div>
+    <br />
+ 
+     <label for="Address 2">
+        Address 2:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.Address2, new {@size ="50"})
+        @Html.ValidationMessageFor(m => m.Address2)
+    </div>
+    <br />
+ 
+    <label for="City">
+        City:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.City)
+        @Html.ValidationMessageFor(m => m.City)
+    </div>
+    <br />
+ 
+    <label for="State">
+        State:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.State)
+        @Html.ValidationMessageFor(m => m.State) 
+    </div>
+    <br />
+
+    <label for="Postal Code">
+        Postal Code:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.PostalCode)
+        @Html.ValidationMessageFor(m => m.PostalCode)
+    </div>
+    <br />
+ 
+    <label for="Country">
+        Country:</label>
+    <div>
+   </div>
+    <br />
+
+ 
+    <label for="email">
+        Email:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.Email)
+         @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    <br />
+ 
+<label for="Notes">
+        Notes:</label>
+    <div>
+        <br />
+        <textarea id="Notes" name="Notes" rows="6" cols="70">@Model.Notes </textarea>
+    </div>
+    <br />
+    @Html.ValidationMessageFor(m => m.Notes)
+    <br />
+
+      @Html.SubmitButton("btnSave", "Save Contact") 
+      @Html.Encode(" ")
+      @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+}

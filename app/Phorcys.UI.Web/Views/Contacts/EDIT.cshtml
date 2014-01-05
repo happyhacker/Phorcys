@@ -9,13 +9,13 @@
     Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 <h2>
-    Add a Contact</h2>
+    Edit Contact</h2>
 @if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
     <p id="pageMessage">
         @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
 }
 <!--@Html.ValidationSummary()-->
-@using (Html.BeginForm("Edit", "Contacts")) {
+@using (Html.BeginForm("Edit"+"/" + @Model.ContactId, "Contacts")) {
     @Html.AntiForgeryToken()
 
   <div class="errorOnPage">

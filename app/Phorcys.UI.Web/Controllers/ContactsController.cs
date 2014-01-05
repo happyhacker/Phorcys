@@ -212,7 +212,14 @@ namespace Phorcys.UI.Web.Controllers
             model.PostalCode = contact.PostalCode;
             model.State = contact.State;
 
-            return View(model);
+            return View("Edit",model);
+        }
+
+        [Authorize]
+        public ActionResult EditProfile()
+        {
+            user = userServices.FindUser(this.User.Identity.Name);
+            return (Edit(user.Contact.Id));
         }
 
         //

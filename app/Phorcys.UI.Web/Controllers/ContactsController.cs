@@ -219,6 +219,15 @@ namespace Phorcys.UI.Web.Controllers
         public ActionResult EditProfile()
         {
             user = userServices.FindUser(this.User.Identity.Name);
+            if (user.Contact == null)
+            {
+                Contact contact = new Contact();
+                contact.User = user;
+                contact.Created = System.DateTime.Now;
+                contactServices.Save(contact);
+                user.Contact = contact;
+                userServices.Save(user);
+            }
             return (Edit(user.Contact.Id));
         }
 

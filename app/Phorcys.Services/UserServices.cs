@@ -5,9 +5,11 @@ using System.Text;
 using Phorcys.Core;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Data.NHibernate;
+using log4net;
 
 namespace Phorcys.Services {
   public class UserServices {
+    protected static readonly ILog log = LogManager.GetLogger(typeof(ContactServices));
     private readonly IRepository<User> userRepository;
 
     public UserServices() {
@@ -26,6 +28,22 @@ namespace Phorcys.Services {
       //dictionary.Add("Password", password);
       user = userRepository.FindOne(dictionary);
       return user;
+    }
+
+    public User Save(User user)
+    {
+        try
+        {
+            userRepository.SaveOrUpdate(user);
+            userRepository.DbContext.CommitChanges();
+        }
+        catch (Exception e)
+        {
+            log.Error("Unable to save user " + user.LoginId, e);
+            throw e;
+        }
+        return user;
+
     }
   }
 }

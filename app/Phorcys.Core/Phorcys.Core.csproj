@@ -71,6 +71,7 @@
     <Compile Include="DiveDetail.cs" />
     <Compile Include="DiveDetailUrl.cs" />
     <Compile Include="DiveLocation.cs" />
+    <Compile Include="Instructor.cs" />
     <Compile Include="Diver.cs" />
     <Compile Include="DiverCertification.cs" />
     <Compile Include="DiverQualification.cs" />

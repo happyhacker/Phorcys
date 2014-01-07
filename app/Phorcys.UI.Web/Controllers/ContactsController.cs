@@ -62,6 +62,10 @@ namespace Phorcys.UI.Web.Controllers
             tags.Add("Diver");
           if (! c.DiveShops.IsEmpty) 
             tags.Add("DiveShop");
+          if (! c.Instructors.IsEmpty)
+            tags.Add("Instructor");
+          if (! c.Manufacturers.IsEmpty)
+            tags.Add("Manufacturer");
           
           return string.Join(", ", tags.ToArray());
         }

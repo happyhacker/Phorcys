@@ -41,3 +41,4 @@ tests/coverage.xml.bkp
 temp.config_output
 NDependOut/**/*.*
 *.nccov
+db/SCUBA.dez

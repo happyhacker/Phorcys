@@ -5,7 +5,7 @@
 /* Project name:                                                          */
 /* Author:                                                                */
 /* Script type:           Alter database script                           */
-/* Created on:            2014-01-05 22:43                                */
+/* Created on:            2014-01-07 23:16                                */
 /* ---------------------------------------------------------------------- */
 
 
@@ -17,11 +17,11 @@ ALTER TABLE [dbo].[Instructors] DROP CONSTRAINT [Contacts_Instructors]
 GO
 
 
-ALTER TABLE [dbo].[Instructors] DROP CONSTRAINT [DiveAgencies_Instructors]
+ALTER TABLE [dbo].[DiverCertifications] DROP CONSTRAINT [Instructors_DiverCertifications]
 GO
 
 
-ALTER TABLE [dbo].[DiverCertifications] DROP CONSTRAINT [Instructors_DiverCertifications]
+ALTER TABLE [dbo].[AgencyInstructors] DROP CONSTRAINT [Instructors_AgencyInstructors]
 GO
 
 
@@ -29,19 +29,21 @@ GO
 /* Drop and recreate table "dbo.Instructors"                              */
 /* ---------------------------------------------------------------------- */
 
-ALTER TABLE [dbo].[Instructors] DROP CONSTRAINT [DEF_Instructors_InstructorNumber]
-GO
-
-
 ALTER TABLE [dbo].[Instructors] DROP CONSTRAINT [PK_Instructors]
 GO
 
 
 CREATE TABLE [dbo].[Instructors_TMP] (
-    [InstructorId] INTEGER NOT NULL,
+    [InstructorId] INTEGER IDENTITY(1,1) NOT NULL,
     [ContactId] INTEGER NOT NULL,
     [Notes] VARCHAR(max))
 GO
+
+
+
+SET IDENTITY_INSERT [dbo].[Instructors_TMP] ON
+GO
+
 
 
 INSERT INTO [dbo].[Instructors_TMP]
@@ -50,6 +52,12 @@ SELECT
     [InstructorId],[ContactId],[Notes]
 FROM [dbo].[Instructors]
 GO
+
+
+
+SET IDENTITY_INSERT [dbo].[Instructors_TMP] OFF
+GO
+
 
 
 DROP TABLE [dbo].[Instructors]
@@ -82,19 +90,6 @@ GO
 
 
 /* ---------------------------------------------------------------------- */
-/* Add table "AgencyInstructors"                                          */
-/* ---------------------------------------------------------------------- */
-
-CREATE TABLE [AgencyInstructors] (
-    [InstructorId] INTEGER NOT NULL,
-    [DiveAgencyId] INTEGER NOT NULL,
-    [InstructorAgencyId] VARCHAR(20),
-    CONSTRAINT [PK_AgencyInstructors] PRIMARY KEY ([InstructorId], [DiveAgencyId])
-)
-GO
-
-
-/* ---------------------------------------------------------------------- */
 /* Add foreign key constraints                                            */
 /* ---------------------------------------------------------------------- */
 
@@ -103,17 +98,12 @@ ALTER TABLE [dbo].[Instructors] ADD CONSTRAINT [Contacts_Instructors]
 GO
 
 
-ALTER TABLE [AgencyInstructors] ADD CONSTRAINT [Instructors_AgencyInstructors] 
+ALTER TABLE [dbo].[DiverCertifications] ADD CONSTRAINT [Instructors_DiverCertifications] 
     FOREIGN KEY ([InstructorId]) REFERENCES [dbo].[Instructors] ([InstructorId])
 GO
 
 
-ALTER TABLE [AgencyInstructors] ADD CONSTRAINT [DiveAgencies_AgencyInstructors] 
-    FOREIGN KEY ([DiveAgencyId]) REFERENCES [dbo].[DiveAgencies] ([DiveAgencyId])
-GO
-
-
-ALTER TABLE [dbo].[DiverCertifications] ADD CONSTRAINT [Instructors_DiverCertifications] 
+ALTER TABLE [dbo].[AgencyInstructors] ADD CONSTRAINT [Instructors_AgencyInstructors] 
     FOREIGN KEY ([InstructorId]) REFERENCES [dbo].[Instructors] ([InstructorId])
 GO
 

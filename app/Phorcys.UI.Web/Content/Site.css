@@ -327,3 +327,13 @@ ul#mainMenu li.selected a
     border: 1px solid #ff0000;
     background-color: #ffeeee;
 }
+
+.BoxShadow {
+-moz-border-radius: 15px;
+border-radius: 5px;
+-moz-box-shadow: 5px 5px 5px black;
+-webkit-box-shadow: 5px 5px 5px black;
+box-shadow: 5px 5px 5px black;
+    background: darkgray;
+padding: 15px;
+}

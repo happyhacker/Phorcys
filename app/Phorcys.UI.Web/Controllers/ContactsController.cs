@@ -17,103 +17,113 @@ using Phorcys.UI.Web.Models;
 
 namespace Phorcys.UI.Web.Controllers
 {
-    public class ContactsController : Controller {
-      protected static readonly ILog log = LogManager.GetLogger(typeof(ContactsController));
-      private readonly ContactServices contactServices = new ContactServices();
-      private readonly CountryServices countryServices = new CountryServices();
-      private readonly UserServices userServices = new UserServices();
+    public class ContactsController : Controller
+    {
+        protected static readonly ILog log = LogManager.GetLogger(typeof(ContactsController));
+        private readonly ContactServices contactServices = new ContactServices();
+        private readonly DiverServices diverServices = new DiverServices();
+        private readonly CountryServices countryServices = new CountryServices();
+        private readonly UserServices userServices = new UserServices();
 
-      private readonly IRepository<Contact> contactRepository;
-      private User user;
+        private readonly IRepository<Contact> contactRepository;
+        private User user;
 
-        public ContactsController(IRepository<Contact> contactRepository) {
-          Check.Require(contactRepository != null, "contactRepository may not be null");
-          this.contactRepository = new PhorcysRepository<Contact>();
+        public ContactsController(IRepository<Contact> contactRepository)
+        {
+            Check.Require(contactRepository != null, "contactRepository may not be null");
+            this.contactRepository = new PhorcysRepository<Contact>();
         }
 
         [Authorize]
-        public ActionResult Index() {
-          user = userServices.FindUser(this.User.Identity.Name);
-          IList<Contact> contacts = contactServices.GetAllForUser(user.Id);
-          IList<ContactsIndexModel> contactsModelList = new List<ContactsIndexModel>();
-          ContactsIndexModel contactsModel;
+        public ActionResult Index()
+        {
+            user = userServices.FindUser(this.User.Identity.Name);
+            IList<Contact> contacts = contactServices.GetAllForUser(user.Id);
+            IList<ContactsIndexModel> contactsModelList = new List<ContactsIndexModel>();
+            ContactsIndexModel contactsModel;
 
-          foreach (Contact c in contacts) {
-            contactsModel = new ContactsIndexModel();
-            contactsModel.ContactId = c.Id;
-            contactsModel.Company = c.Company;
-            contactsModel.FirstName = c.FirstName;
-            contactsModel.LastName = c.LastName;
-            
-            contactsModel.Email = c.Email;
-            contactsModel.User = c.User.LoginId;
-            contactsModel.tags = getTags(c);
-            contactsModelList.Add(contactsModel);
-          }
+            foreach (Contact c in contacts)
+            {
+                contactsModel = new ContactsIndexModel();
+                contactsModel.ContactId = c.Id;
+                contactsModel.Company = c.Company;
+                contactsModel.FirstName = c.FirstName;
+                contactsModel.LastName = c.LastName;
+
+                contactsModel.Email = c.Email;
+                contactsModel.User = c.User.LoginId;
+                contactsModel.tags = getTags(c);
+                contactsModelList.Add(contactsModel);
+            }
 
             return View(contactsModelList);
         }
 
-        private string getTags(Contact c) {
-          IList<String> tags = new List<String>();
-          if (! c.DiveAgencies.IsEmpty) 
-            tags.Add("DiveAgency");
-          if (! c.Divers.IsEmpty) 
-            tags.Add("Diver");
-          if (! c.DiveShops.IsEmpty) 
-            tags.Add("DiveShop");
-          if (! c.Instructors.IsEmpty)
-            tags.Add("Instructor");
-          if (! c.Manufacturers.IsEmpty)
-            tags.Add("Manufacturer");
-          
-          return string.Join(", ", tags.ToArray());
+        private string getTags(Contact c)
+        {
+            IList<String> tags = new List<String>();
+            if (!c.DiveAgencies.IsEmpty)
+                tags.Add("Agency");
+            if (!c.Divers.IsEmpty)
+                tags.Add("Diver");
+            if (!c.DiveShops.IsEmpty)
+                tags.Add("DiveShop");
+            if (!c.Instructors.IsEmpty)
+                tags.Add("Instructor");
+            if (!c.Manufacturers.IsEmpty)
+                tags.Add("Manufacturer");
+
+            return string.Join(", ", tags.ToArray());
         }
 
         //private SelectList BuildCountryList(string code) {
-        private IList<SelectListItem> BuildCountryList(string code) {
-          IList<SelectListItem> CountryList = new List<SelectListItem>();
-          IList<Country> countries = GetCountries();
-          SelectListItem CountryItem;
-          //retVal = null;
+        private IList<SelectListItem> BuildCountryList(string code)
+        {
+            IList<SelectListItem> CountryList = new List<SelectListItem>();
+            IList<Country> countries = GetCountries();
+            SelectListItem CountryItem;
+            //retVal = null;
 
-          countries = countries.OrderBy(m => m.Name).ToList();
-          foreach (var country in countries) {
-            CountryItem = new SelectListItem();
-            CountryItem.Text = country.Name;
-            CountryItem.Value = country.CountryCode;
-            if (code != "") {
-              if (country.CountryCode == code) {
-                CountryItem.Selected = true;
-              }
+            countries = countries.OrderBy(m => m.Name).ToList();
+            foreach (var country in countries)
+            {
+                CountryItem = new SelectListItem();
+                CountryItem.Text = country.Name;
+                CountryItem.Value = country.CountryCode;
+                if (code != "")
+                {
+                    if (country.CountryCode == code)
+                    {
+                        CountryItem.Selected = true;
+                    }
+                }
+                CountryList.Add(CountryItem);
             }
-            CountryList.Add(CountryItem);
-          }
-          //retVal = new SelectList(CountryList);
-          return CountryList;
+            //retVal = new SelectList(CountryList);
+            return CountryList;
         }
 
         private IList<Country> GetCountries()
         {
-          IList<Country> countries = countryServices.GetAll();
+            IList<Country> countries = countryServices.GetAll();
 
-          //IList<Country> countries = new List<Country>();
-          //Country c0 = new Country();
-          //c0.CountryCode = "";
-          //c0.Name = "";
-          //countries.Add(c0);
+            //IList<Country> countries = new List<Country>();
+            //Country c0 = new Country();
+            //c0.CountryCode = "";
+            //c0.Name = "";
+            //countries.Add(c0);
 
-          //Country c1 = new Country();
-          //c1.CountryCode = "US";
-          //c1.Name = "United States";
-          //countries.Add(c1);
+            //Country c1 = new Country();
+            //c1.CountryCode = "US";
+            //c1.Name = "United States";
+            //countries.Add(c1);
 
-          //Country c2 = new Country();
-          //c2.CountryCode = "BS";
-          //c2.Name = "Bahamas";
-          //countries.Add(c2);
+            //Country c2 = new Country();
+            //c2.CountryCode = "BS";
+            //c2.Name = "Bahamas";
+            //countries.Add(c2);
 
-          return countries;
+            return countries;
         }
 
 
@@ -131,49 +141,61 @@ namespace Phorcys.UI.Web.Controllers
         [Authorize]
         public ActionResult Create()
         {
-          ContactModel viewModel = new ContactModel();
-          //IList<SelectListItem> DiveLocationsListItems = BuildLocationList(locationId);
-          //viewModel.DiveLocationsListItems = DiveLocationsListItems;
-          viewModel.Countries = BuildCountryList("");
+            ContactModel viewModel = new ContactModel();
+            //IList<SelectListItem> DiveLocationsListItems = BuildLocationList(locationId);
+            //viewModel.DiveLocationsListItems = DiveLocationsListItems;
+            viewModel.Countries = BuildCountryList("");
 
-          return View("Create", viewModel);
-        } 
+            return View("Create", viewModel);
+        }
 
         //
         // POST: /Contacts/Create
 
         [HttpPost]
-        public ActionResult Create(ContactModel model) {
+        public ActionResult Create(ContactModel model)
+        {
 
-          if (!ModelState.IsValid) {
-            return View();
-          }
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
 
-          try {
-            saveNewContact(model);
+            try
+            {
+                saveNewContact(model);
 
-            TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "Contact was successfully created.";
+                TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "Contact was successfully created.";
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
 
-          }
-          catch (Exception ex) {
-            StringBuilder errMsg = new StringBuilder();
-            errMsg.Append("Unable to create " + model.Company + ", " + model.FirstName + " " + model.LastName + ". " + ex.Message);
-            log.Error(errMsg.ToString());
-            TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = errMsg.ToString();
-            return View();
-          }
+            }
+            catch (Exception ex)
+            {
+                StringBuilder errMsg = new StringBuilder();
+                errMsg.Append("Unable to create " + model.Company + ", " + model.FirstName + " " + model.LastName + ". " + ex.Message);
+                log.Error(errMsg.ToString());
+                TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = errMsg.ToString();
+                return View();
+            }
         }
 
-        private void saveNewContact(ContactModel model) {
-          this.user = userServices.FindUser(this.User.Identity.Name);
-          Contact contact = new Contact();
-          contact = UpdateContactFromModel(contact, model);
-          contact.User = this.user;
-          contact.Created = DateTime.Now;
-          contact.LastModified = DateTime.Now;
-          contactServices.Save(contact);
+        private void saveNewContact(ContactModel model)
+        {
+            this.user = userServices.FindUser(this.User.Identity.Name);
+            Contact contact = new Contact();
+            contact = UpdateContactFromModel(contact, model);
+            contact.User = this.user;
+            contact.Created = DateTime.Now;
+            contact.LastModified = DateTime.Now;
+            contactServices.Save(contact);
+            if (model.isDiver)
+            {
+                Diver diver = new Diver();
+                diver.Contact = contact;
+                diverServices.Save(diver);
+            }
+
         }
 
         private Contact UpdateContactFromModel(Contact contact, ContactModel model)
@@ -196,7 +218,7 @@ namespace Phorcys.UI.Web.Controllers
 
             return contact;
         }
-        
+
         //
         // GET: /Contacts/Edit/5
         [Authorize]
@@ -216,7 +238,7 @@ namespace Phorcys.UI.Web.Controllers
             model.PostalCode = contact.PostalCode;
             model.State = contact.State;
 
-            return View("Edit",model);
+            return View("Edit", model);
         }
 
         [Authorize]
@@ -269,24 +291,28 @@ namespace Phorcys.UI.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-          string resultMessage = "The contact was successfully deleted.";
-          Contact contactToDelete = contactServices.GetContact(id);
+            string resultMessage = "The contact was successfully deleted.";
+            Contact contactToDelete = contactServices.GetContact(id);
 
-          if (contactToDelete != null) {
-            try {
-              contactServices.Delete(contactToDelete);
+            if (contactToDelete != null)
+            {
+                try
+                {
+                    contactServices.Delete(contactToDelete);
+                }
+                catch
+                {
+                    resultMessage = "A problem was encountered preventing this contact from being deleted. " +
+                                    "something references this contact.";
+                }
             }
-            catch {
-              resultMessage = "A problem was encountered preventing this contact from being deleted. " +
-                              "something references this contact.";
+            else
+            {
+                resultMessage = "This contact could not be found for deletion. It may already have been deleted.";
             }
-          }
-          else {
-            resultMessage = "This contact could not be found for deletion. It may already have been deleted.";
-          }
 
-          TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = resultMessage;
-          return RedirectToAction("Index");
+            TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = resultMessage;
+            return RedirectToAction("Index");
         }
     }
 }

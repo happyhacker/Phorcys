@@ -42,5 +42,11 @@ namespace Phorcys.UI.Web.Models {
     public DateTime LastModified { get; set; }
 
     public string Notes { get; set; }
+
+    public bool isDiver { get; set; }
+    public bool isDiveShop { get; set; }
+    public bool isInstructor { get; set; }
+    public bool isAgency { get; set; }
+    public bool isManufacturer { get; set; }
   }
 }

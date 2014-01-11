@@ -65,7 +65,7 @@
     <label for="City">
         City:</label>
     <div class="editor-field">
-        @Html.TextBoxFor(m => m.City)
+        @Html.TextBoxFor(m => m.City, new { @size = "35" })
         @Html.ValidationMessageFor(m => m.City)
     </div>
     <br />
@@ -96,7 +96,7 @@
     <label for="email">
         Email:</label>
     <div class="editor-field">
-        @Html.TextBoxFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new {@size="35"})
          @Html.ValidationMessageFor(m => m.Email)
     </div>
     <br />

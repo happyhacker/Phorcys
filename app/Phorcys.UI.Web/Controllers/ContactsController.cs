@@ -21,6 +21,9 @@ namespace Phorcys.UI.Web.Controllers {
     private readonly ContactServices contactServices = new ContactServices();
     private readonly DiverServices diverServices = new DiverServices();
     private readonly InstructorServices instructorServices = new InstructorServices();
+    private readonly DiveAgencyServices diveAgencyServices = new DiveAgencyServices();
+    private readonly ManufacturerServices manufacturerServices = new ManufacturerServices();
+    private readonly DiveShopServices diveShopServices = new DiveShopServices();
     private readonly CountryServices countryServices = new CountryServices();
     private readonly UserServices userServices = new UserServices();
 
@@ -150,6 +153,7 @@ namespace Phorcys.UI.Web.Controllers {
       contact.Created = DateTime.Now;
       contact.LastModified = DateTime.Now;
       contactServices.Save(contact);
+ 
       if (model.isDiver) {
         Diver diver = new Diver();
         diver.Contact = contact;
@@ -159,6 +163,25 @@ namespace Phorcys.UI.Web.Controllers {
         Instructor instructor = new Instructor();
         instructor.Contact = contact;
         instructorServices.Save(instructor);
+      }
+
+      if (model.isAgency) {
+        DiveAgency agency = new DiveAgency();
+        agency.Contact = contact;
+        diveAgencyServices.Save(agency);
+      }
+
+      if (model.isManufacturer) {
+        Manufacturer manufacturer = new Manufacturer();
+        manufacturer.Contact = contact;
+        manufacturerServices.Save(manufacturer);
+      }
+
+      if (model.isDiveShop)
+      {
+        DiveShop diveShop = new DiveShop();
+        diveShop.Contact = contact;
+        diveShopServices.Save(diveShop);
       }
     }
 

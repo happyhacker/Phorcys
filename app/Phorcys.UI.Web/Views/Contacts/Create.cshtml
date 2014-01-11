@@ -11,15 +11,13 @@
 <h2>
     Add a Contact
 </h2>
-@if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null)
-{
+@if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
     <p id="pageMessage">
         @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]
     </p>
 }
 <!--@Html.ValidationSummary()-->
-@using (Html.BeginForm("Create", "Contacts"))
-{
+@using (Html.BeginForm("Create", "Contacts")) {
     @Html.AntiForgeryToken()
 
     <div class="errorOnPage">
@@ -27,16 +25,17 @@
     </div>
 
     <div class="BoxShadow">
-        @Html.Label("Diver")
         @Html.CheckBoxFor(x => x.isDiver)
-        @Html.Label("Dive Shop")
+        @Html.Label("Diver")
         @Html.CheckBoxFor(x => x.isDiveShop)
-        @Html.Label("Instructor")
+        @Html.Label("Dive Shop")
         @Html.CheckBoxFor(x => x.isInstructor)
-        @Html.Label("Agency")
+        @Html.Label("Instructor")
         @Html.CheckBoxFor(x => x.isAgency)
-        @Html.Label("Manufacturer")
+        @Html.Label("Agency")
         @Html.CheckBoxFor(x => x.isManufacturer)
+        @Html.Label("Manufacturer")
+
     </div>
     <br /><br />
     <label for="Company">
@@ -88,7 +87,7 @@
         City:
     </label>
     <div class="editor-field">
-        @Html.TextBoxFor(m => m.City)
+        @Html.TextBoxFor(m => m.City, new { @size = "35" })
         @Html.ValidationMessageFor(m => m.City)
     </div>
     <br />
@@ -116,20 +115,18 @@
     </label>
     <div>
         <select id="CountryCode" name="CountryCode">
-            @foreach (SelectListItem item in Model.Countries)
-            {
+            @foreach (SelectListItem item in Model.Countries) {
                 <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
             }
         </select>
     </div>
     <br />
 
-
     <label for="email">
         Email:
     </label>
     <div class="editor-field">
-        @Html.TextBoxFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @size = "35" })
         @Html.ValidationMessageFor(m => m.Email)
     </div>
     <br />

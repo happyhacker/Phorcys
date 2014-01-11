@@ -83,6 +83,12 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DiveAgencyServices.cs" />
+    <Compile Include="IDiveAgencyServices.cs" />
+    <Compile Include="IDiveShopServices.cs" />
+    <Compile Include="IManufacturerServices.cs" />
+    <Compile Include="DiveShopServices.cs" />
+    <Compile Include="ManufacturerServices.cs" />
     <Compile Include="InstructorServices.cs" />
     <Compile Include="DiverServices.cs" />
     <Compile Include="ContactServices.cs" />

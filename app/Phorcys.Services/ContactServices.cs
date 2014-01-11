@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iesi.Collections.Generic;
 using SharpArch.Data.NHibernate;
 using Phorcys.Core;
 using Phorcys.Data;
 using log4net;
 
-
 namespace Phorcys.Services {
   public class ContactServices : IContactServices {
     public IPhorcysRepository<Contact> ContactRepository = new PhorcysRepository<Contact>();
+    private readonly DiverServices diverServices = new DiverServices();
+    private readonly InstructorServices instructorServices = new InstructorServices();
+    private readonly DiveAgencyServices diveAgencyServices = new DiveAgencyServices();
+    private readonly ManufacturerServices manufacturerServices = new ManufacturerServices();
+    private readonly DiveShopServices diveShopServices = new DiveShopServices();
+
 
     protected static readonly ILog log = LogManager.GetLogger(typeof(ContactServices));
 
@@ -42,6 +48,22 @@ namespace Phorcys.Services {
       Contact retVal = new Contact();
 
       try {
+        foreach (Diver diver in contact.Divers) {
+          diverServices.Delete(diver);
+        }
+        foreach (DiveAgency diveAgency in contact.DiveAgencies) {
+          diveAgencyServices.Delete(diveAgency);
+        }
+        foreach (DiveShop diveShop in contact.DiveShops) {
+          diveShopServices.Delete(diveShop);
+        }
+        foreach (Instructor instructor in contact.Instructors) {
+          instructorServices.Delete(instructor);
+        }
+        foreach (Manufacturer manufacturer in contact.Manufacturers) {
+          manufacturerServices.Delete(manufacturer);
+        }
+
         ContactRepository.Delete(contact);
         ContactRepository.DbContext.CommitChanges();
       } catch (Exception e) {

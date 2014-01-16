@@ -281,6 +281,7 @@
     <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\ControllerEnums.cs" />
     <Compile Include="Controllers\DiveLocationsController.cs" />
+    <Compile Include="Controllers\CertificationsController.cs" />
     <Compile Include="Controllers\DiveSitesController.cs" />
     <Compile Include="Controllers\DiveTypesController.cs" />
     <Compile Include="Controllers\EndController.cs" />
@@ -700,6 +701,8 @@
     <Content Include="Views\Contacts\Index.cshtml" />
     <Content Include="Views\Contacts\Create.cshtml" />
     <Content Include="Views\Contacts\Edit.cshtml" />
+    <Content Include="Views\Certifications\Create.cshtml" />
+    <Content Include="Views\Certifications\Index.cshtml" />
     <None Include="Views\DiveLocations\Index.cshtml" />
     <None Include="Views\DiveLocations\Create.cshtml" />
     <None Include="Views\DiveLocations\Edit.cshtml" />
@@ -708,7 +711,6 @@
     <None Include="Views\DiveSites\Show.cshtml" />
     <None Include="Views\DiveSites\Create.cshtml" />
     <None Include="Views\DiveSites\Edit.cshtml" />
-    <Content Include="Views\DiveSites\Show.aspx" />
     <Content Include="Views\DiveTypes\Create.aspx" />
     <Content Include="Views\DiveTypes\DiveTypeForm.ascx" />
     <Content Include="Views\DiveTypes\Edit.aspx" />

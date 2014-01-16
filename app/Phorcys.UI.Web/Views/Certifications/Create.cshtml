@@ -1,0 +1,89 @@
+@using Microsoft.Web.Mvc
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.UI.Web.Models
+@using Phorcys.Core
+@using SharpArch.Web.Areas
+@model DiveSitesModel
+@{
+    ViewBag.Title = "Create a New Dive Site";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+<h2>
+    Create New Dive Site</h2>
+@if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+    <p id="pageMessage">
+        @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
+}
+<!--@Html.ValidationSummary()-->
+@using (Html.BeginForm("Create", "DiveSites")) {
+    @Html.AntiForgeryToken()
+
+  <div class="errorOnPage">
+    @Html.ValidationSummary(true, "Please correct the errors and try again.")
+  </div>
+    
+    <label for="DiveLocation">
+        Dive Location:</label>
+    <div>
+        <select id="DiveSite_DiveLocationId" name="DiveSite.DiveLocationId">
+            @foreach (SelectListItem item in Model.DiveLocationsListItems) {
+                <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+            }
+        </select>
+    </div>
+    <br />
+
+    <label for="DiveSite_Title">
+        Title:</label>
+    <div class="editor-field">
+        @Html.TextBoxFor(m => m.Title)
+        @*<input id="DiveSite_Title" name="DiveSite.Title" type="text" value="@Model.Title" size="50" maxlength="40" />*@
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+    <br />
+       
+    <label for="DiveSite_IsFreshWater">
+        Fresh/Salt Water:</label>
+    <div>
+        <input type="radio" id="DiveSite_Fresh" name="DiveSite.IsFreshWater" value="true"
+            checked="checked" />
+        Fresh
+        <input type="radio" id="DiveSite_Salt" name="DiveSite.IsFreshWater" value="false" />
+        Salt
+    </div>
+    <br />
+    
+    <div>
+        <label for="DiveSite_MaxDepth">
+            Max Depth:</label>
+    </div>
+    <div class="editor-field">
+        @*<input id="DiveSite_MaxDepth" name="DiveSite.MaxDepth" type="text" value="@Model.MaxDepth"/>*@
+        @Html.TextBoxFor(m => m.MaxDepth)
+        @Html.ValidationMessageFor(m => m.MaxDepth)
+    </div>
+    <br />
+    
+    <div class="editor-field">
+        <label for="GeoCode">
+            GeoCode:</label>
+        <div>
+            <input id="DiveSite_GeoCode" name="DiveSite.GeoCode" type="text" size="30" maxlength="20" />
+            @Html.ValidationMessageFor(m => m.GeoCode)
+        </div>
+    </div>
+    
+    <br />
+    <label for="Notes">
+        Notes:</label>
+    <div>
+        <br />
+        <textarea id="DiveSite_Notes" name="DiveSite.Notes" rows="6" cols="70"> </textarea>
+    </div>
+    <br />
+    @Html.ValidationMessageFor(m => m.Notes)
+    <br />
+
+    @Html.SubmitButton("btnSave", "Save DiveSite")
+    @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+}

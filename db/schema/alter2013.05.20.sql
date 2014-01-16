@@ -5,87 +5,79 @@
 /* Project name:                                                          */
 /* Author:                                                                */
 /* Script type:           Alter database script                           */
-/* Created on:            2014-01-07 23:16                                */
+/* Created on:            2014-01-12 03:10                                */
 /* ---------------------------------------------------------------------- */
+
+
+/* ---------------------------------------------------------------------- */
+/* Drop views                                                             */
+/* ---------------------------------------------------------------------- */
+
+DROP VIEW [dbo].[vwCertifications]
+GO
 
 
 /* ---------------------------------------------------------------------- */
 /* Drop foreign key constraints                                           */
 /* ---------------------------------------------------------------------- */
 
+ALTER TABLE [dbo].[Contacts] DROP CONSTRAINT [Countries_Contacts]
+GO
+
+
+ALTER TABLE [dbo].[Contacts] DROP CONSTRAINT [Users_Contacts]
+GO
+
+
+ALTER TABLE [dbo].[Divers] DROP CONSTRAINT [Contacts_Divers]
+GO
+
+
+ALTER TABLE [dbo].[DiveShopStaff] DROP CONSTRAINT [Contacts_DiveShopStaff]
+GO
+
+
+ALTER TABLE [dbo].[DiveShops] DROP CONSTRAINT [Contacts_DiveShops]
+GO
+
+
+ALTER TABLE [dbo].[DiveLocations] DROP CONSTRAINT [Contacts_DiveLocations]
+GO
+
+
+ALTER TABLE [dbo].[InsurancePolicies] DROP CONSTRAINT [Contacts_InsurancePolicies]
+GO
+
+
+ALTER TABLE [dbo].[Manufacturers] DROP CONSTRAINT [Contacts_Manufactures]
+GO
+
+
+ALTER TABLE [dbo].[SoldGear] DROP CONSTRAINT [Contacts_SoldGear]
+GO
+
+
+ALTER TABLE [dbo].[Gear] DROP CONSTRAINT [Contacts_Gear]
+GO
+
+
+ALTER TABLE [dbo].[DiveAgencies] DROP CONSTRAINT [Contacts_DiveAgencies]
+GO
+
+
+ALTER TABLE [dbo].[Users] DROP CONSTRAINT [Contacts_Users]
+GO
+
+
 ALTER TABLE [dbo].[Instructors] DROP CONSTRAINT [Contacts_Instructors]
 GO
 
 
-ALTER TABLE [dbo].[DiverCertifications] DROP CONSTRAINT [Instructors_DiverCertifications]
-GO
-
-
-ALTER TABLE [dbo].[AgencyInstructors] DROP CONSTRAINT [Instructors_AgencyInstructors]
-GO
-
-
 /* ---------------------------------------------------------------------- */
-/* Drop and recreate table "dbo.Instructors"                              */
+/* Alter table "dbo.Contacts"                                             */
 /* ---------------------------------------------------------------------- */
 
-ALTER TABLE [dbo].[Instructors] DROP CONSTRAINT [PK_Instructors]
-GO
-
-
-CREATE TABLE [dbo].[Instructors_TMP] (
-    [InstructorId] INTEGER IDENTITY(1,1) NOT NULL,
-    [ContactId] INTEGER NOT NULL,
-    [Notes] VARCHAR(max))
-GO
-
-
-
-SET IDENTITY_INSERT [dbo].[Instructors_TMP] ON
-GO
-
-
-
-INSERT INTO [dbo].[Instructors_TMP]
-    ([InstructorId],[ContactId],[Notes])
-SELECT
-    [InstructorId],[ContactId],[Notes]
-FROM [dbo].[Instructors]
-GO
-
-
-
-SET IDENTITY_INSERT [dbo].[Instructors_TMP] OFF
-GO
-
-
-
-DROP TABLE [dbo].[Instructors]
-GO
-
-
-EXEC sp_rename '[dbo].[Instructors_TMP]', 'Instructors', 'OBJECT'
-GO
-
-
-ALTER TABLE [dbo].[Instructors] ADD CONSTRAINT [PK_Instructors] 
-    PRIMARY KEY CLUSTERED ([InstructorId])
-GO
-
-
-EXECUTE sp_addextendedproperty N'MS_Description', N'N', 'SCHEMA', N'dbo', 'TABLE', N'Instructors', NULL, NULL
-GO
-
-
-EXECUTE sp_addextendedproperty N'MS_Description', N'N', 'SCHEMA', N'dbo', 'TABLE', N'Instructors', 'COLUMN', N'InstructorId'
-GO
-
-
-EXECUTE sp_addextendedproperty N'MS_Description', N'N', 'SCHEMA', N'dbo', 'TABLE', N'Instructors', 'COLUMN', N'ContactId'
-GO
-
-
-EXECUTE sp_addextendedproperty N'MS_Description', N'N', 'SCHEMA', N'dbo', 'TABLE', N'Instructors', 'COLUMN', N'Notes'
+ALTER TABLE [dbo].[Contacts] ALTER COLUMN [Email] VARCHAR(50) NOT NULL
 GO
 
 
@@ -93,17 +85,84 @@ GO
 /* Add foreign key constraints                                            */
 /* ---------------------------------------------------------------------- */
 
+ALTER TABLE [dbo].[Contacts] ADD CONSTRAINT [Users_Contacts] 
+    FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users] ([UserId])
+GO
+
+
+ALTER TABLE [dbo].[Contacts] ADD CONSTRAINT [Countries_Contacts] 
+    FOREIGN KEY ([CountryCode]) REFERENCES [dbo].[Countries] ([CountryCode])
+GO
+
+
+ALTER TABLE [dbo].[Divers] ADD CONSTRAINT [Contacts_Divers] 
+    FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[DiveShopStaff] ADD CONSTRAINT [Contacts_DiveShopStaff] 
+    FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[DiveShops] ADD CONSTRAINT [Contacts_DiveShops] 
+    FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[DiveLocations] ADD CONSTRAINT [Contacts_DiveLocations] 
+    FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[InsurancePolicies] ADD CONSTRAINT [Contacts_InsurancePolicies] 
+    FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[Manufacturers] ADD CONSTRAINT [Contacts_Manufactures] 
+    FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[SoldGear] ADD CONSTRAINT [Contacts_SoldGear] 
+    FOREIGN KEY ([SoldToContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[Gear] ADD CONSTRAINT [Contacts_Gear] 
+    FOREIGN KEY ([PurchasedFromContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[DiveAgencies] ADD CONSTRAINT [Contacts_DiveAgencies] 
+    FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
+ALTER TABLE [dbo].[Users] ADD CONSTRAINT [Contacts_Users] 
+    FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
+GO
+
+
 ALTER TABLE [dbo].[Instructors] ADD CONSTRAINT [Contacts_Instructors] 
     FOREIGN KEY ([ContactId]) REFERENCES [dbo].[Contacts] ([ContactId])
 GO
 
 
-ALTER TABLE [dbo].[DiverCertifications] ADD CONSTRAINT [Instructors_DiverCertifications] 
-    FOREIGN KEY ([InstructorId]) REFERENCES [dbo].[Instructors] ([InstructorId])
-GO
+/* ---------------------------------------------------------------------- */
+/* Repair/add views                                                       */
+/* ---------------------------------------------------------------------- */
 
-
-ALTER TABLE [dbo].[AgencyInstructors] ADD CONSTRAINT [Instructors_AgencyInstructors] 
-    FOREIGN KEY ([InstructorId]) REFERENCES [dbo].[Instructors] ([InstructorId])
+CREATE VIEW [dbo].[vwCertifications] AS (
+  SELECT certs.Title, agency.Company 'Agency', dc.certified, diver.FirstName 'DiverFirstName', diver.LastName 'DiverLastName', instructor.FirstName 'InstructorFirstName', instructor.LastName 'InstructorLastName'
+  FROM Certifications certs
+    JOIN DiverCertifications dc ON dc.CertificationId = certs.CertificationId
+    JOIN Users u ON u.UserId = dc.DiverId
+    JOIN Contacts diver ON diver.ContactId = u.ContactId
+    JOIN Contacts instructor ON instructor.ContactId = dc.Instructor
+    JOIN DiveAgencies da ON da.DiveAgencyId = certs.DiveAgencyId
+    JOIN Contacts agency ON agency.ContactId = da.ContactId
+)
 GO
 

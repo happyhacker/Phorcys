@@ -57,21 +57,19 @@ namespace Phorcys.UI.Web.Controllers {
       Certification certification = certificationServices.Get(id);
       return View(certification);
     }
-
+    */
     [Authorize]
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Create() {
-      //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
-      viewModel = new DiveSitesModel();
-      viewModel.DiveSite = new DiveSite();
+/*      CertificationModel model = new CertificationModel();
       IList<SelectListItem> DiveLocationsListItems = BuildLocationList(null);
       viewModel.DiveLocationsListItems = DiveLocationsListItems;
       //viewModel.DiveLocationsListItems = DiveLocationsListItems.OrderBy(m => m.Text).ToList(); //this works too as opposed to the following 2 lines
       //var sortedList = from row in DiveLocationsListItems orderby row.Text select row;
       //viewModel.DiveLocationsListItems = sortedList.ToList();
-      return View(viewModel);
+*/
+     return View();
     }
-    */
 
     /*
     [Authorize]

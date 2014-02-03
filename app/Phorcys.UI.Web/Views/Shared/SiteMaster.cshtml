@@ -28,6 +28,13 @@
                                               item.Add().Text("Agencies");
                              });
                            items.Add().Text("My Profile").Action("EditProfile", "Contacts");
+
+                             items.Add().Text("Certifications").Action("Index", "Certifications")
+                                 .Items(item => {
+                                     item.Add().Text("Agencies");
+                                     item.Add().Text("Certifications").Action("Index", "Certifications");
+                                 });
+             
                            items.Add().Text("Gear").Action("Index","Gear")
                              .Items(item => {
                                               item.Add().Text("Sold");

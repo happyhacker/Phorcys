@@ -5,6 +5,7 @@ using SharpArch.Core.PersistenceSupport;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
 using SharpArch.Core;
 using Phorcys.Services.Services;
@@ -15,7 +16,8 @@ namespace Phorcys.UI.Web.Controllers {
   [HandleError]
   public class CertificationsController : Controller {
     private readonly ICertificationServices certificationServices = new CertificationServices();
-    //private readonly IDiveAgencyServices diveAgencyServices = new DiveAgencyServices();
+    private readonly IDiveAgencyServices diveAgencyServices = new DiveAgencyServices();
+    private readonly Repository<DiveAgency> repository = new Repository<DiveAgency>(); 
     private readonly UserServices userServices = new UserServices();
     private User user;
     private User systemUser;
@@ -33,7 +35,7 @@ namespace Phorcys.UI.Web.Controllers {
       user = userServices.FindUser(this.User.Identity.Name);
 
       IList<Certification> certifications = certificationServices.GetAllForUser(user.Id);
-      certifications = certifications.OrderBy(m => m.Title).ToList();
+      certifications = certifications.OrderBy(m => m.DiveAgency.Contact.Company).ToList();
 
       return View(certifications);
     }
@@ -41,7 +43,7 @@ namespace Phorcys.UI.Web.Controllers {
     [Authorize]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Get)]
-    public ActionResult IndexForLocation(int agencyId) {
+    public ActionResult IndexForAgency(int agencyId) {
       user = userServices.FindUser(this.User.Identity.Name);
       systemUser = userServices.FindUser("system");
       IList<Certification> certifications;
@@ -50,38 +52,65 @@ namespace Phorcys.UI.Web.Controllers {
       return View("Index", certifications);
     }
 
-    /*
-    [Authorize]
-    [Transaction]
-    public ActionResult Show(int id) {
-      Certification certification = certificationServices.Get(id);
-      return View(certification);
-    }
-    */
     [Authorize]
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Create() {
-/*      CertificationModel model = new CertificationModel();
-      IList<SelectListItem> DiveLocationsListItems = BuildLocationList(null);
-      viewModel.DiveLocationsListItems = DiveLocationsListItems;
-      //viewModel.DiveLocationsListItems = DiveLocationsListItems.OrderBy(m => m.Text).ToList(); //this works too as opposed to the following 2 lines
-      //var sortedList = from row in DiveLocationsListItems orderby row.Text select row;
-      //viewModel.DiveLocationsListItems = sortedList.ToList();
-*/
-     return View();
+      CertificationModel model = new CertificationModel();
+      IList<SelectListItem> DiveAgencyListItems = BuildList(null);
+      model.DiveAgencyListItems = DiveAgencyListItems;
+      model.DiveAgencyListItems = DiveAgencyListItems.OrderBy(m => m.Text).ToList(); //this works too as opposed to the following 2 lines
+      var sortedList = from row in DiveAgencyListItems orderby row.Text select row;
+      model.DiveAgencyListItems = sortedList.ToList();
+
+     return View(model);
     }
 
-    /*
-    [Authorize]
-    [AcceptVerbs(HttpVerbs.Get)]
-    public ActionResult CreateForLocation(int locationId) {
-      viewModel = new DiveSitesModel();
-      IList<SelectListItem> DiveLocationsListItems = BuildLocationList(locationId);
-      viewModel.DiveLocationsListItems = DiveLocationsListItems;
+    private IList<SelectListItem> BuildList(int? DiveAgencyId) {
+      IList<SelectListItem> DiveAgencyList = new List<SelectListItem>();
+      IList<DiveAgency> DiveAgencies = GetDiveAgencies();
+      SelectListItem DiveAgencyItem;
 
-      return View("Create", viewModel);
+      DiveAgencies = DiveAgencies.OrderBy(m => m.Contact.Company).ToList();
+      foreach (var agency in DiveAgencies) {
+        DiveAgencyItem = new SelectListItem();
+        DiveAgencyItem.Text = agency.Contact.Company;
+        DiveAgencyItem.Value = agency.Id.ToString();
+        if (DiveAgencyId != null) {
+          if (agency.Id == DiveAgencyId) {
+            DiveAgencyItem.Selected = true;
+          }
+        }
+        DiveAgencyList.Add(DiveAgencyItem);
+      }
+
+      return DiveAgencyList;
     }
-    */
+
+    [Transaction]
+    [AcceptVerbs(HttpVerbs.Post)]
+    public ActionResult Delete(int id) {
+      string resultMessage = "The certification was successfully deleted.";
+      Certification certificationToDelete = certificationServices.Get(id);
+
+      if (certificationToDelete != null) {
+        try {
+          certificationServices.Delete(certificationToDelete);
+        } catch {
+          resultMessage = "A problem was encountered preventing the certification from being deleted. " +
+                          "Another item likely depends on this certification.";
+        }
+      } else {
+        resultMessage = "The certification could not be found for deletion. It may already have been deleted.";
+      }
+
+      TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = resultMessage;
+      return RedirectToAction("Index");
+    }
+
+    private IList<DiveAgency> GetDiveAgencies() {
+      IList<DiveAgency> agencies = repository.GetAll();
+      return agencies;
+    }
 
     /*
     [ValidateAntiForgeryToken]
@@ -131,28 +160,17 @@ namespace Phorcys.UI.Web.Controllers {
       return View(viewModel);
     }
 */
+
     /*
-    private IList<SelectListItem> BuildLocationList(int? locationId) {
-      IList<SelectListItem> LocationList = new List<SelectListItem>();
-      IList<DiveLocation> DiveLocations = GetDiveLocations();
-      SelectListItem LocationItem;
-
-      DiveLocations = DiveLocations.OrderBy(m => m.Title).ToList();
-      foreach (var location in DiveLocations) {
-        LocationItem = new SelectListItem();
-        LocationItem.Text = location.Title;
-        LocationItem.Value = location.Id.ToString();
-        if (locationId != null) {
-          if (location.Id == locationId) {
-            LocationItem.Selected = true;
-          }
-        }
-        LocationList.Add(LocationItem);
-      }
-
-      return LocationList;
+    [Authorize]
+    [Transaction]
+    public ActionResult Show(int id) {
+      Certification certification = certificationServices.Get(id);
+      return View(certification);
     }
-
+    */
+ 
+    /*
     //[ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
@@ -181,35 +199,6 @@ namespace Phorcys.UI.Web.Controllers {
       certificationToUpdate.User = certificationFromForm.User;
     }
 */
-    [Transaction]
-    [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Delete(int id) {
-      string resultMessage = "The certification was successfully deleted.";
-      Certification certificationToDelete = certificationServices.Get(id);
-
-      if (certificationToDelete != null) {
-        try {
-          certificationServices.Delete(certificationToDelete);
-        }
-        catch {
-          resultMessage = "A problem was encountered preventing the certification from being deleted. " +
-                          "Another item likely depends on this certification.";
-        }
-      }
-      else {
-        resultMessage = "The certification could not be found for deletion. It may already have been deleted.";
-      }
-
-      TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = resultMessage;
-      return RedirectToAction("Index");
-    }
-
-    /*private IList<DiveAgency> GetDiveAgencies() {
-      user = userServices.FindUser(this.User.Identity.Name);
-      systemUser = userServices.FindUser("system");
-      IList<DiveAgency> agencies = diveAgencyServices.GetAllSystemAndUser(systemUser.Id, user.Id);
-      return agencies;
-    }
-    */
+    
   }
 }

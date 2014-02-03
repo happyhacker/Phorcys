@@ -65,14 +65,12 @@
         </div>
         <br />
         
-        <div class="editor-label">
             <label for="DiveSite_MaxDepth">
             Max Depth: 
             </label>
             @Html.TextBoxFor(m => m.MaxDepth) 
             <!--<input id="DiveSite_MaxDepth" name="DiveSite.MaxDepth" type="text" value="@Model.MaxDepth" />-->
             <div class="errorOnPage">@Html.ValidationMessageFor(m => m.MaxDepth) </div>       
-        </div>
         <br/>
 
         <label for="DiveSite_GeoCode">
@@ -86,7 +84,6 @@
         <label for="DiveSite_Notes">
             Notes:</label>
         <div>
-            <br />
             <textarea id="DiveSite_Notes" name="DiveSite.Notes" rows="6" cols="50" >@{ if (Model != null) {
                                                                                         @(Model.Notes)
                                                                                       } } 
@@ -96,6 +93,7 @@
         @Html.ValidationMessageFor(m => m.Notes)
         <br />
         @Html.SubmitButton("btnSave", "Save Dive Site")
+        @Html.Encode(" ")
         @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,"window.location.href = '../'")
     </fieldset>
         

@@ -23,14 +23,14 @@
     </h1>
     <div id="error" class="errorOnPage">
         @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
-         } <p id="pageMessage">
+       } <p id="pageMessage">
             @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
         </p>
         }
     </div>
     <p>
         <b>
-            @( Html.ActionLink<CertificationsController>(c => c.Create(), "Create New Certification"))
+            @{if(User.Identity.Name=="system"){ @(Html.ActionLink<CertificationsController>(c => c.Create(), "Create New Certification"));}}
         </b>
     </p>
 

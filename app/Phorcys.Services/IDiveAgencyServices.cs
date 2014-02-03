@@ -2,7 +2,7 @@
 using Phorcys.Core;
 
 namespace Phorcys.Services {
-  interface IDiveAgencyServices {
+  public interface IDiveAgencyServices {
     DiveAgency Save(DiveAgency agency);
     void Delete(DiveAgency agency);
     DiveAgency GetDiveAgency(int id);

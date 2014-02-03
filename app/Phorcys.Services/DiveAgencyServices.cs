@@ -10,11 +10,11 @@ namespace Phorcys.Services {
   public class DiveAgencyServices : IDiveAgencyServices {
     public IPhorcysRepository<DiveAgency> DiveAgencyRepository = new PhorcysRepository<DiveAgency>();
 
-    protected static readonly ILog log = LogManager.GetLogger(typeof(InstructorServices));
+    protected static readonly ILog log = LogManager.GetLogger(typeof(DiveAgencyServices));
 
     public DiveAgency Save(DiveAgency agency) {
       try {
-        //instructor.LastModifed = System.DateTime.Now;
+        //agency.LastModifed = System.DateTime.Now;
 
         DiveAgencyRepository.SaveOrUpdate(agency);
         DiveAgencyRepository.DbContext.CommitChanges();

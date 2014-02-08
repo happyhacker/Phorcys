@@ -1,0 +1,61 @@
+@using Microsoft.Web.Mvc
+@using NHibernate.Mapping
+@using Phorcys.Core
+@using Phorcys.UI.Web.Controllers
+@using Telerik.Web.Mvc.UI
+@model IEnumerable<Certification>
+    @{
+        ViewBag.Title = "Certifications";
+        Layout = "~/Views/Shared/SiteMaster.cshtml";
+    }
+
+    <script type="text/javascript" language="javascript">
+        function SubmitForm(id) {
+            frmSite.CertId.value = id;
+            if (confirm("Are you sure?")) {
+                frmSite.submit();
+            }
+        }
+
+    </script>
+    <h1>
+        Certifications
+    </h1>
+    <div id="error" class="errorOnPage">
+        @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+       } <p id="pageMessage">
+            @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+        </p>
+        }
+    </div>
+    <p>
+        <b>
+            @{if(User.Identity.Name=="system"){ @(Html.ActionLink<CertificationsController>(c => c.Create(), "Create New Certification"));}}
+        </b>
+    </p>
+
+    <form action="/Phorcys/Certifications/Delete/" name="frmCertification" method="post">
+        <input type="hidden" id="CertificationId" name="Id" />
+    </form>
+
+    <div id="grid">
+        @{ Html.Telerik().Grid<Certification>()
+  .Name("CertificationGrid")
+  .Pageable(pager => pager.PageSize(20))
+  .BindTo(Model)
+  .Columns(columns => {
+                 //columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.Show(o.Id), o.Title)).HtmlAttributes(new {@class="grid"}).Title("Site");
+                 columns.Bound(o => o.DiveAgency.Contact.Company).Title("Agency").Sortable(true);
+                 columns.Bound(o => o.Title).Title("Certification").Sortable(true);
+                 columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
+                 columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<DiveSitesController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
+                 columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" });
+             })
+  .Pageable()
+  .Sortable()
+  .Groupable()
+  .Filterable()
+  .Resizable(m => m.Columns(true))
+  .Render();
+        }
+    </div>

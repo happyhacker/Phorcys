@@ -65,6 +65,30 @@ namespace Phorcys.UI.Web.Controllers {
      return View(model);
     }
 
+    [ValidateAntiForgeryToken]
+    [Transaction]
+    [AcceptVerbs(HttpVerbs.Post)]
+    public ActionResult Create(CertificationModel certificationModel) {
+      user = userServices.FindUser(this.User.Identity.Name);
+
+      if (ModelState.IsValid) {
+        Certification certification = new Certification();
+        certification.User = user;
+        certification.Title = certificationModel.Title;
+        certification.Notes = certificationModel.Notes;
+        certification.DiveAgency = diveAgencyServices.GetDiveAgency(certificationModel.DiveAgencyId);
+        certification.Created = DateTime.Now;
+        certification.LastModified = DateTime.Now;
+        certificationServices.Save(certification);
+
+        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "The certification was successfully created.";
+        return RedirectToAction("Index");
+      }
+      certificationModel.DiveAgencyListItems = BuildList(null);
+      return View(certificationModel);
+    }
+
+
     private IList<SelectListItem> BuildList(int? DiveAgencyId) {
       IList<SelectListItem> DiveAgencyList = new List<SelectListItem>();
       IList<DiveAgency> DiveAgencies = GetDiveAgencies();
@@ -111,28 +135,6 @@ namespace Phorcys.UI.Web.Controllers {
       IList<DiveAgency> agencies = repository.GetAll();
       return agencies;
     }
-
-    /*
-    [ValidateAntiForgeryToken]
-    [Transaction]
-    [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Create(CertificationsModel certificationsModel) {
-      user = userServices.FindUser(this.User.Identity.Name);
-
-      if (ModelState.IsValid) {
-        certificationModel.DiveSite.User = user;
-        certificationModel.DiveSite.DiveLocation = agencyServices.Get(certificationModel.DiveSite.DiveLocationId);
-        certificationModel.DiveSite.Created = DateTime.Now;
-        certificationModel.DiveSite.LastModified = DateTime.Now;
-        diveSiteServices.Save(certificationModel.DiveSite);
-
-        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "The diveSite was successfully created.";
-        return RedirectToAction("Index");
-      }
-      certificationModel.DiveLocationsListItems = BuildLocationList(null);
-      return View(certificationModel);
-    }
-    */
 
     /*
     [Authorize]

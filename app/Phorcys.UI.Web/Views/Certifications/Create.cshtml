@@ -26,7 +26,7 @@
     <label for="Agency">
         Agency:</label>
     <div>
-        <select id="CertificationId" name="CertificationId">
+        <select id="DiveAgencyId" name="DiveAgencyId">
             @foreach (SelectListItem item in Model.DiveAgencyListItems) {
                 <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
             }

@@ -11,9 +11,9 @@
 
     <script type="text/javascript" language="javascript">
         function SubmitForm(id) {
-            frmSite.CertId.value = id;
+            frmCertification.CertificationId.value = id;
             if (confirm("Are you sure?")) {
-                frmSite.submit();
+                frmCertification.submit();
             }
         }
 
@@ -48,7 +48,7 @@
                  columns.Bound(o => o.DiveAgency.Contact.Company).Title("Agency").Sortable(true);
                  columns.Bound(o => o.Title).Title("Certification").Sortable(true);
                  columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
-                 columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<DiveSitesController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
+                 columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<CertificationsController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
                  columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" });
              })
   .Pageable()

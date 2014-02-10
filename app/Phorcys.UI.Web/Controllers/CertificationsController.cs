@@ -136,34 +136,48 @@ namespace Phorcys.UI.Web.Controllers {
       return agencies;
     }
 
-    /*
     [Authorize]
     [Transaction]
     public ActionResult Edit(int id) {
-      //DiveSiteFormViewModel viewModel = DiveSiteFormViewModel.CreateDiveSiteFormViewModel();
-      viewModel = new DiveSitesModel();
-      IList<DiveLocation> DiveLocations = GetDiveLocations();
-      SelectListItem locationItem;
-      IList<SelectListItem> DiveLocationsList = new List<SelectListItem>();
+      CertificationModel viewModel = new CertificationModel();
+      Certification certification = certificationServices.Get(id);
+      viewModel.Id = id;
+      viewModel.DiveAgencyListItems = BuildList(certification.DiveAgency.Id);
+      viewModel.Title = certification.Title;
+      viewModel.Notes = certification.Notes;
 
-      viewModel.DiveSite = diveSiteServices.Get(id);
-      foreach (var location in DiveLocations) {
-        locationItem = new SelectListItem();
-        locationItem.Text = location.Title;
-        locationItem.Value = location.Id.ToString();
-        if (viewModel.DiveSite.DiveLocation != null) {
-          if (location.Id == viewModel.DiveSite.DiveLocation.Id) {
-            locationItem.Selected = true;
-          }
-        }
-        DiveLocationsList.Add(locationItem);
-      }
-      viewModel.DiveLocationsListItems = DiveLocationsList;
       return View(viewModel);
     }
-*/
 
-    /*
+     [ValidateAntiForgeryToken]
+    [Transaction]
+    [AcceptVerbs(HttpVerbs.Post)]
+    public ActionResult Edit(CertificationModel certificationModel) {
+      certificationModel.DiveAgencyListItems = BuildList(certificationModel.DiveAgencyId);
+      Certification certificationToUpdate = certificationServices.Get(certificationModel.Id);
+      //certificationModel.User = certificationToUpdate.User;
+      TransferFormValuesTo(certificationToUpdate, certificationModel);
+      certificationToUpdate.DiveAgency = diveAgencyServices.GetDiveAgency(certificationModel.DiveAgencyId);
+
+      if (ModelState.IsValid) {
+        certificationServices.Save(certificationToUpdate);
+        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
+           "The certifiation was successfully updated.";
+        return RedirectToAction("Index");
+      }
+      else {
+        return View(certificationModel);
+      }
+    }
+
+    private void TransferFormValuesTo(Certification certificationToUpdate, CertificationModel certificationFromForm)
+    {
+      certificationToUpdate.Title = certificationFromForm.Title;
+      certificationToUpdate.Notes = certificationFromForm.Notes;
+      certificationToUpdate.LastModified = System.DateTime.Now;
+    }
+
+   /*
     [Authorize]
     [Transaction]
     public ActionResult Show(int id) {
@@ -172,35 +186,5 @@ namespace Phorcys.UI.Web.Controllers {
     }
     */
  
-    /*
-    //[ValidateAntiForgeryToken]
-    [Transaction]
-    [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Edit(CertificationsModel CertificationsModel) {
-      certificationsModel.DiveAgenciesListItems = BuildDiveAgencyList(certificationModel.DiveSite.Id);
-      Certification certificationToUpdate = certificationServices.Get(certificationModel.DiveSite.Id);
-      certificationModel.DiveSite.User = certificationToUpdate.User;
-      TransferFormValuesTo(certificationToUpdate, certificationModel.DiveSite);
-      certificationToUpdate.DiveAgency = diveAgencyServices.Get(certificationModel.DiveSite.DiveLocationId);
-
-      if (ModelState.IsValid) {
-        certificationServices.Save(certificationToUpdate);
-        TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
-           "The diveSite was successfully updated.";
-        return RedirectToAction("Index");
-      }
-      else {
-        return View(certificationsModel);
-      }
-    }
-
-    private void TransferFormValuesTo(Certification certificationToUpdate, Certification certificationFromForm) {
-      //certificationToUpdate.DiveAgencyId = certificationFromForm.DiveAgencyId;
-      certificationToUpdate.Title = certificationFromForm.Title;
-      certificationToUpdate.Notes = certificationFromForm.Notes;
-      certificationToUpdate.User = certificationFromForm.User;
-    }
-*/
-    
   }
 }

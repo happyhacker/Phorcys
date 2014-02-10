@@ -704,6 +704,7 @@
     <Content Include="Views\Contacts\Edit.cshtml" />
     <Content Include="Views\Certifications\Create.cshtml" />
     <Content Include="Views\Certifications\Index.cshtml" />
+    <Content Include="Views\Certifications\Edit.cshtml" />
     <None Include="Views\DiveLocations\Index.cshtml" />
     <None Include="Views\DiveLocations\Create.cshtml" />
     <None Include="Views\DiveLocations\Edit.cshtml" />

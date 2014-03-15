@@ -42,3 +42,4 @@ temp.config_output
 NDependOut/**/*.*
 *.nccov
 db/SCUBA.dez
+db/SCUBA.dez

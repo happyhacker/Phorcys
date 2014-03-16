@@ -278,6 +278,7 @@
     </Compile>
     <Compile Include="CastleWindsor\ComponentRegistrar.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DiverCertificationsController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\ControllerEnums.cs" />
     <Compile Include="Controllers\DiveLocationsController.cs" />
@@ -709,6 +710,9 @@
     <None Include="Views\DiveLocations\Create.cshtml" />
     <None Include="Views\DiveLocations\Edit.cshtml" />
     <Content Include="Views\DiveLocations\Show.aspx" />
+    <Content Include="Views\DiverCertifications\Create.cshtml" />
+    <Content Include="Views\DiverCertifications\Edit.cshtml" />
+    <Content Include="Views\DiverCertifications\Index.cshtml" />
     <None Include="Views\DiveSites\Index.cshtml" />
     <None Include="Views\DiveSites\Show.cshtml" />
     <None Include="Views\DiveSites\Create.cshtml" />

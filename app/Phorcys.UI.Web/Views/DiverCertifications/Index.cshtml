@@ -48,6 +48,7 @@
       //columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.Show(o.Id), o.Title)).HtmlAttributes(new {@class="grid"}).Title("Site");
       columns.Bound(o => o.Certification.Title).Title("Certification").Sortable(true);
       columns.Bound(o => o.Certification.DiveAgency.Contact.Company).Title("Agency").Sortable(true);
+      columns.Template(o => o.Instructor.Contact.FirstName + " " + o.Instructor.Contact.LastName).Title("Instructor");
       columns.Bound(o => o.CertificationNum).Title("Cert #");
       columns.Bound(o => o.Certified).Format("{0:MM/dd/yy}");
       columns.Template(o => (Html.ActionLink<CertificationsController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });

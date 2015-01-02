@@ -20,9 +20,10 @@ namespace Phorcys.UI.Web.Controllers {
     private readonly IDiveAgencyServices diveAgencyServices = new DiveAgencyServices();
     private readonly Repository<DiveAgency> repository = new Repository<DiveAgency>(); 
     private readonly UserServices userServices = new UserServices();
+    private readonly InstructorServices instructorServices = new InstructorServices();
     private User user;
     private User systemUser;
-    private Certification viewModel = new Certification();
+    private DiverCertification viewModel = new DiverCertification();
 
     public DiverCertificationsController(IRepository<DiverCertification> diverCertificationRepository, IRepository<User> userRepository) {
       Check.Require(diverCertificationRepository != null, "diverCertificationRepository may not be null");
@@ -35,7 +36,7 @@ namespace Phorcys.UI.Web.Controllers {
     public ActionResult Index() {
       user = userServices.FindUser(this.User.Identity.Name);
 
-      IList<DiverCertification> diverCertifications = diverCertificationServices.GetAll(3);
+      IList<DiverCertification> diverCertifications = diverCertificationServices.GetAll(user.Id);
       diverCertifications = diverCertifications.OrderBy(m => m.Certification.Title).ToList();
 
       return View(diverCertifications);
@@ -45,7 +46,7 @@ namespace Phorcys.UI.Web.Controllers {
     [Authorize]
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Create() {
-      CertificationModel model = new CertificationModel();
+      DiverCertificationModel model = new DiverCertificationModel();
 
      return View(model);
     }
@@ -53,23 +54,26 @@ namespace Phorcys.UI.Web.Controllers {
     [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Create(CertificationModel certificationModel) {
+    public ActionResult Create(DiverCertificationModel model) {
       user = userServices.FindUser(this.User.Identity.Name);
 
       if (ModelState.IsValid) {
-        Certification certification = new Certification();
-        certification.User = user;
-        certification.Title = certificationModel.Title;
-        certification.Notes = certificationModel.Notes;
-        certification.DiveAgency = diveAgencyServices.GetDiveAgency(certificationModel.DiveAgencyId);
-        certification.Created = DateTime.Now;
-        certification.LastModified = DateTime.Now;
-        certificationServices.Save(certification);
+        DiverCertification diverCertification = new DiverCertification();
+
+        diverCertification.Notes = model.Notes;
+        diverCertification.CertificationNum = model.CertificationNum;
+        diverCertification.Certified = model.Certified;
+        diverCertification.Instructor = instructorServices.GetInstructor(model.InstructorId);
+        diverCertification.Certification = certificationServices.Get(model.CertificationId);
+        diverCertification.Created = System.DateTime.Now;
+        diverCertification.LastModified = System.DateTime.Now;
+
+        diverCertificationServices.Save(diverCertification);
 
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = "The certification was successfully created.";
         return RedirectToAction("Index");
       }
-      return View(certificationModel);
+      return View(model);
     }
 
 
@@ -98,11 +102,16 @@ namespace Phorcys.UI.Web.Controllers {
     [Authorize]
     [Transaction]
     public ActionResult Edit(int id) {
-      CertificationModel viewModel = new CertificationModel();
-      Certification certification = certificationServices.Get(id);
+      DiverCertificationModel viewModel = new DiverCertificationModel();
+      DiverCertification diverCertification = diverCertificationServices.Get(id);
       viewModel.Id = id;
-      viewModel.Title = certification.Title;
-      viewModel.Notes = certification.Notes;
+      viewModel.Notes = diverCertification.Notes;
+      viewModel.Certified = diverCertification.Certified;
+      viewModel.CertificationNum = diverCertification.CertificationNum;
+      viewModel.InstructorId = diverCertification.Instructor.Id;
+      viewModel.CertificationId = diverCertification.Certification.Id;
+      viewModel.Created = diverCertification.Created;
+      viewModel.LastModified = diverCertification.LastModified;
 
       return View(viewModel);
     }
@@ -110,28 +119,30 @@ namespace Phorcys.UI.Web.Controllers {
      [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Edit(CertificationModel certificationModel) {
-      Certification certificationToUpdate = certificationServices.Get(certificationModel.Id);
-      //certificationModel.User = certificationToUpdate.User;
-      TransferFormValuesTo(certificationToUpdate, certificationModel);
-      certificationToUpdate.DiveAgency = diveAgencyServices.GetDiveAgency(certificationModel.DiveAgencyId);
+    public ActionResult Edit(DiverCertificationModel model) {
+      DiverCertification diverCertificationToUpdate = diverCertificationServices.Get(model.Id);
+      TransferFormValuesTo(diverCertificationToUpdate, model);
+      //diverCertificationToUpdate.DiveAgency = diveAgencyServices.GetDiveAgency(certificationModel.DiveAgencyId);
 
       if (ModelState.IsValid) {
-        certificationServices.Save(certificationToUpdate);
+        diverCertificationServices.Save(diverCertificationToUpdate);
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
            "The certifiation was successfully updated.";
         return RedirectToAction("Index");
       }
       else {
-        return View(certificationModel);
+        return View(model);
       }
     }
 
-    private void TransferFormValuesTo(Certification certificationToUpdate, CertificationModel certificationFromForm)
+    private void TransferFormValuesTo(DiverCertification diverCertificationToUpdate, DiverCertificationModel diverCertificationFromForm)
     {
-      certificationToUpdate.Title = certificationFromForm.Title;
-      certificationToUpdate.Notes = certificationFromForm.Notes;
-      certificationToUpdate.LastModified = System.DateTime.Now;
+      diverCertificationToUpdate.Notes = diverCertificationFromForm.Notes;
+      diverCertificationToUpdate.CertificationNum = diverCertificationFromForm.CertificationNum;
+      diverCertificationToUpdate.Certified = diverCertificationFromForm.Certified;
+      diverCertificationToUpdate.Instructor = instructorServices.GetInstructor(diverCertificationFromForm.InstructorId);
+      diverCertificationToUpdate.Certification = certificationServices.Get(diverCertificationFromForm.CertificationId);
+      diverCertificationToUpdate.LastModified = System.DateTime.Now;
     }
 
   }

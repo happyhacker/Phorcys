@@ -303,6 +303,7 @@
     <Compile Include="Models\CertificationModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\ContactsIndexModel.cs" />
+    <Compile Include="Models\DiverCertificationModel.cs" />
     <Compile Include="Models\DiveSiteModel.cs" />
     <Compile Include="Models\DiveSitesIndexModel.cs" />
     <Compile Include="Models\DiveSitesModel.cs" />

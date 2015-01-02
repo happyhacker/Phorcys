@@ -30,8 +30,7 @@
     </div>
     <p>
         <b>
-            @{if (User.Identity.Name == "system") { @(Html.ActionLink<DiverCertificationsController>(c => c.Create(), "Add New Certification"));
-            }}
+            @(Html.ActionLink<DiverCertificationsController>(c => c.Create(), "Add New Certification"))
         </b>
     </p>
 
@@ -51,7 +50,7 @@
       columns.Template(o => o.Instructor.Contact.FirstName + " " + o.Instructor.Contact.LastName).Title("Instructor");
       columns.Bound(o => o.CertificationNum).Title("Cert #");
       columns.Bound(o => o.Certified).Format("{0:MM/dd/yy}");
-      columns.Template(o => (Html.ActionLink<CertificationsController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
+      columns.Template(o => (Html.ActionLink<DiverCertificationsController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
       columns.Template(o => (Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" });
   })
   .Pageable()

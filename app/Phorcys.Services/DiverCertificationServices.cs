@@ -39,7 +39,7 @@ namespace Phorcys.Services {
     {
 
       DetachedCriteria criteria = DetachedCriteria.For<DiverCertification>();
-      criteria.Add(Expression.Eq("DiverId", diverId));
+      criteria.Add(Expression.Eq("Diver.Id", diverId));
       IList<DiverCertification> diverCertifications = diverCertificationRepository.GetByCriteria(criteria);
 
       return diverCertifications;

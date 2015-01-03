@@ -21,6 +21,7 @@ namespace Phorcys.UI.Web.Controllers {
     private readonly Repository<DiveAgency> repository = new Repository<DiveAgency>(); 
     private readonly UserServices userServices = new UserServices();
     private readonly InstructorServices instructorServices = new InstructorServices();
+    private readonly DiverServices diverServices = new DiverServices();
     private User user;
     private User systemUser;
     private DiverCertification viewModel = new DiverCertification();
@@ -46,14 +47,16 @@ namespace Phorcys.UI.Web.Controllers {
     [Authorize]
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Create() {
+      user = userServices.FindUser(this.User.Identity.Name);
+      systemUser = userServices.FindUser("system");
       DiverCertificationModel model = new DiverCertificationModel();
       IList<SelectListItem> DiveAgencyListItems = diveAgencyServices.BuildList(null);
       model.DiveAgencyListItems = DiveAgencyListItems;
       model.DiveAgencyListItems = DiveAgencyListItems.OrderBy(m => m.Text).ToList(); //this works too as opposed to the following 2 lines
       var sortedList = from row in DiveAgencyListItems orderby row.Text select row;
       model.DiveAgencyListItems = sortedList.ToList();
-
-      IList<SelectListItem> CertificationListItems = certificationServices.BuildSelectListForAgency(3,null);
+      int firstAgencyId = int.Parse(model.DiveAgencyListItems[0].Value);
+      IList<SelectListItem> CertificationListItems = certificationServices.BuildSelectListForAgency(firstAgencyId,null, user.Id, systemUser.Id);
       model.CertificationListItems = CertificationListItems;
 
      return View(model);
@@ -62,12 +65,14 @@ namespace Phorcys.UI.Web.Controllers {
     [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
-    public ActionResult Create(DiverCertificationModel model) {
+    public ActionResult Create(DiverCertificationModel model)
+    {
+      model.InstructorId = 1;
       user = userServices.FindUser(this.User.Identity.Name);
-
+      Diver diver = diverServices.GetDiverByContact(user.Contact.Id);
       if (ModelState.IsValid) {
         DiverCertification diverCertification = new DiverCertification();
-
+        diverCertification.Diver = diver;
         diverCertification.Notes = model.Notes;
         diverCertification.CertificationNum = model.CertificationNum;
         diverCertification.Certified = model.Certified;

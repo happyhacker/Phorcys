@@ -16,7 +16,7 @@
         @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
 }
 <!--@Html.ValidationSummary()-->
-@using (Html.BeginForm("Create", "Certifications")) {
+@using (Html.BeginForm("Create", "DiverCertifications")) {
     @Html.AntiForgeryToken()
 
   <div class="errorOnPage">
@@ -86,6 +86,6 @@
 
     @Html.SubmitButton("btnSave", "Save Certification") 
     @Html.Encode(" ")    
-    @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+    @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = './'")
     <br /> <br />
 }

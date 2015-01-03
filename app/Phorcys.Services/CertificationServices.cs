@@ -60,10 +60,10 @@ namespace Phorcys.Services {
       certificationRepository.DbContext.CommitChanges();
     }
 
-    public IList<SelectListItem> BuildSelectListForAgency(int agencyId, int? certificationId)
+    public IList<SelectListItem> BuildSelectListForAgency(int agencyId, int? certificationId, int userId, int systemId)
     {
       IList<SelectListItem> CertificationList = new List<SelectListItem>();
-      IList<Certification> Certifications = GetCertificationsForAgency(agencyId,3,6);
+      IList<Certification> Certifications = GetCertificationsForAgency(agencyId,userId, systemId);
       SelectListItem CertificationItem;
 
       Certifications = Certifications.OrderBy(m => m.Title).ToList();

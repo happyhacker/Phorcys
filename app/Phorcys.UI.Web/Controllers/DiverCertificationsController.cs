@@ -47,6 +47,14 @@ namespace Phorcys.UI.Web.Controllers {
     [AcceptVerbs(HttpVerbs.Get)]
     public ActionResult Create() {
       DiverCertificationModel model = new DiverCertificationModel();
+      IList<SelectListItem> DiveAgencyListItems = diveAgencyServices.BuildList(null);
+      model.DiveAgencyListItems = DiveAgencyListItems;
+      model.DiveAgencyListItems = DiveAgencyListItems.OrderBy(m => m.Text).ToList(); //this works too as opposed to the following 2 lines
+      var sortedList = from row in DiveAgencyListItems orderby row.Text select row;
+      model.DiveAgencyListItems = sortedList.ToList();
+
+      IList<SelectListItem> CertificationListItems = certificationServices.BuildSelectListForAgency(3,null);
+      model.CertificationListItems = CertificationListItems;
 
      return View(model);
     }

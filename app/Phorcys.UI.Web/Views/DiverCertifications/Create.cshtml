@@ -3,13 +3,14 @@
 @using Phorcys.UI.Web.Models
 @using Phorcys.Core
 @using SharpArch.Web.Areas
+@using Telerik.Web.Mvc.UI
 @model DiverCertificationModel
 @{
-    ViewBag.Title = "Create a Certification";
+    ViewBag.Title = "Add a Certification";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 <h2>
-    Create New Dive Certification</h2>
+    Add a Dive Certification</h2>
 @if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
     <p id="pageMessage">
         @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
@@ -23,7 +24,7 @@
   </div>
     
     <div class="editor-label">
-    <label for="Agency">
+    <label for="DiveAgencyId">
         Agency:</label>
     <div>
         <select id="DiveAgencyId" name="DiveAgencyId">
@@ -35,9 +36,35 @@
     </div>
     <br />
 
-         <div class="editor-label">
-    <label for="Title">
-        Title:</label>
+     <div class="editor-label">
+    <label for="CertificationId">
+        Agency:</label>
+    <div>
+        <select id="CertificationId" name="CertificationId">
+            @foreach (SelectListItem item in Model.CertificationListItems) {
+                <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+            }
+        </select>
+    </div>
+    </div>
+    <br />
+
+    
+        <div>
+      <br />
+      <div class="editor-label">
+        Date Certified
+      </div>
+      <div>
+        @Html.Telerik().DatePickerFor(m => m.Certified)
+        @Html.ValidationMessageFor(m => m.Certified)
+      </div>
+    </div>
+    <br/>
+    
+    <div class="editor-label">
+    <label for="CertificationNum">
+        Certification #:</label>
     <div class="editor-field">
         @Html.TextBoxFor(m => m.CertificationNum, new { @size = "30" })
         @*<input id="CertificationNum" name="CertificationNum" type="text" value="@Model.CertificationNum" size="30" maxlength="20" />*@

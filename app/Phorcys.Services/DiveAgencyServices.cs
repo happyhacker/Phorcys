@@ -4,7 +4,8 @@ using SharpArch.Data.NHibernate;
 using Phorcys.Core;
 using Phorcys.Data;
 using log4net;
-
+using System.Web.Mvc;
+using System.Linq;
 
 namespace Phorcys.Services {
   public class DiveAgencyServices : IDiveAgencyServices {
@@ -53,5 +54,33 @@ namespace Phorcys.Services {
       }
       return agencies;
     }
+
+    public IList<SelectListItem> BuildList(int? DiveAgencyId) {
+      IList<SelectListItem> DiveAgencyList = new List<SelectListItem>();
+      IList<DiveAgency> DiveAgencies = GetDiveAgencies();
+      SelectListItem DiveAgencyItem;
+
+      DiveAgencies = DiveAgencies.OrderBy(m => m.Contact.Company).ToList();
+      foreach (var agency in DiveAgencies) {
+        DiveAgencyItem = new SelectListItem();
+        DiveAgencyItem.Text = agency.Contact.Company;
+        DiveAgencyItem.Value = agency.Id.ToString();
+        if (DiveAgencyId != null) {
+          if (agency.Id == DiveAgencyId) {
+            DiveAgencyItem.Selected = true;
+          }
+        }
+        DiveAgencyList.Add(DiveAgencyItem);
+      }
+
+      return DiveAgencyList;
+    }
+
+    private IList<DiveAgency> GetDiveAgencies() {
+      IList<DiveAgency> agencies = DiveAgencyRepository.GetAll();
+      return agencies;
+    }
+
+
   }
 }

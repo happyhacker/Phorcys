@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using SharpArch.Data.NHibernate;
 using Phorcys.Core;
 using Phorcys.Data;
@@ -53,14 +55,26 @@ namespace Phorcys.Services
             return InstructorRepository.Get(id);
         }
 
-        public IList<Instructor> GetAllForUser(int userId)
+      public IList<Instructor> GetAll()
+      {
+          IList<Instructor> instructors = null;
+          try {
+            instructors = InstructorRepository.GetAll();
+          } catch (Exception e) {
+            log.Error("Error retrieving instructors", e);
+          }
+          return instructors;
+   
+      } 
+        
+      public IList<Instructor> GetAllForUser(int userId)
         {
             UserServices userServices = new UserServices(new Repository<User>());
             User systemUser = userServices.FindUser("system");
             IList<Instructor> instructors = null;
             try
             {
-                instructors = InstructorRepository.GetAllSystemAndUser(userId, systemUser.Id);
+                instructors = InstructorRepository. GetAll();
             }
             catch (Exception e)
             {
@@ -68,5 +82,27 @@ namespace Phorcys.Services
             }
             return instructors;
         }
+
+        public IList<SelectListItem> BuildListItems(int? instructorId, int userId) {
+          IList<SelectListItem> instructorList = new List<SelectListItem>();
+          IList<Instructor> instructors = GetAllForUser(userId);
+          SelectListItem instructorItem;
+
+          instructors = instructors.OrderBy(m => m.Contact.FirstName).ToList();
+          foreach (var instructor in instructors) {
+            instructorItem = new SelectListItem();
+            instructorItem.Text = instructor.Contact.FirstName + " " + instructor.Contact.LastName;
+            instructorItem.Value = instructor.Id.ToString();
+            if (instructorId != null) {
+              if (instructor.Id == instructorId) {
+                instructorItem.Selected = true;
+              }
+            }
+            instructorList.Add(instructorItem);
+          }
+
+          return instructorList;
+        }
+
     }
 }

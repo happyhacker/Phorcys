@@ -10,82 +10,101 @@
     Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 <h2>
-    Add a Dive Certification</h2>
+    Add a Dive Certification
+</h2>
 @if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
     <p id="pageMessage">
-        @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
+        @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]
+    </p>
 }
 <!--@Html.ValidationSummary()-->
 @using (Html.BeginForm("Create", "DiverCertifications")) {
     @Html.AntiForgeryToken()
 
-  <div class="errorOnPage">
-    @Html.ValidationSummary(true, "Please correct the errors and try again.")
-  </div>
-    
+    <div class="errorOnPage">
+        @Html.ValidationSummary(true, "Please correct the errors and try again.")
+    </div>
+
     <div class="editor-label">
-    <label for="DiveAgencyId">
-        Agency:</label>
-    <div>
-        <select id="DiveAgencyId" name="DiveAgencyId">
-            @foreach (SelectListItem item in Model.DiveAgencyListItems) {
-                <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
-            }
-        </select>
-    </div>
-    </div>
-    <br />
-
-     <div class="editor-label">
-    <label for="CertificationId">
-        Agency:</label>
-    <div>
-        <select id="CertificationId" name="CertificationId">
-            @foreach (SelectListItem item in Model.CertificationListItems) {
-                <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
-            }
-        </select>
-    </div>
-    </div>
-    <br />
-
-    
+        <label for="DiveAgencyId">
+            Agency:
+        </label>
         <div>
-      <br />
-      <div class="editor-label">
-        Date Certified
-      </div>
-      <div>
-        @Html.Telerik().DatePickerFor(m => m.Certified)
-        @Html.ValidationMessageFor(m => m.Certified)
-      </div>
-    </div>
-    <br/>
-    
-    <div class="editor-label">
-    <label for="CertificationNum">
-        Certification #:</label>
-    <div class="editor-field">
-        @Html.TextBoxFor(m => m.CertificationNum, new { @size = "30" })
-        @*<input id="CertificationNum" name="CertificationNum" type="text" value="@Model.CertificationNum" size="30" maxlength="20" />*@
-        @Html.ValidationMessageFor(m => m.CertificationNum)
-    </div>
+            <select id="DiveAgencyId" name="DiveAgencyId">
+                @foreach (SelectListItem item in Model.DiveAgencyListItems) {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+                }
+            </select>
+        </div>
     </div>
     <br />
-    
-         <div class="editor-label">
-    <label for="Notes">
-        Notes:</label>
-    <div>
-        <textarea id="Notes" name="Notes" rows="6" cols="70"> </textarea>
+
+    <div class="editor-label">
+        <label for="CertificationId">
+            Certification:
+        </label>
+        <div>
+            <select id="CertificationId" name="CertificationId">
+                @foreach (SelectListItem item in Model.CertificationListItems) {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+                }
+            </select>
+        </div>
     </div>
+    <br />
+
+   <div class="editor-label">
+        <label for="InstructorId">
+            Instructor:
+        </label>
+        <div>
+            <select id="InstructorId" name="InstructorId">
+                @foreach (SelectListItem item in Model.InstructorListItems) {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+                }
+            </select>
+        </div>
+    </div>
+    <br />
+
+    <div>
+        <br />
+        <div class="editor-label">
+            Date Certified
+        </div>
+        <div>
+            @Html.Telerik().DatePickerFor(m => m.Certified)
+            @Html.ValidationMessageFor(m => m.Certified)
+        </div>
+    </div>
+    <br />
+
+    <div class="editor-label">
+        <label for="CertificationNum">
+            Certification #:
+        </label>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.CertificationNum, new { @size = "30" })
+            @*<input id="CertificationNum" name="CertificationNum" type="text" value="@Model.CertificationNum" size="30" maxlength="20" />*@
+            @Html.ValidationMessageFor(m => m.CertificationNum)
+        </div>
+    </div>
+    <br />
+
+    <div class="editor-label">
+        <label for="Notes">
+            Notes:
+        </label>
+        <div>
+            <textarea id="Notes" name="Notes" rows="6" cols="70"> </textarea>
+        </div>
     </div>
     <br />
     @Html.ValidationMessageFor(m => m.Notes)
     <br />
 
-    @Html.SubmitButton("btnSave", "Save Certification") 
-    @Html.Encode(" ")    
+    @Html.SubmitButton("btnSave", "Save Certification")
+    @Html.Encode(" ")
     @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = './'")
     <br /> <br />
 }

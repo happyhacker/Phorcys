@@ -58,6 +58,7 @@ namespace Phorcys.UI.Web.Controllers {
       int firstAgencyId = int.Parse(model.DiveAgencyListItems[0].Value);
       IList<SelectListItem> CertificationListItems = certificationServices.BuildSelectListForAgency(firstAgencyId,null, user.Id, systemUser.Id);
       model.CertificationListItems = CertificationListItems;
+      model.InstructorListItems = instructorServices.BuildListItems(null, user.Id);
 
      return View(model);
     }
@@ -67,7 +68,6 @@ namespace Phorcys.UI.Web.Controllers {
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Create(DiverCertificationModel model)
     {
-      model.InstructorId = 1;
       user = userServices.FindUser(this.User.Identity.Name);
       Diver diver = diverServices.GetDiverByContact(user.Contact.Id);
       if (ModelState.IsValid) {

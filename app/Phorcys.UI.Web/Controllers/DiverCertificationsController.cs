@@ -59,7 +59,6 @@ namespace Phorcys.UI.Web.Controllers {
       IList<SelectListItem> CertificationListItems = certificationServices.BuildSelectListForAgency(firstAgencyId,null, user.Id, systemUser.Id);
       model.CertificationListItems = CertificationListItems;
       model.InstructorListItems = instructorServices.BuildListItems(null, user.Id);
-
      return View(model);
     }
 

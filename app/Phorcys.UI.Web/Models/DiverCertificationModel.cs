@@ -21,5 +21,6 @@ namespace Phorcys.UI.Web.Models {
     public IList<SelectListItem> DiveAgencyListItems { get; set; }
     public IList<SelectListItem> CertificationListItems { get; set; }
     public IList<SelectListItem> InstructorListItems { get; set; }
+    public SelectList InstructorSelectList { get; set; }
   }
 }

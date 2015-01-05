@@ -87,6 +87,7 @@ namespace Phorcys.Services
           IList<SelectListItem> instructorList = new List<SelectListItem>();
           IList<Instructor> instructors = GetAllForUser(userId);
           SelectListItem instructorItem;
+          SelectList selectList;
 
           instructors = instructors.OrderBy(m => m.Contact.FirstName).ToList();
           foreach (var instructor in instructors) {
@@ -100,7 +101,6 @@ namespace Phorcys.Services
             }
             instructorList.Add(instructorItem);
           }
-
           return instructorList;
         }
 

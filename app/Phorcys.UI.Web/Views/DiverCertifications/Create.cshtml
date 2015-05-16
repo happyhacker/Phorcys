@@ -9,6 +9,15 @@
     ViewBag.Title = "Add a Certification";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
+
+    <script type="text/javascript" language="javascript">
+
+        function SayHi() {
+            AgencyForm.DiveAgencyId.value = TheForm.DiveAgencyId.value;
+            document.getElementById("AgencyForm").submit();
+        }
+
+</script>
 <h2>
     Add a Dive Certification
 </h2>
@@ -17,8 +26,14 @@
         @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]
     </p>
 }
+@using (Html.BeginForm("RetrieveAgencyCertifications", "DiverCertifications", FormMethod.Post, new {id = "AgencyForm"}))
+{
+    @Html.AntiForgeryToken() 
+    @Html.HiddenFor(m => m.DiveAgencyId)
+}
+
 <!--@Html.ValidationSummary()-->
-@using (Html.BeginForm("Create", "DiverCertifications")) {
+@using (Html.BeginForm("Create", "DiverCertifications", FormMethod.Post, new{id="TheForm"})) {
     @Html.AntiForgeryToken()
 
     <div class="errorOnPage">
@@ -30,7 +45,7 @@
             Agency:
         </label>
         <div>
-            <select id="DiveAgencyId" name="DiveAgencyId">
+            <select id="DiveAgencyId" name="DiveAgencyId" onchange="SayHi()">
                 @foreach (SelectListItem item in Model.DiveAgencyListItems) {
                     <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
                 }

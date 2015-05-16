@@ -65,6 +65,33 @@ namespace Phorcys.UI.Web.Controllers {
     [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
+    public ActionResult RetrieveAgencyCertifications(DiverCertificationModel model) {
+      user = userServices.FindUser(this.User.Identity.Name);
+      systemUser = userServices.FindUser("system");
+      IList<SelectListItem> DiveAgencyListItems = diveAgencyServices.BuildList(null);
+      model.DiveAgencyListItems = DiveAgencyListItems;
+      model.DiveAgencyListItems = DiveAgencyListItems.OrderBy(m => m.Text).ToList(); //this works too as opposed to the following 2 lines
+      var sortedList = from row in DiveAgencyListItems orderby row.Text select row;
+      model.DiveAgencyListItems = sortedList.ToList();
+      foreach (var diveAgencyListItem in DiveAgencyListItems)
+      {
+        if (diveAgencyListItem.Value == model.DiveAgencyId.ToString())
+        {
+          diveAgencyListItem.Selected = true;
+        }
+      }
+      IList<SelectListItem> CertificationListItems = certificationServices.BuildSelectListForAgency(model.DiveAgencyId, null, user.Id, systemUser.Id);
+      model.CertificationListItems = CertificationListItems;
+      model.InstructorListItems = instructorServices.BuildListItems(null, user.Id);
+
+      return View("Create",model);
+    }
+
+
+
+    [ValidateAntiForgeryToken]
+    [Transaction]
+    [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Create(DiverCertificationModel model)
     {
       user = userServices.FindUser(this.User.Identity.Name);

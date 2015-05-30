@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 using NHibernate.Criterion;
 using Phorcys.Core;
 using Phorcys.Data;
@@ -57,6 +58,29 @@ namespace Phorcys.Services {
     public void Save(Certification certification) {
       Certification savedCertification = certificationRepository.SaveOrUpdate(certification);
       certificationRepository.DbContext.CommitChanges();
+    }
+
+    public IList<SelectListItem> BuildSelectListForAgency(int agencyId, int? certificationId, int userId, int systemId)
+    {
+      IList<SelectListItem> CertificationList = new List<SelectListItem>();
+      IList<Certification> Certifications = GetCertificationsForAgency(agencyId,userId, systemId);
+      SelectListItem CertificationItem;
+
+      Certifications = Certifications.OrderBy(m => m.Title).ToList();
+      foreach (var certification in Certifications) {
+        CertificationItem = new SelectListItem();
+        CertificationItem.Text = certification.Title;
+        CertificationItem.Value = certification.Id.ToString();
+        if (certificationId != null) {
+          if (certification.Id == certificationId) {
+            CertificationItem.Selected = true;
+          }
+        }
+        CertificationList.Add(CertificationItem);
+      }
+
+      return CertificationList;
+
     }
   }
 }

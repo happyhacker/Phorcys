@@ -1,0 +1,56 @@
+@using System.Web.UI.WebControls
+@using Microsoft.Web.Mvc
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.UI.Web.Models
+@using Phorcys.Core
+@using SharpArch.Web.Areas
+@model DiverCertificationModel
+@{
+    ViewBag.Title = "Edit a Certification";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+<h2>
+    Edit Dive Certification</h2>
+@if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+    <p id="pageMessage">
+        @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]</p>
+}
+<!--@Html.ValidationSummary()-->
+@using (Html.BeginForm("Edit", "Certifications")) {
+    @Html.AntiForgeryToken()
+
+  <div class="errorOnPage">
+    @Html.ValidationSummary(true, "Please correct the errors and try again.")
+  </div>
+    
+    <fieldset>
+        @Html.Hidden("Id", (Model != null) ? Model.Id : 0)
+ 
+        <div class="editor-label">
+            <label for="CertificationNum">
+                Certification #:</label>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.CertificationNum, new { @size = "40" })
+                @*<input id="CertificationNum" name="CertificationNum" type="text" value="@Model.CertificationNum" size="40" maxlength="30" />*@
+                @Html.ValidationMessageFor(m => m.CertificationNum)
+            </div>
+        </div>
+        <br />
+    
+        <div class="editor-label">
+            <label for="Notes">
+                Notes:</label>
+            <div>
+                <textarea id="Notes" name="Notes" rows="6" cols="70">@Model.Notes </textarea>
+            </div>
+        </div>
+        <br />
+        @Html.ValidationMessageFor(m => m.Notes)
+        <br />
+
+        @Html.SubmitButton("btnSave", "Save Certification") 
+        @Html.Encode(" ")    
+        @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+        <br /> <br />
+    </fieldset>
+}

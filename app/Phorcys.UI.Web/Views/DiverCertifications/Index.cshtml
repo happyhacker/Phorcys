@@ -1,0 +1,63 @@
+@using Microsoft.Web.Mvc
+@using NHibernate.Mapping
+@using Phorcys.Core
+@using Phorcys.UI.Web.Controllers
+@using Telerik.Web.Mvc.UI
+@model IEnumerable<DiverCertification>
+    @{
+        ViewBag.Title = "My Certifications";
+        Layout = "~/Views/Shared/SiteMaster.cshtml";
+    }
+
+    <script type="text/javascript" language="javascript">
+        function SubmitForm(id) {
+            frmDiverCertification.DiverCertificationId.value = id;
+            if (confirm("Are you sure?")) {
+                frmDiverCertification.submit();
+            }
+        }
+
+    </script>
+    <h1>
+        My Certifications
+    </h1>
+    <div id="error" class="errorOnPage">
+        @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+         } <p id="pageMessage">
+            @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+        </p>
+        }
+    </div>
+    <p>
+        <b>
+            @(Html.ActionLink<DiverCertificationsController>(c => c.Create(), "Add New Certification"))
+        </b>
+    </p>
+
+    <form action="/Phorcys/DiverCertifications/Delete/" name="frmDiverCertification" method="post">
+        <input type="hidden" id="DiverCertificationId" name="Id" />
+    </form>
+
+    <div id="grid">
+        @{ Html.Telerik().Grid<DiverCertification>()
+  .Name("CertificationGrid")
+  .Pageable(pager => pager.PageSize(20))
+  .BindTo(Model)
+  .Columns(columns => {
+      //columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.Show(o.Id), o.Title)).HtmlAttributes(new {@class="grid"}).Title("Site");
+      columns.Bound(o => o.Certification.Title).Title("Certification").Sortable(true);
+      columns.Bound(o => o.Certification.DiveAgency.Contact.Company).Title("Agency").Sortable(true);
+      columns.Template(o => o.Instructor.Contact.FirstName + " " + o.Instructor.Contact.LastName).Title("Instructor");
+      columns.Bound(o => o.CertificationNum).Title("Cert #");
+      columns.Bound(o => o.Certified).Format("{0:MM/dd/yy}");
+      columns.Template(o => (Html.ActionLink<DiverCertificationsController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
+      columns.Template(o => (Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" });
+  })
+  .Pageable()
+  .Sortable()
+  .Groupable()
+  .Filterable()
+  .Resizable(m => m.Columns(true))
+  .Render();
+        }
+    </div>

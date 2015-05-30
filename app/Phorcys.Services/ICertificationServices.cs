@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Web.Mvc;
 using Phorcys.Core;
 
 namespace Phorcys.Services {
@@ -8,5 +9,6 @@ namespace Phorcys.Services {
     IList<Certification> GetAllForUser(int userId);
     IList<Certification> GetCertificationsForAgency(int agencyId, int systemId, int userId);
     void Save(Certification certification);
+    IList<SelectListItem> BuildSelectListForAgency(int agencyId, int? certificationId, int userId, int systemId);
   }
 }

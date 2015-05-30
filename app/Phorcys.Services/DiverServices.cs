@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using NHibernate.Criterion;
 using SharpArch.Data.NHibernate;
 using Phorcys.Core;
 using Phorcys.Data;
@@ -53,6 +55,14 @@ namespace Phorcys.Services
         {
             return DiverRepository.Get(id);
         }
+
+      public Diver GetDiverByContact(int contactId)
+      {
+         DetachedCriteria criteria = DetachedCriteria.For(typeof(Diver));
+        criteria.Add(Expression.Eq("Contact.Id", contactId));
+        IList<Diver> diverList = DiverRepository.GetByCriteria(criteria);
+        return diverList[0];
+      }
 
         public IList<Diver> GetAllForUser(int userId)
         {

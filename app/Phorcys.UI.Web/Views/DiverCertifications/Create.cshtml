@@ -1,0 +1,126 @@
+@using Microsoft.Web.Mvc
+@using Phorcys.UI.Web.Controllers
+@using Phorcys.UI.Web.Models
+@using Phorcys.Core
+@using SharpArch.Web.Areas
+@using Telerik.Web.Mvc.UI
+@model DiverCertificationModel
+@{
+    ViewBag.Title = "Add a Certification";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+}
+
+    <script type="text/javascript" language="javascript">
+
+        function SayHi() {
+            AgencyForm.DiveAgencyId.value = TheForm.DiveAgencyId.value;
+            document.getElementById("AgencyForm").submit();
+        }
+
+</script>
+<h2>
+    Add a Dive Certification
+</h2>
+@if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+    <p id="pageMessage">
+        @ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]
+    </p>
+}
+@using (Html.BeginForm("RetrieveAgencyCertifications", "DiverCertifications", FormMethod.Post, new {id = "AgencyForm"}))
+{
+    @Html.AntiForgeryToken() 
+    @Html.HiddenFor(m => m.DiveAgencyId)
+}
+
+<!--@Html.ValidationSummary()-->
+@using (Html.BeginForm("Create", "DiverCertifications", FormMethod.Post, new{id="TheForm"})) {
+    @Html.AntiForgeryToken()
+
+    <div class="errorOnPage">
+        @Html.ValidationSummary(true, "Please correct the errors and try again.")
+    </div>
+
+    <div class="editor-label">
+        <label for="DiveAgencyId">
+            Agency:
+        </label>
+        <div>
+            <select id="DiveAgencyId" name="DiveAgencyId" onchange="SayHi()">
+                @foreach (SelectListItem item in Model.DiveAgencyListItems) {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+                }
+            </select>
+        </div>
+    </div>
+    <br />
+
+    <div class="editor-label">
+        <label for="CertificationId">
+            Certification:
+        </label>
+        <div>
+            <select id="CertificationId" name="CertificationId">
+                @foreach (SelectListItem item in Model.CertificationListItems) {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+                }
+            </select>
+        </div>
+    </div>
+    <br />
+
+    <div class="editor-label">
+
+        <label for="InstructorId">
+            Instructor:
+        </label>
+        <div>
+            <select id="InstructorId" name="InstructorId">
+                @foreach (SelectListItem item in Model.InstructorListItems) {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+                }
+            </select>
+        </div>
+      </div>
+      <br />
+
+        <div>
+            <br />
+            <div class="editor-label">
+                Date Certified
+            </div>
+            <div>
+                @Html.Telerik().DatePickerFor(m => m.Certified)
+                @Html.ValidationMessageFor(m => m.Certified)
+            </div>
+        </div>
+        <br />
+
+        <div class="editor-label">
+            <label for="CertificationNum">
+                Certification #:
+            </label>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.CertificationNum, new { @size = "30" })
+                @*<input id="CertificationNum" name="CertificationNum" type="text" value="@Model.CertificationNum" size="30" maxlength="20" />*@
+                @Html.ValidationMessageFor(m => m.CertificationNum)
+            </div>
+        </div>
+        <br />
+
+        <div class="editor-label">
+            <label for="Notes">
+                Notes:
+            </label>
+            <div>
+                <textarea id="Notes" name="Notes" rows="6" cols="70"> </textarea>
+            </div>
+        </div>
+        <br />
+        @Html.ValidationMessageFor(m => m.Notes)
+        <br />
+
+        @Html.SubmitButton("btnSave", "Save Certification")
+        @Html.Encode(" ")
+        @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = './'")
+        <br /> <br />
+}

@@ -53,7 +53,7 @@
 <div id="grid">
   @{ Html.Telerik().Grid<Phorcys.UI.Web.Models.ContactsIndexModel>()
   .Name("ContactGrid")
-  .Pageable(pager => pager.PageSize(10))
+  .Pageable(pager => pager.PageSize(20))
   .BindTo(Model)
   .Columns(columns =>
              {

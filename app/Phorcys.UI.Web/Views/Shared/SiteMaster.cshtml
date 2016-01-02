@@ -46,10 +46,12 @@
                                               item.Add().Text("Dive Locations").Action("Index", "DiveLocations");
                                               item.Add().Text("Dive Sites").Action("Index", "DiveSites");
                              });  
-                           items.Add().Text("Dive Planning")
-                             .Items(item => {
-                                              item.Add().Text("Pre-Dive");
-                                              item.Add().Text("Post-Dive");
+                           items.Add().Text("Dives")
+                             .Items(item =>
+                             {
+                                              item.Add().Text("Dive Types").Action("Index","DiveTypes");
+                                              item.Add().Text("Dive Plans");
+                                              item.Add().Text("Post-Dives");
                              });
                            items.Add().Text("Calculators")
                              .Items(item => {

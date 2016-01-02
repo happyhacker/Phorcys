@@ -3,22 +3,22 @@
 @using Phorcys.UI.Web.Controllers
 @using Phorcys.Web.Controllers
 @using Telerik.Web.Mvc.UI
-@model IEnumerable<Phorcys.Core.DiveLocation>
+@model IEnumerable<DiveType>
 @{
-  ViewBag.Title = "Dive Locations";
+  ViewBag.Title = "Dive Types";
   Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 <script type="text/javascript" language="javascript">
     function SubmitForm(id) {
-        frmSite.SiteId.value = id;
+        frmDiveType.DiveTypeId.value = id;
         if (confirm("Are you sure?")) {
-            frmSite.submit();
+            frmDiveType.submit();
         }
     }
 </script>
 
 <h1>
-    Dive Locations</h1>
+    Dive Types</h1>
     
     
 <div id="error" class="errorOnPage">
@@ -31,26 +31,24 @@
 </div>
 
 <p>
-    @(Html.ActionLink<DiveLocationsController>(c => c.Create(), "Create New Dive Location"))
+    @(Html.ActionLink<DiveTypesController>(c => c.Create(), "Create New Dive Type"))
  </p> 
  
- <form action="/Phorcys/DiveLocations/Delete/" name="frmSite" method="post">
-  <input type="hidden" id="SiteId" name="Id" />
+ <form action="/Phorcys/DiveTypes/Delete/" name="frmDiveType" method="post">
+  <input type="hidden" id="DiveTypeId" name="Id" />
 </form>
 
 <div id="grid">
-  @{ Html.Telerik().Grid<DiveLocation>()
-  .Name("DiveLocationGrid")
+  @{ Html.Telerik().Grid<DiveType>()
+  .Name("DiveTypeGrid")
   .Pageable(pager => pager.PageSize(20))
   .BindTo(Model)
   .Columns(columns =>
              {
-               columns.Bound(o => o.Title).Title("Location").Sortable(true).Width(10).HtmlAttributes(new {@class = "grid"});
+               columns.Bound(o => o.Title).Title("Dive Type").Sortable(true).Width(10).HtmlAttributes(new {@class = "grid"});
                columns.Bound(o => o.Notes).Sortable(false).Width(500);
                columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
-               columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.IndexForLocation(o.Id), "Display")).Width(5).HtmlAttributes(new {@class = "grid"});
-               columns.Template(o => Html.ActionLink<DiveLocationsController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
-               columns.Template(o => Html.ActionLink<DiveSitesController>(c => c.CreateForLocation(o.Id), "Create Site at This Location")).Width(150).HtmlAttributes(new { @class = "grid" }).Width(300);
+               columns.Template(o => Html.ActionLink<DiveTypesController>(c => c.Edit(o.Id), "Edit")).Width(5).HtmlAttributes(new {@class = "grid"});
                columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" }).Width(25);
              })
   .Pageable()

@@ -36,6 +36,7 @@
 
     <form action="/Phorcys/Certifications/Delete/" name="frmCertification" method="post">
         <input type="hidden" id="CertificationId" name="Id" />
+        @Html.AntiForgeryToken()
     </form>
 
     <div id="grid">

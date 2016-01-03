@@ -56,42 +56,46 @@ namespace Phorcys.Web.Controllers {
       return View(model);
     }
 
+    [Authorize]
+    [AcceptVerbs(HttpVerbs.Get)]
     [Transaction]
     public ActionResult Edit(int id) {
       DiveTypeModel model = new DiveTypeModel();
       DiveType diveType = diveTypeRepository.Get(id);
+      model.Id = diveType.Id;
       model.Title = diveType.Title;
       model.Notes = diveType.Notes;
       return View(model);
     }
 
+    [Authorize]
     [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Edit(DiveTypeModel diveTypeModel) {
       DiveType diveTypeToUpdate = diveTypeRepository.Get(diveTypeModel.Id);
       TransferFormValuesTo(diveTypeToUpdate, diveTypeModel);
+      diveTypeToUpdate.LastModified = DateTime.Now;
 
-      if (ViewData.ModelState.IsValid && diveTypeToUpdate.IsValid()) {
+      if (ModelState.IsValid) {
+        diveTypeRepository.SaveOrUpdate(diveTypeToUpdate);
+
         TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
   "The diveType was successfully updated.";
         return RedirectToAction("Index");
       } else {
         diveTypeRepository.DbContext.RollbackTransaction();
 
-        DiveTypeModel viewModel = new DiveTypeModel();
-
-        return View(viewModel);
+        return View(diveTypeModel);
       }
     }
 
     private void TransferFormValuesTo(DiveType diveTypeToUpdate, DiveTypeModel diveTypeFromForm) {
       diveTypeToUpdate.Title = diveTypeFromForm.Title;
       diveTypeToUpdate.Notes = diveTypeFromForm.Notes;
-      diveTypeToUpdate.Created = diveTypeFromForm.Created;
-      diveTypeToUpdate.LastModified = diveTypeFromForm.LastModified;
     }
 
+    [Authorize]
     [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
@@ -104,7 +108,7 @@ namespace Phorcys.Web.Controllers {
 
         try {
           diveTypeRepository.DbContext.CommitChanges();
-        } catch {
+        } catch(Exception e) {
           resultMessage = "A problem was encountered preventing the diveType from being deleted. " +
                           "Another item likely depends on this diveType.";
           diveTypeRepository.DbContext.RollbackTransaction();

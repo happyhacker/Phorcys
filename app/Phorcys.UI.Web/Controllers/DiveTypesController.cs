@@ -24,6 +24,7 @@ namespace Phorcys.Web.Controllers {
       this.diveTypeRepository = diveTypeRepository;
     }
 
+    [Authorize]
     [Transaction]
     public ActionResult Index() {
       IList<DiveType> diveTypes = diveTypeRepository.GetAll();
@@ -37,6 +38,7 @@ namespace Phorcys.Web.Controllers {
       return View(model);
     }
 
+    [Authorize]
     [ValidateAntiForgeryToken]
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]

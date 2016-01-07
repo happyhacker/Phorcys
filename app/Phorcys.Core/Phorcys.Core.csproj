@@ -66,10 +66,10 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Country.cs" />
-    <Compile Include="Dive.cs" />
+    <Compile Include="DivePlan.cs" />
     <Compile Include="DiveAgency.cs" />
-    <Compile Include="DiveDetail.cs" />
-    <Compile Include="DiveDetailUrl.cs" />
+    <Compile Include="Dive.cs" />
+    <Compile Include="DiveUrl.cs" />
     <Compile Include="DiveLocation.cs" />
     <Compile Include="Instructor.cs" />
     <Compile Include="Diver.cs" />

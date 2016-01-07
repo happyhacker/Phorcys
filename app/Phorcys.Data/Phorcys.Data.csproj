@@ -88,7 +88,8 @@
     <Compile Include="NHibernateMaps\CountryMap.cs" />
     <Compile Include="NHibernateMaps\DiveAgencyMapping.cs" />
     <Compile Include="NHibernateMaps\DiveLocationMap.cs" />
-    <Compile Include="NHibernateMaps\DiveMap.cs" />
+    <Compile Include="NHibernateMaps\DiveMapping.cs" />
+    <Compile Include="NHibernateMaps\DivePlanMap.cs" />
     <Compile Include="NHibernateMaps\DiverCertificationMapping.cs" />
     <Compile Include="NHibernateMaps\DiveTypeMap.cs" />
     <Compile Include="NHibernateMaps\InstructorMapping.cs" />

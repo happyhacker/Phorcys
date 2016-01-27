@@ -43,10 +43,10 @@ namespace Phorcys.Web.Controllers {
     [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Create(DivePlanModel model) {
-      DivePlan divePla  = new DivePlan();
+      DivePlan divePlan  = new DivePlan();
       user = userServices.FindUser(this.User.Identity.Name);
       divePlan.User = user;
-      divePla .Title = model.Title;
+      divePlan.Title = model.Title;
       divePlan.Notes = model.Notes;
       divePlan.Created = DateTime.Now;
       divePlan.LastModified = DateTime.Now;
@@ -76,7 +76,7 @@ namespace Phorcys.Web.Controllers {
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Edit(DivePlanModel divePlanModel) {
       DivePlan divePlanToUpdate = divePlanRepository.Get(divePlanModel.Id);
-      TransferFormValuesTo(divePlanToUpdate, divePlanModel Model);
+      TransferFormValuesTo(divePlanToUpdate, divePlanModel);
       divePlanToUpdate.LastModified = DateTime.Now;
 
       if (ModelState.IsValid) {

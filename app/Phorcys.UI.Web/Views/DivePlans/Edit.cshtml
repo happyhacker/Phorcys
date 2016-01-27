@@ -1,0 +1,52 @@
+@using Microsoft.Web.Mvc
+@using NHibernate.Mapping
+@using Phorcys.Core
+@using Phorcys.UI.Web.Controllers
+@using SharpArch.Web.Areas
+@using Telerik.Web.Mvc.UI
+@model Phorcys.UI.Web.Models.DiveTypeModel
+@{
+    ViewBag.Title = "Edit Dive Type";
+    Layout = "~/Views/Shared/SiteMaster.cshtml";
+    Html.EnableClientValidation(true);
+}
+
+<h1>
+    Edit Dive Type</h1>
+@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
+   } <p id="pageMessage">
+       @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+   </p>
+}
+@Html.ValidationSummary(true, "Please correct the errors and try again")
+@using (Html.BeginForm())
+{
+  @Html.AntiForgeryToken()
+
+    <fieldset>
+        @Html.Hidden("Id", (Model != null) ? Model.Id : 0)
+
+        <label for="Title">
+            Title:</label>
+        <div>
+            <input id="Title"  name="Title" type="text" value="@Model.Title" size="50" maxlength="40" />
+        </div>
+        @Html.ValidationMessageFor(m => m.Title)
+        <br />
+
+        <label for="Notes">
+            Notes:</label>
+        <div>
+            <textarea id="Notes" name="Notes" rows="6" cols="50" >@{ if (Model != null) {
+              @(Model.Notes)
+            } } 
+            </textarea>
+        </div>
+        <br />
+        @Html.ValidationMessageFor(m => m.Notes)
+        <br />
+        @Html.SubmitButton("btnSave", "Save Dive Type")
+        @Html.Encode(" ")
+        @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,"window.location.href = '../'")
+    </fieldset>      
+}

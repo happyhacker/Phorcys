@@ -46,12 +46,16 @@
   .Pageable(pager => pager.PageSize(20))
   .BindTo(Model)
   .Columns(columns => {
-                 columns.Bound(o => o.Title).Title("Dive Plan").Sortable(true).Width(10).HtmlAttributes(new { @class = "grid" });
-                 columns.Bound(o => o.Notes).Sortable(false).Width(500);
-                 columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
-                 columns.Bound(o => o.ScheduledTime).Title("Scheduled Time").Sortable(true);
-                 columns.Bound(o => o.MaxDepth).Title("Max Depth").Sortable(true);
-             })
+      columns.Bound(o => o.Title).Title("Dive Plan").Sortable(true).Width(500).HtmlAttributes(new { @class = "grid" });
+      //columns.Bound(o => o.Notes).Sortable(false).Width(500);
+      columns.Bound(o => o.DiveSite.Title).Title("Dive Site").Sortable((true));
+      columns.Bound(o => o.ScheduledTime).Title("Scheduled Time").Sortable(true);
+      columns.Bound(o => o.MaxDepth).Title("Max Planned Depth").Sortable(true);
+      columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
+      columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<DivePlansController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
+      columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" });
+   
+  })
   .Pageable()
   .Sortable()
   .Filterable()

@@ -70,7 +70,7 @@
       <HintPath>..\..\lib\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="SharpArch.Core">
       <HintPath>..\..\lib\SharpArch.Core.dll</HintPath>

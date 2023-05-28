@@ -16,7 +16,7 @@ SELECT * FROM DiveShops
 INSERT INTO Divers (ContactId, SacRate, Notes) VALUES (5,.65,'') 
 
 INSERT INTO DiveAgencies (ContactId, Notes) VALUES (10,'Offers Wakulla Award after 100 hours of safe cave diving')
-delete from DiveAgencies where ContactId = 5
+
 SELECT * FROM DiveAgencies
 
 INSERT INTO Manufactures (ContactId) VALUES (11)
@@ -51,4 +51,4 @@ SELECT * FROM Manufactures
 SELECT * FROM Gear
 INSERT INTO Gear (Title, ManufactureId, Paid, RetailPrice,SN, Notes, userid ) VALUES ('Nomad Transpac',1,0, 0,'','',3 )
 
-update Gear set PurchasedFromContactId = 8
+UPDATE Gear SET PurchasedFromContactId = 8

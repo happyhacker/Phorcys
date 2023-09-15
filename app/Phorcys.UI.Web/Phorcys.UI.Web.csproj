@@ -157,7 +157,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -284,6 +283,7 @@
     <Compile Include="Controllers\DiveLocationsController.cs" />
     <Compile Include="Controllers\CertificationsController.cs" />
     <Compile Include="Controllers\DiveSitesController.cs" />
+    <Compile Include="Controllers\DivePlansController.cs" />
     <Compile Include="Controllers\DiveTypesController.cs" />
     <Compile Include="Controllers\EndController.cs" />
     <Compile Include="Controllers\EndKoController.cs" />
@@ -307,6 +307,7 @@
     <Compile Include="Models\DiveSiteModel.cs" />
     <Compile Include="Models\DiveSitesIndexModel.cs" />
     <Compile Include="Models\DiveSitesModel.cs" />
+    <Compile Include="Models\DivePlanModel.cs" />
     <Compile Include="Models\DiveTypeModel.cs" />
     <Compile Include="Models\EnumerationChangeNameViewModel.cs" />
     <Compile Include="Models\EnumerationCreateViewModel.cs" />
@@ -728,6 +729,9 @@
     <Content Include="Views\DiveTypes\Index.cshtml" />
     <Content Include="Views\DiveTypes\Create.cshtml" />
     <Content Include="Views\DiveTypes\Edit.cshtml" />
+    <Content Include="Views\DivePlans\Create.cshtml" />
+    <Content Include="Views\DivePlans\Edit.cshtml" />
+    <Content Include="Views\DivePlans\Index.cshtml" />
     <None Include="Views\Shared\LogOnUserControl.cshtml" />
     <Content Include="Views\Shared\DebugFormSubmission.ascx" />
     <Content Include="Views\Users\Edit.aspx" />
@@ -958,5 +962,10 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
   </ProjectExtensions>
 </Project>

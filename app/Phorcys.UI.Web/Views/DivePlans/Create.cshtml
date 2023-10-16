@@ -4,14 +4,14 @@
 @using Phorcys.UI.Web.Models
 @using Phorcys.Web.Controllers
 
-@model Phorcys.UI.Web.Models.DiveTypeModel
+@model Phorcys.UI.Web.Models.DivePlanModel
            
 @{
-    ViewBag.Title = "Edit Dive Type";
+    ViewBag.Title = "Create Dive Plan";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 
-	<h1>Create Dive Type</h1>
+	<h1>Create Dive Plan</h1>
 @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
    } <p id="pageMessage">
        @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
@@ -25,30 +25,48 @@
     @Html.ValidationSummary(true, "Please correct the errors and try again.")
   </div>
       
-    <fieldset>
-  
-    <div>
-      <p>
-      <label for = "Title">Title:</label>
-      <br />
-	  @Html.TextBoxFor(m => m.Title)
-      @Html.ValidationMessageFor(m => m.Title)
-      </p>
-    </div>    
+  <fieldset>
 
-    <div>
-      <p>
-      <label for = "Notes">Notes:</label>
-      <br />
-      <textarea id="notes" name="Notes" rows="6" cols="50" > 
+      <div>
+          <p>
+              <label for="Title">Title:</label>
+              <br />
+              @Html.TextBoxFor(m => m.Title)
+              @Html.ValidationMessageFor(m => m.Title)
+          </p>
+      </div>
+
+      <div>
+          <p>
+              <label for="ScheduledTime">Scheduled Time:</label>
+              <br />
+              @Html.TextBoxFor(m => m.ScheduledTime)
+              @Html.ValidationMessageFor(m => m.ScheduledTime)
+          </p>
+      </div>
+
+      <div>
+          <p>
+              <label for="MaxDepth">Max Depth:</label>
+              <br />
+              @Html.TextBoxFor(m => m.MaxDepth)
+              @Html.ValidationMessageFor(m => m.MaxDepth)
+          </p>
+      </div>
+
+      <div>
+          <p>
+              <label for="Notes">Notes:</label>
+              <br />
+              <textarea id="notes" name="Notes" rows="6" cols="50"> 
       </textarea>
-      @Html.ValidationMessageFor(m => m.Notes)
-      </p>
-    </div>
-			
-    <div>
-      @Html.SubmitButton("btnSave", "Save Dive Type")
-	  @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,"window.location.href = '../'")
-  </div>
-    </fieldset>
+              @Html.ValidationMessageFor(m => m.Notes)
+          </p>
+      </div>
+
+      <div>
+          @Html.SubmitButton("btnSave", "Save Dive Plan")
+          @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+      </div>
+  </fieldset>
 }

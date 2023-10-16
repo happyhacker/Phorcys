@@ -48,6 +48,8 @@ namespace Phorcys.Web.Controllers {
       divePlan.User = user;
       divePlan.Title = model.Title;
       divePlan.Notes = model.Notes;
+      divePlan.MaxDepth = model.MaxDepth;
+      divePlan.ScheduledTime = model.ScheduledTime;
       divePlan.Created = DateTime.Now;
       divePlan.LastModified = DateTime.Now;
       divePlanRepository.SaveOrUpdate(divePlan);

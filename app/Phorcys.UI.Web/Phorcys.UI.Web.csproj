@@ -785,8 +785,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\HackLib\HackLib.csproj">
-      <Project>{9432AE93-C3BD-4047-A1E1-2EC5C48841EC}</Project>
+    <ProjectReference Include="..\..\..\..\HackLib\HackLib.csproj">
+      <Project>{9432ae93-c3bd-4047-a1e1-2ec5c48841ec}</Project>
       <Name>HackLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Phorcys.Core\Phorcys.Core.csproj">

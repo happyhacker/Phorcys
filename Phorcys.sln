@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generation", "Code Generation", "{444836E2-F827-47F4-A568-E266FDBD8906}"
 EndProject
@@ -20,10 +20,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phorcys.Services", "app\Phorcys.Services\Phorcys.Services.csproj", "{EA00777D-3D7A-4406-8BFB-E5A90CF0E8A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phorcys.UI.Web", "app\Phorcys.UI.Web\Phorcys.UI.Web.csproj", "{CD7332DD-EA9E-462E-8BEF-492354A7837B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9432AE93-C3BD-4047-A1E1-2EC5C48841EC} = {9432AE93-C3BD-4047-A1E1-2EC5C48841EC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phorcys.Services.Contracts", "app\Phorcys.Services.Contracts\Phorcys.Services.Contracts.csproj", "{84C055FA-8487-4D56-8519-BFD3E5A8A18C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackLib", "..\..\..\HackLib\HackLib.csproj", "{9432AE93-C3BD-4047-A1E1-2EC5C48841EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackLib", "..\..\HackLib\HackLib.csproj", "{9432AE93-C3BD-4047-A1E1-2EC5C48841EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,5 +74,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D0A5D52D-4397-4DD7-BD20-8FBE3C35288F} = {444836E2-F827-47F4-A568-E266FDBD8906}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BBD42AF3-232D-4EB1-938C-A772A68C325F}
 	EndGlobalSection
 EndGlobal

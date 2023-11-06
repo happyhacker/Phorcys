@@ -57,7 +57,7 @@ namespace Phorcys.Web.Controllers {
          "The Dive Plan was successfully created.";
       return RedirectToAction("Index");
 
-      return View(model);
+      //return View(model);
     }
 
     [Authorize]

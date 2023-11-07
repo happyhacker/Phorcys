@@ -14,6 +14,7 @@ using SharpArch.Web.CommonValidator;
 using SharpArch.Core;
 using MvcContrib.Sorting;
 using System.Linq;
+using NHibernate.Linq;
 
 namespace Phorcys.Web.Controllers
 {
@@ -93,6 +94,8 @@ namespace Phorcys.Web.Controllers
             user = userServices.FindUser(this.User.Identity.Name);
             divePlan.User = user;
             divePlan.Title = model.Title;
+            divePlan.DiveSite = diveSiteServices.Get(model.DiveSiteId);
+            divePlan.DiveSiteId = model.DiveSiteId;
             divePlan.Notes = model.Notes;
             divePlan.MaxDepth = model.MaxDepth;
             divePlan.ScheduledTime = model.ScheduledTime;
@@ -145,7 +148,7 @@ namespace Phorcys.Web.Controllers
             }
         }
 
-  
+
         private IList<DiveSite> GetDiveSites()
         {
             user = userServices.FindUser(this.User.Identity.Name);

@@ -15,6 +15,7 @@ namespace Phorcys.UI.Web.Models
         [Required]
         public string Title { get; set; }
         public IList<SelectListItem> DiveSiteList { get; set; }
+        public int DiveSiteId { get; set; }
         public DateTime ScheduledTime { get; set; }
         public int MaxDepth { get; set; }
         public string Notes { get; set; }

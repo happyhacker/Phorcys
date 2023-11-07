@@ -151,8 +151,9 @@ namespace Phorcys.UI.Web.Controllers {
       return LocationList;
     }
 
-    //[ValidateAntiForgeryToken]
-    [Transaction]
+
+        //[ValidateAntiForgeryToken]
+        [Transaction]
     [AcceptVerbs(HttpVerbs.Post)]
     public ActionResult Edit(DiveSitesModel diveSitesModel) {
       diveSitesModel.DiveLocationsListItems = BuildLocationList(diveSitesModel.DiveSite.Id);
@@ -212,5 +213,5 @@ namespace Phorcys.UI.Web.Controllers {
       return locations;
     }
 
-  }
+    }
 }

@@ -51,11 +51,37 @@ namespace Phorcys.Web.Controllers
         {
             DivePlanModel model = new DivePlanModel();
             user = userServices.FindUser(this.User.Identity.Name);
-            IList<DiveSite> diveSites = diveSiteServices.GetAllForUser(user.Id);
-            diveSites = diveSites.OrderBy(d => d.Title).ToList();
+            IList<SelectListItem> diveSites = BuildDiveSiteList(null);
+            diveSites = diveSites.OrderBy(d => d.Text).ToList();
             model.DiveSiteList = diveSites;
             return View(model);
         }
+
+        private IList<SelectListItem> BuildDiveSiteList(int? diveSiteId)
+        {
+            IList<SelectListItem> DiveSiteList = new List<SelectListItem>();
+            IList<DiveSite> DiveSites = GetDiveSites();
+            SelectListItem DiveSiteItem;
+
+            DiveSites = DiveSites.OrderBy(m => m.Title).ToList();
+            foreach (var diveSite in DiveSites)
+            {
+                DiveSiteItem = new SelectListItem();
+                DiveSiteItem.Text = diveSite.Title;
+                DiveSiteItem.Value = diveSite.Id.ToString();
+                if (diveSiteId != null)
+                {
+                    if (diveSite.Id == diveSiteId)
+                    {
+                        DiveSiteItem.Selected = true;
+                    }
+                }
+                DiveSiteList.Add(DiveSiteItem);
+            }
+
+            return DiveSiteList;
+        }
+
 
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -118,6 +144,16 @@ namespace Phorcys.Web.Controllers
                 return View(divePlanModel);
             }
         }
+
+  
+        private IList<DiveSite> GetDiveSites()
+        {
+            user = userServices.FindUser(this.User.Identity.Name);
+            //systemUser = userServices.FindUser("system");
+            IList<DiveSite> diveSites = diveSiteServices.GetAllForUser(user.Id);
+            return diveSites;
+        }
+
 
         private void TransferFormValuesTo(DivePlan divePlanToUpdate, DivePlanModel divePlanFromForm)
         {

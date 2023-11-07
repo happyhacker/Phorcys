@@ -5,7 +5,7 @@
 @using Phorcys.Web.Controllers
 
 @model Phorcys.UI.Web.Models.DivePlanModel
-           
+            
 @{
     ViewBag.Title = "Create Dive Plan";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
@@ -35,6 +35,20 @@
               @Html.ValidationMessageFor(m => m.Title)
           </p>
       </div>
+
+      <label for="DiveSiteId">
+          Dive Site:
+      </label>
+      <div>
+          <select id="DiveSiteId" name="DiveSiteId">
+              @foreach (SelectListItem item in Model.DiveSiteList)
+              {
+                  <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+              }
+          </select>
+      </div>
+      <br />
+
 
       <div>
           <p>

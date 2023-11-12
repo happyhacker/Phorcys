@@ -305,6 +305,7 @@
     <Compile Include="Models\CertificationModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\ContactsIndexModel.cs" />
+    <Compile Include="Models\DiveModel.cs" />
     <Compile Include="Models\DiverCertificationModel.cs" />
     <Compile Include="Models\DiveSiteModel.cs" />
     <Compile Include="Models\DiveSitesIndexModel.cs" />
@@ -718,6 +719,9 @@
     <Content Include="Views\DiverCertifications\Create.cshtml" />
     <Content Include="Views\DiverCertifications\Edit.cshtml" />
     <Content Include="Views\DiverCertifications\Index.cshtml" />
+    <Content Include="Views\Dives\Create.cshtml" />
+    <Content Include="Views\Dives\Edit.cshtml" />
+    <Content Include="Views\Dives\Index.cshtml" />
     <None Include="Views\DiveSites\Index.cshtml" />
     <None Include="Views\DiveSites\Show.cshtml" />
     <None Include="Views\DiveSites\Create.cshtml" />

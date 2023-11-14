@@ -4,22 +4,22 @@
 @using Phorcys.UI.Web.Models
 @using Phorcys.Web.Controllers
 @using Telerik.Web.Mvc.UI
-@model IEnumerable<DivePlan>
+@model IEnumerable<Dive>
     @{
-        ViewBag.Title = "Dive Plans";
+        ViewBag.Title = "Dives";
         Layout = "~/Views/Shared/SiteMaster.cshtml";
     }
     <script type="text/javascript" language="javascript">
         function SubmitForm(id) {
-            frmDivePlan.DivePlanId.value = id;
+            frmDive.DiveId.value = id;
             if (confirm("Are you sure?")) {
-                frmDivePlan.submit();
+                frmDive.submit();
             }
         }
     </script>
 
     <h1>
-        Dive Plans
+        Dives
     </h1>
 
 
@@ -32,28 +32,27 @@
     </div>
 
     <p>
-        @(Html.ActionLink<DivePlansController>(c => c.Create(), "Create New Dive Plan"))
+        @(Html.ActionLink<DivesController>(c => c.Create(), "Enter New Dive"))
     </p>
 
-    <form action="/Phorcys/DivePlans/Delete/" name="frmDivePlan" method="post">
-        <input type="hidden" id="DivePlanId" name="Id" />
+    <form action="/Phorcys/Dives/Delete/" name="frmDive" method="post">
+        <input type="hidden" id="DiveId" name="Id" />
         @Html.AntiForgeryToken()
     </form>
 
     <div id="grid">
-        @{ Html.Telerik().Grid<DivePlan>()
-  .Name("DivePlanGrid")
+        @{ Html.Telerik().Grid<Dive>()
+  .Name("DiveGrid")
   .Pageable(pager => pager.PageSize(20))
   .BindTo(Model)
   .Columns(columns => {
-      columns.Bound(o => o.Title).Title("Dive Plan").Sortable(true).Width(500).HtmlAttributes(new { @class = "grid" });
+      columns.Bound(o => o.Title).Title("Dive").Sortable(true).Width(500).HtmlAttributes(new { @class = "grid" });
       //columns.Bound(o => o.Notes).Sortable(false).Width(500);
-      columns.Bound(o => o.DiveSite.Title).Title("Dive Site").Sortable((true));
-      columns.Bound(o => o.ScheduledTime).Title("Scheduled Time").Sortable(true);
+      //columns.Bound(o => o.DescentTime).Title("Descent Time").Sortable(true);
       columns.Bound(o => o.MaxDepth).Title("Max Planned Depth").Sortable(true);
-      columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
-      columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<DivePlansController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
-      columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" });
+     // columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
+     // columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<DivesController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
+     // columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" });
    
   })
   .Pageable()

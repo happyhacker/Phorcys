@@ -5,14 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 namespace Phorcys.UI.Web.Models
 {
     public class DiveModel
     {
 
         public int Id { get; set; }
-        [Required]
+        public User User { get; set; }
         public string Title { get; set; }
         public IList<SelectListItem> DivePlanList { get; set; }
         public int DivePlanId { get; set; }

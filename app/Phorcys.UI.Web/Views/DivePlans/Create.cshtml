@@ -31,7 +31,7 @@
           <p>
               <label for="Title">Title:</label>
               <br />
-              @Html.TextBoxFor(m => m.Title)
+              @Html.TextBoxFor(m => m.Title, new { style = "width:400px", @maxlength = "40" })
               @Html.ValidationMessageFor(m => m.Title)
           </p>
       </div>

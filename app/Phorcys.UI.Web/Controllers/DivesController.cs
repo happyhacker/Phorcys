@@ -44,6 +44,7 @@ namespace Phorcys.Web.Controllers
         {
             user = userServices.FindUser(this.User.Identity.Name);
             IList<Dive> dives = diveRepository.GetAll();
+            dives = dives.OrderByDescending(m => m.DiveNumber).ToList();
 
             return View(dives);
         }
@@ -52,11 +53,12 @@ namespace Phorcys.Web.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Create()
         {
-            DivePlanModel model = new DivePlanModel();
+            DiveModel model = new DiveModel();
             user = userServices.FindUser(this.User.Identity.Name);
-            IList<SelectListItem> diveSites = BuildDivePlanList(null);
-            diveSites = diveSites.OrderBy(d => d.Text).ToList();
-            model.DiveSiteList = diveSites;
+            IList<SelectListItem> divePlans = BuildDivePlanList(null);
+            divePlans = divePlans.ToList(); 
+            //divePlans = divePlans.OrderBy(d => d.Text).ToList();
+            model.DivePlanList = divePlans;
             return View(model);
         }
 
@@ -66,7 +68,8 @@ namespace Phorcys.Web.Controllers
             IList<DivePlan> DivePlans = GetDivePlans();
             SelectListItem DivePlanItem;
 
-            DivePlans = DivePlans.OrderBy(m => m.Title).ToList();
+            DivePlans = DivePlans.OrderByDescending(m => m.ScheduledTime).ToList();
+
             foreach (var divePlan in DivePlans)
             {
                 DivePlanItem = new SelectListItem();

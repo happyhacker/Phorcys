@@ -42,7 +42,7 @@ namespace Phorcys.Web.Controllers
         {
             user = userServices.FindUser(this.User.Identity.Name);
             IList<DivePlan> divePlans = divePlanRepository.GetAll();
-
+            divePlans = divePlans.OrderByDescending(d  => d.ScheduledTime).ToList();
             return View(divePlans);
         }
 

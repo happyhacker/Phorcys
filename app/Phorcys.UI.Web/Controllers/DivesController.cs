@@ -15,6 +15,7 @@ using SharpArch.Core;
 using MvcContrib.Sorting;
 using System.Linq;
 using NHibernate.Linq;
+using Phorcys.Data;
 
 namespace Phorcys.Web.Controllers
 {
@@ -27,7 +28,7 @@ namespace Phorcys.Web.Controllers
         private User user;
         private readonly IRepository<Dive> diveRepository;
         private readonly IRepository<DivePlan> divePlanRepository;
-        private DiveSitesModel viewModel = new DiveSitesModel();
+        //private DiveSitesModel viewModel = new DiveSitesModel();
 
         public DivesController(IRepository<Dive> diveSiteRepository, IRepository<Dive> diveRepository, IRepository<DivePlan> divePlanRepository, IRepository<User> userRepository)
         {
@@ -54,7 +55,7 @@ namespace Phorcys.Web.Controllers
         public ActionResult Create()
         {
             DiveModel model = new DiveModel();
-            user = userServices.FindUser(this.User.Identity.Name);
+            model.User = userServices.FindUser(this.User.Identity.Name);
             IList<SelectListItem> divePlans = BuildDivePlanList(null);
             divePlans = divePlans.ToList(); 
             //divePlans = divePlans.OrderBy(d => d.Text).ToList();
@@ -98,11 +99,14 @@ namespace Phorcys.Web.Controllers
             Dive dive = new Dive();
             user = userServices.FindUser(this.User.Identity.Name);
             dive.User = user;
-            dive.Title = model.Title;
+            dive.DivePlan = divePlanServices.Get(model.DivePlanId);
             dive.DiveNumber = model.DiveNumber;
             dive.Minutes = model.Minutes;
             dive.Notes = model.Notes;
             dive.MaxDepth = model.MaxDepth;
+            dive.AvgDepth = model.AvgDepth;
+            dive.Temperature = model.Temperature;
+            dive.AdditionalWeight = model.AdditionalWeight;
             dive.DescentTime = model.DescentTime;
             dive.Created = DateTime.Now;
             dive.LastModified = DateTime.Now;

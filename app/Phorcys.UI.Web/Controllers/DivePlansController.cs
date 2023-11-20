@@ -118,6 +118,10 @@ namespace Phorcys.Web.Controllers
             DivePlan divePlan = divePlanRepository.Get(id);
             model.Id = divePlan.Id;
             model.Title = divePlan.Title;
+            model.ScheduledTime = divePlan.ScheduledTime;
+            model.MaxDepth = divePlan.MaxDepth;
+            model.DiveSiteId = divePlan.DiveSite.Id;
+            model.DiveSiteList = BuildDiveSiteList(divePlan.DiveSite.Id);
             model.Notes = divePlan.Notes;
             return View(model);
         }
@@ -161,6 +165,9 @@ namespace Phorcys.Web.Controllers
         private void TransferFormValuesTo(DivePlan divePlanToUpdate, DivePlanModel divePlanFromForm)
         {
             divePlanToUpdate.Title = divePlanFromForm.Title;
+            divePlanToUpdate.DiveSite = diveSiteServices.Get(divePlanFromForm.DiveSiteId);
+            divePlanToUpdate.MaxDepth = divePlanFromForm.MaxDepth;
+            divePlanToUpdate.ScheduledTime = divePlanFromForm.ScheduledTime;
             divePlanToUpdate.Notes = divePlanFromForm.Notes;
         }
 

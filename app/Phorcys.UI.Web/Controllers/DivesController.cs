@@ -44,7 +44,7 @@ namespace Phorcys.Web.Controllers
         public ActionResult Index()
         {
             user = userServices.FindUser(this.User.Identity.Name);
-            IList<Dive> dives = diveRepository.GetAll();
+            IList<Dive> dives = diveServices.GetAllForUser(user.Id);
             dives = dives.OrderByDescending(m => m.DiveNumber).ToList();
 
             return View(dives);

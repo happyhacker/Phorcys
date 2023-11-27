@@ -23,6 +23,7 @@ namespace Phorcys.Web.Controllers
     {
         private UserServices userServices = new UserServices();
         private readonly IDiveSiteServices diveSiteServices = new DiveSiteServices();
+        private readonly IDivePlanServices divePlanServices = new DivePlanServices();
         private User user;
         private readonly IRepository<DivePlan> divePlanRepository;
         private DiveSitesModel viewModel = new DiveSitesModel();
@@ -41,7 +42,7 @@ namespace Phorcys.Web.Controllers
         public ActionResult Index()
         {
             user = userServices.FindUser(this.User.Identity.Name);
-            IList<DivePlan> divePlans = divePlanRepository.GetAll();
+            IList<DivePlan> divePlans = divePlanServices.GetAllForUser(user.Id);
             divePlans = divePlans.OrderByDescending(d  => d.ScheduledTime).ToList();
             return View(divePlans);
         }

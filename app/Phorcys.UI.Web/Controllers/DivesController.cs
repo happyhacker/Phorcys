@@ -190,16 +190,16 @@ namespace Phorcys.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete(int id)
         {
-            string resultMessage = "The Dive Plan was successfully deleted.";
-            DivePlan divePlanToDelete = divePlanRepository.Get(id);
+            string resultMessage = "The Dive was successfully deleted.";
+            Dive diveToDelete = diveRepository.Get(id);
 
-            if (divePlanToDelete != null)
+            if (diveToDelete != null)
             {
-                divePlanRepository.Delete(divePlanToDelete);
+                diveRepository.Delete(diveToDelete);
 
                 try
                 {
-                    divePlanRepository.DbContext.CommitChanges();
+                    diveRepository.DbContext.CommitChanges();
                 }
                 catch (Exception e)
                 {

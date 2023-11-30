@@ -27,7 +27,7 @@ namespace Phorcys.Services
             catch (Exception e)
             {
                 diveRepository.DbContext.RollbackTransaction();
-                throw new Exception("A problem was encountered preventing the divePlan from being deleted. " +
+                throw new Exception("A problem was encountered preventing the dive from being deleted. " +
                                     "Another item likely depends on this divePlan.");
 
             }

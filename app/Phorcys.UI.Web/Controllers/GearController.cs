@@ -153,7 +153,7 @@ namespace Phorcys.UI.Web.Controllers
                 if (gear.Tank == null)
                 {
                     gear.Tank = new Tank();
-                    //gear.Tank.Id = model.GearId;
+                    gear.Tank.Gear = gear; // model.GearId;
                 }
                 gear.Tank.Volume = model.TankVolume;
                 gear.Tank.WorkingPressure = model.WorkingPressure;
@@ -170,43 +170,45 @@ namespace Phorcys.UI.Web.Controllers
             gear.User = this.user;
             gear.LastModified = DateTime.Now;
 
-            gearServices.Save(gear.Tank);
-            gear.Tank = null;
+            //gearServices.Save(gear.Tank);
+            //gear.Tank = null;
             gearServices.Save(gear);
         }
 
 
         private GearModel getGearView(int id)
         {
-            bool isTank = false;
+            //bool isTank = false;
             GearModel viewModel = new GearModel();
             Gear gear = gearServices.GetGear(id);
-            viewModel.GearId = gear.Id;
-            viewModel.Acquired = gear.Acquired;
-            viewModel.Notes = gear.Notes;
-            viewModel.Paid = Math.Round(gear.Paid, 2);
-            viewModel.RetailPrice = Math.Round(gear.RetailPrice, 2);
-            viewModel.Sn = gear.Sn;
-            viewModel.Title = gear.Title;
-            viewModel.Weight = gear.Weight;
-            viewModel.MonthSelectList = selectListHelper.GetMonthsList(0);
-
             try
             {
-                isTank = true;
-                viewModel.GearId = gear.Tank.Id;
-                viewModel.ManufacturedMonth = gear.Tank.ManufacturedMonth;
-                viewModel.ManufacturedYear = gear.Tank.ManufacturedYear;
-                viewModel.TankVolume = gear.Tank.Volume;
-                viewModel.WorkingPressure = gear.Tank.WorkingPressure;
-                viewModel.MonthSelectList = selectListHelper.GetMonthsList(gear.Tank.ManufacturedMonth);
+                viewModel.GearId = gear.Id;
+                viewModel.Acquired = gear.Acquired;
+                viewModel.Notes = gear.Notes;
+                viewModel.Paid = Math.Round(gear.Paid, 2);
+                viewModel.RetailPrice = Math.Round(gear.RetailPrice, 2);
+                viewModel.Sn = gear.Sn;
+                viewModel.Title = gear.Title;
+                viewModel.Weight = gear.Weight;
+                viewModel.MonthSelectList = selectListHelper.GetMonthsList(0);
+
+                if (gear.Tank != null)
+                {
+                    //isTank = true;
+                    viewModel.GearId = gear.Tank.Id;
+                    viewModel.ManufacturedMonth = gear.Tank.ManufacturedMonth;
+                    viewModel.ManufacturedYear = gear.Tank.ManufacturedYear;
+                    viewModel.TankVolume = gear.Tank.Volume;
+                    viewModel.WorkingPressure = gear.Tank.WorkingPressure;
+                    viewModel.MonthSelectList = selectListHelper.GetMonthsList(gear.Tank.ManufacturedMonth);
+                }
             }
             catch (Exception e)
             {
                 log.Error(e.Message + " Inner Exception: " + e.InnerException.Message);
                 gear.Tank = null;
             }
-
             return viewModel;
         }
 

@@ -113,8 +113,9 @@ namespace Phorcys.UI.Web.Controllers
             gear.User = this.user;
             gear.Created = DateTime.Now;
             gear.LastModified = DateTime.Now;
+            gear.Tank = tank;
             gearServices.Save(gear);
-            //tank.Id = gear.Id;
+            tank.Gear = gear;
             gearServices.Save(tank);
         }
 
@@ -169,9 +170,6 @@ namespace Phorcys.UI.Web.Controllers
             gear.Weight = model.Weight;
             gear.User = this.user;
             gear.LastModified = DateTime.Now;
-
-            //gearServices.Save(gear.Tank);
-            //gear.Tank = null;
             gearServices.Save(gear);
         }
 

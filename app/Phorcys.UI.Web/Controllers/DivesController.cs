@@ -16,6 +16,7 @@ using MvcContrib.Sorting;
 using System.Linq;
 using NHibernate.Linq;
 using Phorcys.Data;
+using log4net;
 
 namespace Phorcys.Web.Controllers
 {
@@ -29,6 +30,7 @@ namespace Phorcys.Web.Controllers
         private readonly IRepository<Dive> diveRepository;
         private readonly IRepository<DivePlan> divePlanRepository;
         //private DiveSitesModel viewModel = new DiveSitesModel();
+        private static readonly ILog log = LogManager.GetLogger(typeof(DivesController));
 
         public DivesController(IRepository<Dive> diveSiteRepository, IRepository<Dive> diveRepository, IRepository<DivePlan> divePlanRepository, IRepository<User> userRepository)
         {
@@ -203,6 +205,7 @@ namespace Phorcys.Web.Controllers
                 }
                 catch (Exception e)
                 {
+                    log.Error(e.Message + " Inner Exception: " + e.InnerException.Message);
                     resultMessage = "A problem was encountered preventing the Dive from being deleted. " +
                                     "Another item likely depends on this Dive.";
                     divePlanRepository.DbContext.RollbackTransaction();

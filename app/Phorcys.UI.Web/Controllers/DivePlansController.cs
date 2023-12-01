@@ -15,6 +15,7 @@ using SharpArch.Core;
 using MvcContrib.Sorting;
 using System.Linq;
 using NHibernate.Linq;
+using log4net;
 
 namespace Phorcys.Web.Controllers
 {
@@ -27,6 +28,7 @@ namespace Phorcys.Web.Controllers
         private User user;
         private readonly IRepository<DivePlan> divePlanRepository;
         private DiveSitesModel viewModel = new DiveSitesModel();
+        private static readonly ILog log = LogManager.GetLogger(typeof(DivePlansController));
 
         public DivePlansController(IRepository<DiveSite> diveSiteRepository, IRepository<DivePlan> divePlanRepository, IRepository<User> userRepository)
         {
@@ -43,7 +45,7 @@ namespace Phorcys.Web.Controllers
         {
             user = userServices.FindUser(this.User.Identity.Name);
             IList<DivePlan> divePlans = divePlanServices.GetAllForUser(user.Id);
-            divePlans = divePlans.OrderByDescending(d  => d.ScheduledTime).ToList();
+            divePlans = divePlans.OrderByDescending(d => d.ScheduledTime).ToList();
             return View(divePlans);
         }
 
@@ -191,6 +193,7 @@ namespace Phorcys.Web.Controllers
                 }
                 catch (Exception e)
                 {
+                    log.Error(e.Message + " Inner Exception: " + e.InnerException.Message);
                     resultMessage = "A problem was encountered preventing the Dive Plan from being deleted. " +
                                     "Another item likely depends on this Dive Plan.";
                     divePlanRepository.DbContext.RollbackTransaction();

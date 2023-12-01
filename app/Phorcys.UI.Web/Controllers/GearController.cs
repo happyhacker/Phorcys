@@ -191,7 +191,6 @@ namespace Phorcys.UI.Web.Controllers
             viewModel.Weight = gear.Weight;
             viewModel.MonthSelectList = selectListHelper.GetMonthsList(0);
 
-            //if (gear.Tank != null) {
             try
             {
                 isTank = true;
@@ -204,6 +203,7 @@ namespace Phorcys.UI.Web.Controllers
             }
             catch (Exception e)
             {
+                log.Error(e.Message + " Inner Exception: " + e.InnerException.Message);
                 gear.Tank = null;
             }
 

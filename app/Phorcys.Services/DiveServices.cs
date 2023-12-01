@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using log4net;
 using NHibernate.Criterion;
 using Phorcys.Core;
 using Phorcys.Data;
@@ -15,6 +16,7 @@ namespace Phorcys.Services
     {
         private IDiveRepository<Dive> diveRepository = new DiveRepository<Dive>();
         private IPhorcysRepository<DiveSite> phorcysRepository = new PhorcysRepository<DiveSite>();
+        private static readonly ILog log = LogManager.GetLogger(typeof(DiveServices));
 
         public void Delete(Dive diveToDelete)
         {
@@ -26,6 +28,7 @@ namespace Phorcys.Services
             }
             catch (Exception e)
             {
+                log.Error(e.Message + " Inner Exception: " + e.InnerException.Message);
                 diveRepository.DbContext.RollbackTransaction();
                 throw new Exception("A problem was encountered preventing the dive from being deleted. " +
                                     "Another item likely depends on this divePlan.");

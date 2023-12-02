@@ -17,6 +17,7 @@ using System.Linq;
 using NHibernate.Linq;
 using Phorcys.Data;
 using log4net;
+using Telerik.Web.Mvc.UI.Html;
 
 namespace Phorcys.Web.Controllers
 {
@@ -59,7 +60,7 @@ namespace Phorcys.Web.Controllers
             DiveModel model = new DiveModel();
             model.User = userServices.FindUser(this.User.Identity.Name);
             IList<SelectListItem> divePlans = BuildDivePlanList(null);
-            divePlans = divePlans.ToList(); 
+            divePlans = divePlans.ToList();
             //divePlans = divePlans.OrderBy(d => d.Text).ToList();
             model.DivePlanList = divePlans;
             return View(model);
@@ -126,9 +127,17 @@ namespace Phorcys.Web.Controllers
         public ActionResult Edit(int id)
         {
             DiveModel model = new DiveModel();
-            Dive dive = diveRepository.Get(id);
+            Dive dive = diveServices.Get(id);
             model.Id = dive.Id;
-            model.Title = dive.Title;
+            model.Title = dive.DivePlan.Title;
+            model.DiveSite = dive.DivePlan.DiveSite.Title;
+            model.DiveNumber = dive.DiveNumber;
+            model.Minutes = dive.Minutes == null ? 0 : (int)dive.Minutes;
+            model.MaxDepth = dive.MaxDepth == null ? 0 : (int)dive.MaxDepth;
+            model.AvgDepth = dive.AvgDepth == null ? 0 : (int)dive.AvgDepth;
+            model.Temperature = dive.Temperature == null ? 0 : (int)dive.Temperature;
+            model.AdditionalWeight = dive.AdditionalWeight == null ? 0 : (int)dive.AdditionalWeight;
+            model.DescentTime = (DateTime)dive.DescentTime;
             model.Notes = dive.Notes;
             return View(model);
         }
@@ -179,11 +188,9 @@ namespace Phorcys.Web.Controllers
             diveToUpdate.DiveNumber = diveFromForm.DiveNumber;
             diveToUpdate.Minutes = diveFromForm.Minutes;
             diveToUpdate.Temperature = diveFromForm.Temperature;
+            diveToUpdate.AdditionalWeight = diveFromForm.AdditionalWeight;
             diveToUpdate.Notes = diveFromForm.Notes;
-            diveToUpdate.Created = diveFromForm.Created;
-            diveToUpdate.LastModified = diveFromForm.LastModified;
-            DivePlan divePlan = divePlanServices.Get(diveFromForm.DivePlanId);
-            diveToUpdate.DivePlan = divePlan;
+            //diveToUpdate.LastModified = diveFromForm.LastModified;
         }
 
         [Authorize]

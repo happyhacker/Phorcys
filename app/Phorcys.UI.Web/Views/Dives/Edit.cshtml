@@ -4,15 +4,15 @@
 @using Phorcys.UI.Web.Controllers
 @using SharpArch.Web.Areas
 @using Telerik.Web.Mvc.UI
-@model Phorcys.UI.Web.Models.DiveTypeModel
+@model Phorcys.UI.Web.Models.DiveModel
 @{
-    ViewBag.Title = "Edit Dive Type";
+    ViewBag.Title = "Edit Dive";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
     Html.EnableClientValidation(true);
 }
 
 <h1>
-    Edit Dive Type</h1>
+    Edit Dive</h1>
 @{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
    } <p id="pageMessage">
        @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
@@ -23,30 +23,106 @@
 {
   @Html.AntiForgeryToken()
 
-    <fieldset>
-        @Html.Hidden("Id", (Model != null) ? Model.Id : 0)
+<fieldset>
+    @Html.Hidden("Id", (Model != null) ? Model.Id : 0)
 
-        <label for="Title">
-            Title:</label>
-        <div>
-            <input id="Title"  name="Title" type="text" value="@Model.Title" size="50" maxlength="40" />
-        </div>
-        @Html.ValidationMessageFor(m => m.Title)
-        <br />
+    <label for="Title">
+        Title from Dive Plan:
+    </label>
+    <div>
+        <input id="Title" name="Title" type="text" value="@Model.Title" size="50" readonly />
+    </div>
+    @Html.ValidationMessageFor(m => m.Title)
+    <br />
 
-        <label for="Notes">
-            Notes:</label>
-        <div>
-            <textarea id="Notes" name="Notes" rows="6" cols="50" >@{ if (Model != null) {
+    <label for="Dive Site">
+        Dive Site from Dive Plan:
+    </label>
+    <div>
+        <input id="Title" name="Title" type="text" value="@Model.DiveSite" size="50" readonly />
+    </div>
+    @Html.ValidationMessageFor(m => m.Title)
+    <br />
+
+
+    <div>
+        <p>
+            <label for="DiveNumber">Dive Number:</label>
+            <br />
+            @Html.TextBoxFor(m => m.DiveNumber)
+            @Html.ValidationMessageFor(m => m.DiveNumber)
+        </p>
+    </div>
+
+    <div>
+        <p>
+            <label for="DescentTime">Descent Time:</label>
+            <br />
+            @Html.TextBoxFor(m => m.DescentTime)
+            @Html.ValidationMessageFor(m => m.DescentTime)
+        </p>
+    </div>
+
+    <div>
+        <p>
+            <label for="Minutes">Minutes:</label>
+            <br />
+            @Html.TextBoxFor(m => m.Minutes)
+            @Html.ValidationMessageFor(m => m.Minutes)
+        </p>
+    </div>
+
+    <div>
+        <p>
+            <label for="AvgDepth">Average Depth:</label>
+            <br />
+            @Html.TextBoxFor(m => m.AvgDepth)
+            @Html.ValidationMessageFor(m => m.AvgDepth)
+        </p>
+    </div>
+
+    <div>
+        <p>
+            <label for="MaxDepth">Max Depth:</label>
+            <br />
+            @Html.TextBoxFor(m => m.MaxDepth)
+            @Html.ValidationMessageFor(m => m.MaxDepth)
+        </p>
+    </div>
+
+    <div>
+        <p>
+            <label for="Temperature">Temperature:</label>
+            <br />
+            @Html.TextBoxFor(m => m.Temperature)
+            @Html.ValidationMessageFor(m => m.Temperature)
+        </p>
+    </div>
+
+    <div>
+        <p>
+            <label for="AdditionalWeight">Additional Weight:</label>
+            <br />
+            @Html.TextBoxFor(m => m.AdditionalWeight)
+            @Html.ValidationMessageFor(m => m.AdditionalWeight)
+        </p>
+    </div>
+
+
+    <label for="Notes">
+        Notes:
+    </label>
+    <div>
+        <textarea id="Notes" name="Notes" rows="6" cols="50">@{ if (Model != null) {
               @(Model.Notes)
             } } 
             </textarea>
-        </div>
-        <br />
-        @Html.ValidationMessageFor(m => m.Notes)
-        <br />
-        @Html.SubmitButton("btnSave", "Save Dive Type")
-        @Html.Encode(" ")
-        @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button,"window.location.href = '../'")
-    </fieldset>      
+    </div>
+    <br />
+    @Html.ValidationMessageFor(m => m.Notes)
+    <br />
+    @Html.SubmitButton("btnSave", "Save Dive Type")
+    @Html.Encode(" ")
+    @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+</fieldset>      
 }

@@ -13,6 +13,7 @@ namespace Phorcys.UI.Web.Models
         public int Id { get; set; }
         public User User { get; set; }
         public string Title { get; set; }
+        public string DiveSite { get; set; }
         public IList<SelectListItem> DivePlanList { get; set; }
         public int DivePlanId { get; set; }
         public int DiveNumber { get; set; }        

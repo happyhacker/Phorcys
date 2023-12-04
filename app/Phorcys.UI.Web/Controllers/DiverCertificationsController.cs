@@ -37,7 +37,7 @@ namespace Phorcys.UI.Web.Controllers {
     public ActionResult Index() {
       user = userServices.FindUser(this.User.Identity.Name);
 
-      IList<DiverCertification> diverCertifications = diverCertificationServices.GetAll(user.Contact.Divers.ElementAt(0).Id);
+      IList<DiverCertification> diverCertifications = diverCertificationServices.GetAll(user.Id);
       diverCertifications = diverCertifications.OrderBy(m => m.Certification.Title).ToList();
 
       return View(diverCertifications);

@@ -33,6 +33,7 @@ class Program
         _context.Gears.Add(gear);
         _context.SaveChanges();
 
+        //gear.Tank = null;
         _context.Gears.Remove(gear);
         _context.SaveChanges();
     }

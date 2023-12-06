@@ -696,6 +696,11 @@ public partial class ScubaContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Weight).HasDefaultValueSql("((0))");
 
+            entity.HasOne(g => g.Tank)
+                .WithOne(t => t.Gear)
+                .HasForeignKey<Gear>(g => g.GearId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             entity.HasOne(d => d.Manufacturer).WithMany(p => p.Gears)
                 .HasForeignKey(d => d.ManufacturerId)
                 .HasConstraintName("Manufacturers_Gear");

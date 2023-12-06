@@ -72,7 +72,7 @@ namespace Phorcys.UI.Web.Controllers {
       model.DiveAgencyListItems = DiveAgencyListItems;
       model.DiveAgencyListItems = DiveAgencyListItems.OrderBy(m => m.Text).ToList(); //this works too as opposed to the following 2 lines
       var sortedList = from row in DiveAgencyListItems orderby row.Text select row;
-      model.DiveAgencyListItems = sortedlList.ToList();
+      //model.DiveAgencyListItems = sortedlList.ToList();
       foreach (var diveAgencyListItem in DiveAgencyListItems)
       {
         if (diveAgencyListItem.Value == model.DiveAgencyId.ToString())

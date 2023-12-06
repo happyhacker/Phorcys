@@ -21,16 +21,15 @@ class Program
         tank.Volume = Int32.Parse(Console.ReadLine());
 
         gear.UserId = 3;
-        AddTank(gear, tank);
+        gear.Tank = tank;
+        AddGear(gear);
 
         Console.WriteLine("Press any key to continue");
         Console.ReadKey();
-
     }
 
-    private static void AddTank(Gear gear, Tank tank)
+    private static void AddGear(Gear gear)
     {
-        gear.Tank = tank;
         _context.Gears.Add(gear);
         _context.SaveChanges();
 

@@ -113,9 +113,11 @@ namespace Phorcys.UI.Web.Controllers
             gear.User = this.user;
             gear.Created = DateTime.Now;
             gear.LastModified = DateTime.Now;
-            gear.Tank = tank;
+            //gear.Tank = tank;
             gearServices.Save(gear);
             tank.Gear = gear;
+            tank.GearId = gear.Id;
+            gear.Tank = tank;
             gearServices.Save(tank);
         }
 

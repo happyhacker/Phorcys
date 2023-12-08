@@ -54,7 +54,7 @@
       columns.Bound(o => o.DescentTime).Title("Descent Time").Sortable(true);
       columns.Bound(o => o.Minutes).Title("Minutes").Sortable(true);
       columns.Bound(o => o.MaxDepth).Title("Max Depth").Sortable(true);
-      columns.Bound(o => o.Notes).Sortable(false).Width(500);
+      //columns.Bound(o => o.Notes).Sortable(false).Width(500);
       columns.Bound(o => o.User.LoginId).Title("User").Sortable(true);
       columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.ActionLink<DivesController>(c => c.Edit(o.Id), "Edit").ToString())).HtmlAttributes(new { @class = "grid" });
       columns.Template(o => (o.User.LoginId == "system" & User.Identity.Name != "system" ? Html.Encode("") : Html.Button("Delete", "Delete", HtmlButtonType.Submit, "SubmitForm(" + o.Id + ")").ToString())).HtmlAttributes(new { @Class = "grid" });

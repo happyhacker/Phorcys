@@ -13,6 +13,10 @@ using SharpArch.Web.NHibernate;
 using Phorcys.Core;
 using log4net;
 using HackLib.UIHelpers;
+using FluentNHibernate.Utils;
+using System.Runtime.Remoting.Contexts;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace Phorcys.UI.Web.Controllers
 {
@@ -94,15 +98,6 @@ namespace Phorcys.UI.Web.Controllers
             Gear gear = new Gear();
             Tank tank = null;
 
-            //if they enter any tank info at all...
-            if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0)
-            {
-                tank = new Tank();
-                tank.Volume = model.TankVolume;
-                tank.WorkingPressure = model.WorkingPressure;
-                tank.ManufacturedMonth = model.ManufacturedMonth;
-                tank.ManufacturedYear = model.ManufacturedYear;
-            }
             gear.Title = model.Title;
             gear.Sn = model.Sn;
             gear.Acquired = model.Acquired;
@@ -113,12 +108,22 @@ namespace Phorcys.UI.Web.Controllers
             gear.User = this.user;
             gear.Created = DateTime.Now;
             gear.LastModified = DateTime.Now;
-            //gear.Tank = tank;
             gearServices.Save(gear);
-            tank.Gear = gear;
-            tank.GearId = gear.Id;
-            gear.Tank = tank;
-            gearServices.Save(tank);
+
+            //if they enter any tank info at all...
+            if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0)
+            {
+                //tank = new Tank { Id = Gear.Id }; Error CS0272  The property or indexer 'EntityWithTypedId<int>.Id' cannot be used in this context because the set accessor is inaccessible
+                //tank.Id = Gear.Id; same error
+                tank = new Tank(gear.Id);
+                tank.Volume = model.TankVolume;
+                tank.WorkingPressure = model.WorkingPressure;
+                tank.ManufacturedMonth = model.ManufacturedMonth;
+                tank.ManufacturedYear = model.ManufacturedYear;
+                tank.Gear = gear;
+                gear.Tank = tank;
+                gearServices.Save(gear);
+            }
         }
 
         // GET: /Gear/Edit/5
@@ -150,19 +155,7 @@ namespace Phorcys.UI.Web.Controllers
         {
             this.user = userServices.FindUser(this.User.Identity.Name);
             Gear gear = gearServices.GetGear(model.GearId);
-            //if they enter any tank info at all...
-            if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0)
-            {
-                if (gear.Tank == null)
-                {
-                    gear.Tank = new Tank();
-                    gear.Tank.Gear = gear; // model.GearId;
-                }
-                gear.Tank.Volume = model.TankVolume;
-                gear.Tank.WorkingPressure = model.WorkingPressure;
-                gear.Tank.ManufacturedMonth = model.ManufacturedMonth;
-                gear.Tank.ManufacturedYear = model.ManufacturedYear;
-            }
+
             gear.Title = model.Title;
             gear.Sn = model.Sn;
             gear.Acquired = model.Acquired;
@@ -173,6 +166,21 @@ namespace Phorcys.UI.Web.Controllers
             gear.User = this.user;
             gear.LastModified = DateTime.Now;
             gearServices.Save(gear);
+
+            //if they enter any tank info at all...
+            if (model.TankVolume > 0 || model.WorkingPressure > 0 || model.ManufacturedMonth > 0 || model.ManufacturedYear > 0)
+            {
+                if (gear.Tank == null)
+                {
+                    gear.Tank = new Tank(gear.Id);
+                    gear.Tank.Gear = gear; // model.GearId;
+                }
+                gear.Tank.Volume = model.TankVolume;
+                gear.Tank.WorkingPressure = model.WorkingPressure;
+                gear.Tank.ManufacturedMonth = model.ManufacturedMonth;
+                gear.Tank.ManufacturedYear = model.ManufacturedYear;
+                gearServices.Save(gear);
+            }
         }
 
 

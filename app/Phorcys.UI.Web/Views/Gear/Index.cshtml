@@ -40,7 +40,7 @@
   .Columns(columns => {
                columns.Bound(o => o.Title).Title("Gear").Sortable(true).HtmlAttributes(new { @class = "grid" });
                columns.Bound(o => o.Acquired).Format("{0:MM/dd/yy}");
-               //columns.Bound(o => o.NoLongerUse).Title("Retired").Format("{0:MM/dd/yy}");
+               columns.Bound(o => o.NoLongerUse).Title("Retired").Format("{0:MM/dd/yy}");
                //columns.Template(o => o.SoldGear.SoldOn).Title("Sold").Format("{0:MM/dd/yy}"); doesn't work if SoldGear is null. Would have to use template, but then can't sort/filter
                columns.Bound(o => o.Sn).Title("SN");
                //columns.Bound(o => o.Notes).Sortable(false).Width(500);

@@ -3,84 +3,92 @@
 @using Phorcys.UI.Web.Controllers
 @using Phorcys.UI.Web.Models
 @using Phorcys.Web.Controllers
+@using Telerik.Web.Mvc.UI
 
 @model Phorcys.UI.Web.Models.DivePlanModel
-            
+
 @{
     ViewBag.Title = "Create Dive Plan";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 
-	<h1>Create Dive Plan</h1>
-@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
-   } <p id="pageMessage">
-       @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
-   </p>
+<h1>Create Dive Plan</h1>
+@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null)
+    {
+    } <p id="pageMessage">
+        @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+    </p>
 }
 @Html.ValidationSummary()
-@using (Html.BeginForm()) {
-@Html.AntiForgeryToken()
-        
-  <div class="errorOnPage">
-    @Html.ValidationSummary(true, "Please correct the errors and try again.")
-  </div>
-      
-  <fieldset>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-      <div>
-          <p>
-              <label for="Title">Title:</label>
-              <br />
-              @Html.TextBoxFor(m => m.Title, new { style = "width:400px", @maxlength = "40" })
-              @Html.ValidationMessageFor(m => m.Title)
-          </p>
-      </div>
+    <div class="errorOnPage">
+        @Html.ValidationSummary(true, "Please correct the errors and try again.")
+    </div>
 
-      <label for="DiveSiteId">
-          Dive Site:
-      </label>
-      <div>
-          <select id="DiveSiteId" name="DiveSiteId">
-              @foreach (SelectListItem item in Model.DiveSiteList)
-              {
-                  <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
-              }
-          </select>
-      </div>
-      <br />
+    <fieldset>
+
+        <div>
+            <p>
+                <label for="Title">Title:</label>
+                <br />
+                @Html.TextBoxFor(m => m.Title, new { style = "width:400px", @maxlength = "40" })
+                @Html.ValidationMessageFor(m => m.Title)
+            </p>
+        </div>
+
+        <label for="DiveSiteId">
+            Dive Site:
+        </label>
+        <div>
+            <select id="DiveSiteId" name="DiveSiteId">
+                @foreach (SelectListItem item in Model.DiveSiteList)
+                {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+                }
+            </select>
+        </div>
+        <br />
 
 
-      <div>
-          <p>
-              <label for="ScheduledTime">Scheduled Time:</label>
-              <br />
-              @Html.TextBoxFor(m => m.ScheduledTime)
-              @Html.ValidationMessageFor(m => m.ScheduledTime)
-          </p>
-      </div>
+        <div>
+            <p>
+                <label for="ScheduledTime">Scheduled Time:</label>
+                @Html.Telerik().DatePickerFor(m => m.ScheduledTime)
+                @Html.ValidationMessageFor(m => m.ScheduledTime)
 
-      <div>
-          <p>
-              <label for="MaxDepth">Max Depth:</label>
-              <br />
-              @Html.TextBoxFor(m => m.MaxDepth)
-              @Html.ValidationMessageFor(m => m.MaxDepth)
-          </p>
-      </div>
+                @Html.Telerik().TimePickerFor(m => m.DescentTime)
+                @Html.ValidationMessageFor(m => m.DescentTime)
 
-      <div>
-          <p>
-              <label for="Notes">Notes:</label>
-              <br />
-              <textarea id="notes" name="Notes" rows="6" cols="50"> 
+                @*@Html.TextBoxFor(m => m.ScheduledTime)
+                @Html.ValidationMessageFor(m => m.ScheduledTime)*@
+            </p>
+        </div>
+
+        <div>
+            <p>
+                <label for="MaxDepth">Max Depth:</label>
+                <br />
+                @Html.TextBoxFor(m => m.MaxDepth)
+                @Html.ValidationMessageFor(m => m.MaxDepth)
+            </p>
+        </div>
+
+        <div>
+            <p>
+                <label for="Notes">Notes:</label>
+                <br />
+                <textarea id="notes" name="Notes" rows="6" cols="50"> 
       </textarea>
-              @Html.ValidationMessageFor(m => m.Notes)
-          </p>
-      </div>
+                @Html.ValidationMessageFor(m => m.Notes)
+            </p>
+        </div>
 
-      <div>
-          @Html.SubmitButton("btnSave", "Save Dive Plan")
-          @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
-      </div>
-  </fieldset>
+        <div>
+            @Html.SubmitButton("btnSave", "Save Dive Plan")
+            @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+        </div>
+    </fieldset>
 }

@@ -54,6 +54,7 @@ namespace Phorcys.Web.Controllers
         public ActionResult Create()
         {
             DivePlanModel model = new DivePlanModel();
+            model.ScheduledTime = DateTime.Now;
             user = userServices.FindUser(this.User.Identity.Name);
             IList<SelectListItem> diveSites = BuildDiveSiteList(null);
             diveSites = diveSites.OrderBy(d => d.Text).ToList();
@@ -93,23 +94,27 @@ namespace Phorcys.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(DivePlanModel model)
         {
-            DivePlan divePlan = new DivePlan();
-            user = userServices.FindUser(this.User.Identity.Name);
-            divePlan.User = user;
-            divePlan.Title = model.Title;
-            divePlan.DiveSite = diveSiteServices.Get(model.DiveSiteId);
-            divePlan.DiveSiteId = model.DiveSiteId;
-            divePlan.Notes = model.Notes;
-            divePlan.MaxDepth = model.MaxDepth;
-            divePlan.ScheduledTime = model.ScheduledTime;
-            divePlan.Created = DateTime.Now;
-            divePlan.LastModified = DateTime.Now;
-            divePlanRepository.SaveOrUpdate(divePlan);
-            TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
-               "The Dive Plan was successfully created.";
-            return RedirectToAction("Index");
-
-            //return View(model);
+            if (ModelState.IsValid)
+            {
+                DivePlan divePlan = new DivePlan();
+                model.ScheduledTime = model.ScheduledTime.Date + model.DescentTime.TimeOfDay;
+                user = userServices.FindUser(this.User.Identity.Name);
+                divePlan.User = user;
+                divePlan.Title = model.Title;
+                divePlan.DiveSite = diveSiteServices.Get(model.DiveSiteId);
+                divePlan.DiveSiteId = model.DiveSiteId;
+                divePlan.Notes = model.Notes;
+                divePlan.MaxDepth = model.MaxDepth;
+                divePlan.ScheduledTime = model.ScheduledTime;
+                divePlan.Created = DateTime.Now;
+                divePlan.LastModified = DateTime.Now;
+                divePlanRepository.SaveOrUpdate(divePlan);
+                TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] =
+                   "The Dive Plan was successfully created.";
+                return RedirectToAction("Index");
+            }
+            model.DiveSiteList = BuildDiveSiteList(model.DiveSiteId);
+            return View(model);
         }
 
         [Authorize]

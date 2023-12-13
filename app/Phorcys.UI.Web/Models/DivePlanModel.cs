@@ -17,6 +17,7 @@ namespace Phorcys.UI.Web.Models
         public IList<SelectListItem> DiveSiteList { get; set; }
         public int DiveSiteId { get; set; }
         public DateTime ScheduledTime { get; set; }
+        public DateTime DescentTime { get; set; }
         public int MaxDepth { get; set; }
         public string Notes { get; set; }
         public DateTime Created { get; set; }

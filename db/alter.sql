@@ -5,7 +5,7 @@
 /* Project name:                                                          */
 /* Author:                                                                */
 /* Script type:           Alter database script                           */
-/* Created on:            2023-12-13 21:47                                */
+/* Created on:            2023-12-13 22:36                                */
 /* ---------------------------------------------------------------------- */
 
 
@@ -18,6 +18,10 @@ GO
 
 
 ALTER TABLE [AgencyInstructors] DROP CONSTRAINT [Instructors_AgencyInstructors]
+GO
+
+
+ALTER TABLE [Tanks] DROP CONSTRAINT [Gear_Tanks]
 GO
 
 
@@ -42,7 +46,7 @@ GO
 CREATE TABLE [CertificationInstructors] (
     [InstructorId] INTEGER NOT NULL,
     [CertificationId] INTEGER NOT NULL,
-    CONSTRAINT [PK_CertificationInstructors] PRIMARY KEY ([InstructorId], [CertificationId])
+    CONSTRAINT [PK_CertificationInstructors] PRIMARY KEY CLUSTERED ([InstructorId], [CertificationId])
 )
 GO
 
@@ -51,6 +55,11 @@ GO
 /* Add foreign key constraints                                            */
 /* ---------------------------------------------------------------------- */
 
+ALTER TABLE [Tanks] ADD CONSTRAINT [Gear_Tanks] 
+    FOREIGN KEY ([GearId]) REFERENCES [Gear] ([GearId]) ON DELETE CASCADE ON UPDATE CASCADE
+GO
+
+
 ALTER TABLE [CertificationInstructors] ADD CONSTRAINT [Instructors_CertificationInstructors] 
     FOREIGN KEY ([InstructorId]) REFERENCES [Instructors] ([InstructorId])
 GO
@@ -58,5 +67,22 @@ GO
 
 ALTER TABLE [CertificationInstructors] ADD CONSTRAINT [Certifications_CertificationInstructors] 
     FOREIGN KEY ([CertificationId]) REFERENCES [Certifications] ([CertificationId])
+GO
+
+
+/* ---------------------------------------------------------------------- */
+/* Repair/add views                                                       */
+/* ---------------------------------------------------------------------- */
+
+CREATE VIEW [vwCertificationInstructors] AS (
+SELECT c.ContactId, c.Company, c.FirstName, c.LastName,  i.InstructorId, da.DiveAgencyId,
+  c2.Company AS 'Agency', cer.Title AS 'Certification'
+FROM Contacts c
+JOIN Instructors i ON i.ContactId = c.ContactId
+JOIN CertificationInstructors ci ON ci.InstructorId = i.InstructorId
+JOIN Certifications cer ON cer.CertificationId = ci.CertificationId
+JOIN DiveAgencies da ON da.DiveAgencyId = cer.DiveAgencyId
+JOIN Contacts c2 ON C2.ContactId = da.ContactId
+)
 GO
 

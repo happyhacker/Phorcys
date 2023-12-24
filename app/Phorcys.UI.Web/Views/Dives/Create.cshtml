@@ -3,128 +3,131 @@
 @using Phorcys.UI.Web.Controllers
 @using Phorcys.UI.Web.Models
 @using Phorcys.Web.Controllers
-
+@using Telerik.Web.Mvc.UI
 @model Phorcys.UI.Web.Models.DiveModel
-            
+
 @{
     ViewBag.Title = "Add a Dive";
     Layout = "~/Views/Shared/SiteMaster.cshtml";
 }
 
-	<h1>Add a Dive</h1>
-@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) {
-   } <p id="pageMessage">
-       @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
-   </p>
+<h1>Add a Dive</h1>
+@{ if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null)
+    {
+    } <p id="pageMessage">
+        @(ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()])
+    </p>
 }
 @Html.ValidationSummary()
-@using (Html.BeginForm()) {
-@Html.AntiForgeryToken()
-        
-  <div class="errorOnPage">
-    @Html.ValidationSummary(true, "Please correct the errors and try again.")
-  </div>
-      
-  <fieldset>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-      <div>
-          <p>
-              <label for="Title">Title:</label>
-              <br />
-              @Html.TextBoxFor(m => m.Title)
-              @Html.ValidationMessageFor(m => m.Title)
-          </p>
-      </div>
+    <div class="errorOnPage">
+        @Html.ValidationSummary(true, "Please correct the errors and try again.")
+    </div>
 
-      <label for="DivePlanId">
-          Dive Plan:
-      </label>
-      <div>
-          <select id="DivePlanId" name="DivePlanId">
-              @foreach (SelectListItem item in Model.DivePlanList)
-              {
-                  <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
-              }
-          </select>
-      </div>
-      <br />
-      
-      <div>
-          <p>
-              <label for="DiveNumber">Dive Number:</label>
-              <br />
-              @Html.TextBoxFor(m => m.DiveNumber)
-              @Html.ValidationMessageFor(m => m.DiveNumber)
-          </p>
-      </div>
+    <fieldset>
 
-      <div>
-          <p>
-              <label for="DescentTime">Descent Time:</label>
-              <br />
-              @Html.TextBoxFor(m => m.DescentTime)
-              @Html.ValidationMessageFor(m => m.DescentTime)
-          </p>
-      </div>
+        <div>
+            <p>
+                <label for="Title">Title:</label>
+                <br />
+                @Html.TextBoxFor(m => m.Title)
+                @Html.ValidationMessageFor(m => m.Title)
+            </p>
+        </div>
 
-      <div>
-          <p>
-              <label for="Minutes">Minutes:</label>
-              <br />
-              @Html.TextBoxFor(m => m.Minutes)
-              @Html.ValidationMessageFor(m => m.Minutes)
-          </p>
-      </div>
+        <label for="DivePlanId">
+            Dive Plan:
+        </label>
+        <div>
+            <select id="DivePlanId" name="DivePlanId">
+                @foreach (SelectListItem item in Model.DivePlanList)
+                {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text </option>
+                }
+            </select>
+        </div>
+        <br />
 
-      <div>
-          <p>
-              <label for="AvgDepth">Average Depth:</label>
-              <br />
-              @Html.TextBoxFor(m => m.AvgDepth)
-              @Html.ValidationMessageFor(m => m.AvgDepth)
-          </p>
-      </div>
+        <div>
+            <p>
+                <label for="DiveNumber">Dive Number:</label>
+                <br />
+                @Html.TextBoxFor(m => m.DiveNumber)
+                @Html.ValidationMessageFor(m => m.DiveNumber)
+            </p>
+        </div>
 
-      <div>
-          <p>
-              <label for="MaxDepth">Max Depth:</label>
-              <br />
-              @Html.TextBoxFor(m => m.MaxDepth)
-              @Html.ValidationMessageFor(m => m.MaxDepth)
-          </p>
-      </div>
+        <div>
+            <p>
+                <label for="DescentTime">Descent Time:</label>
+                <br />
+                @Html.Telerik().DateTimePickerFor(m => m.DescentTime)
+                <!--Html.TextBoxFor(m => m.DescentTime)-->
+                @Html.ValidationMessageFor(m => m.DescentTime)
+            </p>
+        </div>
 
-      <div>
-          <p>
-              <label for="Temperature">Temperature:</label>
-              <br />
-              @Html.TextBoxFor(m => m.Temperature)
-              @Html.ValidationMessageFor(m => m.Temperature)
-          </p>
-      </div>
+        <div>
+            <p>
+                <label for="Minutes">Minutes:</label>
+                <br />
+                @Html.TextBoxFor(m => m.Minutes)
+                @Html.ValidationMessageFor(m => m.Minutes)
+            </p>
+        </div>
 
-      <div>
-          <p>
-              <label for="AdditionalWeight">Additional Weight:</label>
-              <br />
-              @Html.TextBoxFor(m => m.AdditionalWeight)
-              @Html.ValidationMessageFor(m => m.AdditionalWeight)
-          </p>
-      </div>
+        <div>
+            <p>
+                <label for="AvgDepth">Average Depth:</label>
+                <br />
+                @Html.TextBoxFor(m => m.AvgDepth)
+                @Html.ValidationMessageFor(m => m.AvgDepth)
+            </p>
+        </div>
 
-      <div>
-          <p>
-              <label for="Notes">Notes:</label>
-              <br />
-              <textarea id="notes" name="Notes" rows="6" cols="50"> 
+        <div>
+            <p>
+                <label for="MaxDepth">Max Depth:</label>
+                <br />
+                @Html.TextBoxFor(m => m.MaxDepth)
+                @Html.ValidationMessageFor(m => m.MaxDepth)
+            </p>
+        </div>
+
+        <div>
+            <p>
+                <label for="Temperature">Temperature:</label>
+                <br />
+                @Html.TextBoxFor(m => m.Temperature)
+                @Html.ValidationMessageFor(m => m.Temperature)
+            </p>
+        </div>
+
+        <div>
+            <p>
+                <label for="AdditionalWeight">Additional Weight:</label>
+                <br />
+                @Html.TextBoxFor(m => m.AdditionalWeight)
+                @Html.ValidationMessageFor(m => m.AdditionalWeight)
+            </p>
+        </div>
+
+        <div>
+            <p>
+                <label for="Notes">Notes:</label>
+                <br />
+                <textarea id="notes" name="Notes" rows="6" cols="50"> 
       </textarea>
-              @Html.ValidationMessageFor(m => m.Notes)
-          </p>
-      </div>
+                @Html.ValidationMessageFor(m => m.Notes)
+            </p>
+        </div>
 
-      <div>
-          @Html.SubmitButton("btnSave", "Save Dive Plan")
-          @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
-      </div>
-  </fieldset>
+        <div>
+            @Html.SubmitButton("btnSave", "Save Dive Plan")
+            @Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, "window.location.href = '../'")
+        </div>
+    </fieldset>
 }

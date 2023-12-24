@@ -62,6 +62,7 @@ namespace Phorcys.Web.Controllers
             model.User = userServices.FindUser(this.User.Identity.Name);
             IList<SelectListItem> divePlans = BuildDivePlanList(null);
             divePlans = divePlans.ToList();
+            model.DescentTime = DateTime.Now;
             //divePlans = divePlans.OrderBy(d => d.Text).ToList();
             model.DivePlanList = divePlans;
             return View(model);

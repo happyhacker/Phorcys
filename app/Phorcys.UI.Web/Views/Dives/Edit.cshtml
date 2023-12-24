@@ -58,7 +58,7 @@
         <p>
             <label for="DescentTime">Descent Time:</label>
             <br />
-            @Html.TextBoxFor(m => m.DescentTime)
+            @Html.Telerik().DateTimePickerFor(m => m.DescentTime)
             @Html.ValidationMessageFor(m => m.DescentTime)
         </p>
     </div>

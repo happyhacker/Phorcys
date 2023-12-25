@@ -31,22 +31,21 @@
 
                              items.Add().Text("Certifications").Action("Index", "Certifications")
                                  .Items(item => {
-                                     item.Add().Text("Agencies");
                                      item.Add().Text("Certifications").Action("Index", "Certifications");
                                      item.Add().Text("My Certifications").Action("Index", "DiverCertifications");
                                  });
              
                            items.Add().Text("Gear").Action("Index","Gear")
                              .Items(item => {
-                                              item.Add().Text("Sold");
-                                              item.Add().Text("Insurance");
+                                              item.Add().Text("Active").Action("Index", "Gear");
+                                              item.Add().Text("Retired").Action("Index", "Gear");
                              });
                            items.Add().Text("Locations/Sites").Action("Index","DiveLocations")
                              .Items(item => {
                                               item.Add().Text("Dive Locations").Action("Index", "DiveLocations");
                                               item.Add().Text("Dive Sites").Action("Index", "DiveSites");
                              });  
-                           items.Add().Text("Dives").Action("Index","DiveTypes")
+                           items.Add().Text("Dives").Action("Index","Dives")
                              .Items(item =>
                              {
                                               item.Add().Text("Dive Types").Action("Index","DiveTypes");
@@ -55,7 +54,6 @@
                              });
                            items.Add().Text("Calculators")
                              .Items(item => {
-                                              item.Add().Text("Rule of Thirds");
                                               item.Add().Text("MOD and END").Action("Index","Mod");
                                               item.Add().Text("END").Action("Index","End");
                              });

@@ -159,6 +159,7 @@ namespace Phorcys.UI.Web.Controllers
             gear.Title = model.Title;
             gear.Sn = model.Sn;
             gear.Acquired = model.Acquired;
+            gear.NoLongerUse = model.NoLongerUse;
             gear.RetailPrice = model.RetailPrice;
             gear.Paid = model.Paid;
             gear.Notes = model.Notes;
@@ -193,6 +194,7 @@ namespace Phorcys.UI.Web.Controllers
             {
                 viewModel.GearId = gear.Id;
                 viewModel.Acquired = gear.Acquired;
+                viewModel.NoLongerUse = gear.NoLongerUse;
                 viewModel.Notes = gear.Notes;
                 viewModel.Paid = Math.Round(gear.Paid, 2);
                 viewModel.RetailPrice = Math.Round(gear.RetailPrice, 2);

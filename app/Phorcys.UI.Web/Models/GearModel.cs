@@ -23,6 +23,8 @@ namespace Phorcys.UI.Web.Models {
     public float Weight { get; set; }
 
     public DateTime? Acquired { get; set;  }
+ 
+    public DateTime? NoLongerUse { get; set; }
 
     public string Notes { get; set; }
 

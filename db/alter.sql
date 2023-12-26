@@ -5,68 +5,15 @@
 /* Project name:                                                          */
 /* Author:                                                                */
 /* Script type:           Alter database script                           */
-/* Created on:            2023-12-13 22:36                                */
+/* Created on:            2023-12-25 21:29                                */
 /* ---------------------------------------------------------------------- */
 
 
 /* ---------------------------------------------------------------------- */
-/* Drop foreign key constraints                                           */
+/* Drop views                                                             */
 /* ---------------------------------------------------------------------- */
 
-ALTER TABLE [AgencyInstructors] DROP CONSTRAINT [DiveAgencies_AgencyInstructors]
-GO
-
-
-ALTER TABLE [AgencyInstructors] DROP CONSTRAINT [Instructors_AgencyInstructors]
-GO
-
-
-ALTER TABLE [Tanks] DROP CONSTRAINT [Gear_Tanks]
-GO
-
-
-/* ---------------------------------------------------------------------- */
-/* Drop table "AgencyInstructors"                                         */
-/* ---------------------------------------------------------------------- */
-
-/* Drop constraints */
-
-ALTER TABLE [AgencyInstructors] DROP CONSTRAINT [PK_AgencyInstructors]
-GO
-
-
-DROP TABLE [AgencyInstructors]
-GO
-
-
-/* ---------------------------------------------------------------------- */
-/* Add table "CertificationInstructors"                                   */
-/* ---------------------------------------------------------------------- */
-
-CREATE TABLE [CertificationInstructors] (
-    [InstructorId] INTEGER NOT NULL,
-    [CertificationId] INTEGER NOT NULL,
-    CONSTRAINT [PK_CertificationInstructors] PRIMARY KEY CLUSTERED ([InstructorId], [CertificationId])
-)
-GO
-
-
-/* ---------------------------------------------------------------------- */
-/* Add foreign key constraints                                            */
-/* ---------------------------------------------------------------------- */
-
-ALTER TABLE [Tanks] ADD CONSTRAINT [Gear_Tanks] 
-    FOREIGN KEY ([GearId]) REFERENCES [Gear] ([GearId]) ON DELETE CASCADE ON UPDATE CASCADE
-GO
-
-
-ALTER TABLE [CertificationInstructors] ADD CONSTRAINT [Instructors_CertificationInstructors] 
-    FOREIGN KEY ([InstructorId]) REFERENCES [Instructors] ([InstructorId])
-GO
-
-
-ALTER TABLE [CertificationInstructors] ADD CONSTRAINT [Certifications_CertificationInstructors] 
-    FOREIGN KEY ([CertificationId]) REFERENCES [Certifications] ([CertificationId])
+DROP VIEW [vwCertifications]
 GO
 
 
@@ -74,15 +21,18 @@ GO
 /* Repair/add views                                                       */
 /* ---------------------------------------------------------------------- */
 
-CREATE VIEW [vwCertificationInstructors] AS (
-SELECT c.ContactId, c.Company, c.FirstName, c.LastName,  i.InstructorId, da.DiveAgencyId,
-  c2.Company AS 'Agency', cer.Title AS 'Certification'
-FROM Contacts c
-JOIN Instructors i ON i.ContactId = c.ContactId
-JOIN CertificationInstructors ci ON ci.InstructorId = i.InstructorId
-JOIN Certifications cer ON cer.CertificationId = ci.CertificationId
-JOIN DiveAgencies da ON da.DiveAgencyId = cer.DiveAgencyId
-JOIN Contacts c2 ON C2.ContactId = da.ContactId
-)
+CREATE VIEW [vwCertifications]
+AS
+SELECT certs.CertificationId, certs.Title, divers.DiverId, agency.Company AS Agency, dc.Certified, dc.CertificationNum, diverContact.FirstName AS DiverFirstName, diverContact.LastName AS DiverLastName, instructor.FirstName AS InstructorFirstName,
+         instructor.LastName AS InstructorLastName
+FROM  dbo.Certifications AS certs INNER JOIN
+         dbo.DiverCertifications AS dc ON dc.CertificationId = certs.CertificationId INNER JOIN
+         dbo.Users AS u ON u.UserId = dc.DiverId INNER JOIN
+         dbo.Divers AS divers ON divers.DiverId = dc.DiverId INNER JOIN
+         dbo.Contacts AS diverContact ON diverContact.ContactId = divers.ContactId LEFT OUTER JOIN
+         dbo.Instructors ON dbo.Instructors.InstructorId = dc.InstructorId LEFT OUTER JOIN
+         dbo.Contacts AS instructor ON instructor.ContactId = dbo.Instructors.ContactId INNER JOIN
+         dbo.DiveAgencies AS da ON da.DiveAgencyId = certs.DiveAgencyId INNER JOIN
+         dbo.Contacts AS agency ON agency.ContactId = da.ContactId
 GO
 

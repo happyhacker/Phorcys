@@ -5,7 +5,7 @@
 /* Project name:                                                          */
 /* Author:                                                                */
 /* Script type:           Database creation script                        */
-/* Created on:            2023-12-13 21:32                                */
+/* Created on:            2023-12-25 19:50                                */
 /* ---------------------------------------------------------------------- */
 
 
@@ -898,7 +898,7 @@ GO
 
 
 ALTER TABLE [dbo].[Tanks] ADD CONSTRAINT [Gear_Tanks] 
-    FOREIGN KEY ([GearId]) REFERENCES [dbo].[Gear] ([GearId]) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY ([GearId]) REFERENCES [dbo].[Gear] ([GearId])
 GO
 
 

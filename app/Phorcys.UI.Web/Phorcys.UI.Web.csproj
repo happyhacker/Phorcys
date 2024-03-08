@@ -697,10 +697,17 @@
     <Content Include="Scripts\DiveCalcs.js" />
     <Content Include="Scripts\EndModel.js" />
     <Content Include="Scripts\jquery-1.7.2.min.js" />
+    <None Include="Scripts\jquery-3.7.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.7.1.js" />
+    <Content Include="Scripts\jquery-3.7.1.min.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.js" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.css" />
     <Content Include="Scripts\jquery-ui-1.8.21.custom.min.js" />
     <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
     <None Include="DiveSitesClassModel.cd" />
+    <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.7.1.min.map" />
     <None Include="Security\SecurityClassModel.cd" />
     <None Include="Views\Account\LogOn.cshtml" />
     <None Include="Views\Account\Register.cshtml" />
